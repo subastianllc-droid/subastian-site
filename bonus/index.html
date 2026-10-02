@@ -111,6 +111,23 @@
   .welcome .ai-note{font-size:12.5px; color:var(--ink-faint); margin-top:8px;}
   .welcome details{margin-top:10px;} .welcome summary{cursor:pointer; font-size:14px; color:var(--accent); font-weight:600;}
   [hidden]{display:none!important;}
+
+  .tt-form{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; align-items:end; margin-top:10px;}
+  .tt-form .field{margin:0;} .tt-form .full{grid-column:1/-1;}
+  .tt-form button{font:600 15px Inter,sans-serif; padding:11px 16px; border-radius:8px; border:0; background:var(--accent); color:#fff; cursor:pointer;}
+  html[data-theme="dark"] .tt-form button{color:#15132A;}
+  .tt-sum{display:flex; gap:12px; flex-wrap:wrap; margin:14px 0 6px;}
+  .tt-sum div{background:var(--accent-tint); border-radius:10px; padding:10px 14px; font-size:13px; color:var(--ink-soft);} .tt-sum b{display:block; font-size:20px; color:var(--accent-strong);}
+  .tt-wrap{overflow-x:auto; margin-top:8px;}
+  table.tt{width:100%; border-collapse:collapse; font-size:14px; min-width:640px;}
+  table.tt td:nth-child(2),table.tt td:nth-child(3){white-space:nowrap;}
+  table.tt th{text-align:left; font:600 12px 'IBM Plex Mono',monospace; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); padding:8px 10px; border-bottom:1px solid var(--line);}
+  table.tt td{padding:10px; border-bottom:1px solid var(--line); vertical-align:middle;}
+  .chip{white-space:nowrap; display:inline-block; font:600 12px 'IBM Plex Mono',monospace; padding:4px 10px; border-radius:999px; background:#DDF5E6; color:#1B6B3A;}
+  .chip.amber{background:#FFF1D6; color:#9A5B00;} .chip.red{background:#FDE7E7; color:#B42318;} .chip.done{background:var(--accent-tint); color:var(--ink-soft);}
+  .tt button.lnk{background:none; border:0; color:var(--accent); font:600 13px Inter,sans-serif; cursor:pointer; padding:2px 6px;}
+  .tt-empty{color:var(--ink-faint); font-size:14px; padding:14px 2px;}
+  @media(max-width:640px){.tt-form{grid-template-columns:1fr 1fr;}}
 </style>
 <script src="/ph.js" defer></script>
 </head>
@@ -127,6 +144,29 @@
     <h1>Welcome to the roster. Here are your two free tools.</h1>
     <p class="updated">Thanks for joining the Subastian founding roster. Download both below.</p>
     <div class="pre-launch-note">Use them together: track every free trial so nothing charges you by surprise, and use the scripts to cancel or get a refund when it does.</div>
+
+    <section id="tracker">
+      <h2>Your Free Trial Tracker</h2>
+      <p>Add each free trial below. It shows when it ends, the day to cancel, and what could be charged. Your entries stay in this browser on your device. We never see them.</p>
+      <form class="pform tt-form" id="ttForm" novalidate>
+        <div class="field"><label for="ttName">Service or app</label><input id="ttName" maxlength="60" placeholder="e.g. Streaming app" autocomplete="off"></div>
+        <div class="field"><label for="ttStart">Trial start date</label><input id="ttStart" type="date"></div>
+        <div class="field"><label for="ttDays">Trial length (days)</label><input id="ttDays" type="number" min="1" max="365" value="7"></div>
+        <div class="field"><label for="ttPrice">Price after trial ($/mo)</label><input id="ttPrice" type="number" min="0" step="0.01" placeholder="12.99"></div>
+        <div class="full"><button type="submit">Add trial</button> <span class="hint" id="ttMsg" role="status"></span></div>
+      </form>
+      <div class="tt-sum" aria-live="polite">
+        <div><b id="ttActive">0</b>active trials</div>
+        <div><b id="ttSoon">0</b>ending in 7 days</div>
+        <div><b id="ttRisk">$0.00</b>could be charged in 14 days</div>
+      </div>
+      <div class="tt-wrap"><table class="tt" id="ttTable" hidden>
+        <thead><tr><th>Service</th><th>Ends</th><th>Cancel by</th><th>Days left</th><th>After trial</th><th></th></tr></thead>
+        <tbody id="ttBody"></tbody>
+      </table></div>
+      <p class="tt-empty" id="ttEmpty">No trials yet. Add your first one above.</p>
+      <p class="hint">Tip: put the &ldquo;cancel by&rdquo; date in your phone calendar. Clearing your browser data deletes your list, so download the spreadsheet below if you want a permanent copy.</p>
+    </section>
 
     <section>
       <h2>Download your bonus</h2>
@@ -169,8 +209,46 @@
 
 <script>
 (function(){
-  var v=document.getElementById('welcomeVideo'), n=document.getElementById('aiNote');
-  try{ fetch('welcome.mp4',{method:'HEAD'}).then(function(r){ if(r.ok){ v.hidden=false; n.hidden=false; } }).catch(function(){}); }catch(e){}
+  var KEY='subastian_trials_v1', list=[];
+  var $=function(id){return document.getElementById(id);};
+  function load(){ try{ var d=JSON.parse(localStorage.getItem(KEY)||'[]'); if(Array.isArray(d)) list=d.filter(function(x){return x&&typeof x.name==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x.start);}); }catch(e){ list=[]; } }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(list)); }catch(e){} }
+  function pd(s){ var p=s.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
+  function iso(d){ var m=d.getMonth()+1, dd=d.getDate(); return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(dd<10?'0':'')+dd; }
+  function fmt(d){ return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}); }
+  function today(){ var t=new Date(); return new Date(t.getFullYear(),t.getMonth(),t.getDate()); }
+  function calc(x){ var s=pd(x.start), end=new Date(s.getFullYear(),s.getMonth(),s.getDate()+(+x.days||0)); var left=Math.round((end-today())/86400000); return {end:end,cancel:new Date(end.getFullYear(),end.getMonth(),end.getDate()-1),left:left}; }
+  function render(){
+    var body=$('ttBody'); body.innerHTML=''; var active=0,soon=0,risk=0;
+    list.slice().sort(function(a,b){return calc(a).end-calc(b).end;}).forEach(function(x){
+      var c=calc(x), done=x.status==='cancelled', tr=document.createElement('tr');
+      if(!done && c.left>=0){ active++; if(c.left<=7) soon++; if(c.left<=14) risk+=(+x.price||0); }
+      var chipCls=done?'done':(c.left<0?'done':(c.left<=3?'red':(c.left<=7?'amber':'')));
+      var chipTxt=done?'Cancelled':(c.left<0?'Ended':(c.left===0?'Ends today':c.left+' day'+(c.left===1?'':'s')));
+      function td(t){ var e=document.createElement('td'); e.textContent=t; tr.appendChild(e); return e; }
+      td(x.name); td(fmt(c.end)); td(fmt(c.cancel));
+      var tc=document.createElement('td'), ch=document.createElement('span'); ch.className='chip '+chipCls; ch.textContent=chipTxt; tc.appendChild(ch); tr.appendChild(tc);
+      td(x.price?('$'+(+x.price).toFixed(2)+'/mo'):'—');
+      var ta=document.createElement('td');
+      if(!done){ var b1=document.createElement('button'); b1.type='button'; b1.className='lnk'; b1.textContent='Mark cancelled'; b1.onclick=function(){ x.status='cancelled'; save(); render(); }; ta.appendChild(b1); }
+      var b2=document.createElement('button'); b2.type='button'; b2.className='lnk'; b2.textContent='Remove'; b2.setAttribute('aria-label','Remove '+x.name); b2.onclick=function(){ list=list.filter(function(y){return y!==x;}); save(); render(); }; ta.appendChild(b2);
+      tr.appendChild(ta); body.appendChild(tr);
+    });
+    $('ttTable').hidden=!list.length; $('ttEmpty').hidden=!!list.length;
+    $('ttActive').textContent=active; $('ttSoon').textContent=soon; $('ttRisk').textContent='$'+risk.toFixed(2);
+  }
+  $('ttStart').value=iso(today());
+  $('ttForm').addEventListener('submit',function(e){
+    e.preventDefault(); var msg=$('ttMsg'); msg.textContent='';
+    var name=$('ttName').value.trim(), start=$('ttStart').value, days=parseInt($('ttDays').value,10), price=parseFloat($('ttPrice').value);
+    if(!name){ msg.textContent='Enter the service name.'; return; }
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(start)){ msg.textContent='Choose the trial start date.'; return; }
+    if(!(days>=1&&days<=365)){ msg.textContent='Trial length should be 1 to 365 days.'; return; }
+    list.push({name:name.slice(0,60),start:start,days:days,price:isFinite(price)&&price>=0?price:0,status:'active'});
+    save(); render(); $('ttName').value=''; $('ttPrice').value=''; msg.textContent='Added.'; $('ttName').focus();
+    if(window.subTrack) subTrack('trial_tracker_add',{});
+  });
+  load(); render();
 })();
 </script>
 </body>

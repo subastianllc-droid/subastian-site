@@ -105,6 +105,12 @@
   .hint{font-size:12.5px; color:var(--ink-faint); margin-top:10px;}
   .confirm{font-size:14.5px; color:var(--ink); margin-top:12px; font-weight:500;}
   .perks{list-style:none; padding:0;} .perks li{padding-left:26px; position:relative;} .perks li:before{content:"✓"; position:absolute; left:0; color:var(--accent); font-weight:700;}
+
+  .welcome{border:1px solid var(--line); background:var(--surface); border-radius:16px; padding:22px; margin:8px 0 6px;}
+  .welcome video{width:100%; max-width:560px; border-radius:12px; display:block; margin:0 0 14px; background:#000;}
+  .welcome .ai-note{font-size:12.5px; color:var(--ink-faint); margin-top:8px;}
+  .welcome details{margin-top:10px;} .welcome summary{cursor:pointer; font-size:14px; color:var(--accent); font-weight:600;}
+  [hidden]{display:none!important;}
 </style>
 <script src="/ph.js" defer></script>
 </head>
@@ -121,6 +127,17 @@
     <h1>Your Subscription Audit Kit</h1>
     <p class="updated">Thanks for buying the Subscription Audit Kit. Your files are below.</p>
     <div class="pre-launch-note">Two files, about 15 minutes. Work through the guide with the spreadsheet open, and you'll know exactly what you pay for, what overlaps, and what renews next.</div>
+
+    <section class="welcome">
+      <h2>Welcome, and thank you.</h2>
+      <video id="welcomeVideo" controls playsinline preload="metadata" hidden>
+        <source src="welcome.mp4" type="video/mp4">
+        <track kind="captions" src="welcome.vtt" srclang="en" label="English" default>
+      </video>
+      <p>Hi, I'm Daniel, the founder of Subastian. Thank you for buying the Subscription Audit Kit. It means a lot to a small, independent company like ours.</p>
+      <p>Here's how to use it: download the spreadsheet below, list everything you pay for, and it flags duplicates, unused subscriptions and renewals coming up. It takes about 15 minutes. If you get stuck, or want a refund in your first 60 days, just email me. And if you find money you didn't know you were wasting, I'd love to hear about it.</p>
+      <p class="ai-note" id="aiNote" hidden>This welcome video was made with AI using Daniel's likeness and voice.</p>
+    </section>
 
     <section>
       <h2>Download your kit</h2>
@@ -157,5 +174,11 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  var v=document.getElementById('welcomeVideo'), n=document.getElementById('aiNote');
+  try{ fetch('welcome.mp4',{method:'HEAD'}).then(function(r){ if(r.ok){ v.hidden=false; n.hidden=false; } }).catch(function(){}); }catch(e){}
+})();
+</script>
 </body>
 </html>

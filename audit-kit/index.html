@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subscription Audit Kit: Find Unused SaaS Subscriptions | Subastian</title>
+<meta name="description" content="A spreadsheet and one-page guide that finds unused and duplicate software subscriptions in about 15 minutes. One-time purchase, instant download.">
+
+<link rel="canonical" href="https://subastian.us/audit-kit/">
+<meta name="author" content="Subastian, LLC">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Subastian">
+<meta property="og:title" content="Subscription Audit Kit: find the software you pay for and forget"><meta property="og:description" content="A spreadsheet and one-page guide to find unused and duplicate subscriptions in 15 minutes.">
+<meta property="og:image" content="https://subastian.us/hero.jpg">
+<link rel="icon" href="/emblem.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --bg:#F8F7FC; --bg-band:#F1EDFA; --surface:#FFFFFF; --ink:#15132A;
+    --ink-soft:#5C5678; --ink-faint:#8B84A8; --line:#E2DCF2;
+    --accent:#6D28D9; --accent-strong:#54169E; --accent-tint:#ECE3FB;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+      --ink-soft:#B4ADCF; --ink-faint:#7C7599; --line:#2B2745;
+      --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+    --ink-soft:#B4ADCF; --ink-faint:#7C7599; --line:#2B2745;
+    --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E;
+  }
+  *{box-sizing:border-box;}
+  html{color-scheme:light dark;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
+    line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);}
+  h1,h2{font-family:'Plus Jakarta Sans','Inter',sans-serif; color:var(--ink); line-height:1.2;}
+  .wrap{max-width:760px; margin:0 auto; padding:0 28px;}
+  header.topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 28px; max-width:1040px; margin:0 auto; gap:16px;
+  }
+  .brand{font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:18px; text-decoration:none; color:var(--ink); display:flex; align-items:center; gap:8px;}
+  .brand-mark{width:24px; height:24px; object-fit:contain;}
+  .brand span{color:var(--accent);}
+  .btn-ghost{
+    background:transparent; color:var(--ink-soft); border:1px solid var(--line);
+    border-radius:8px; padding:9px 16px; font-weight:600; font-size:13.5px;
+    text-decoration:none;
+  }
+  main{padding:24px 0 80px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:10px;
+  }
+  h1{font-size:clamp(28px,4vw,38px); font-weight:800; letter-spacing:-.02em;}
+  .updated{color:var(--ink-faint); font-size:13.5px; margin-top:10px;}
+  .pre-launch-note{
+    margin-top:24px; padding:16px 18px; border-left:2px solid var(--accent);
+    background:var(--accent-tint); border-radius:0 8px 8px 0; font-size:14px; color:var(--ink-soft);
+  }
+  section{margin-top:40px;}
+  h2{font-size:19px; font-weight:700; margin:0 0 12px;}
+  p{margin:0 0 14px; font-size:15px; color:var(--ink-soft);}
+  ul{margin:0 0 14px; padding-left:20px; color:var(--ink-soft); font-size:15px;}
+  li{margin-bottom:8px;}
+  strong{color:var(--ink);}
+  footer{border-top:1px solid var(--line); margin-top:60px; padding:28px 0 40px;}
+  .foot-row{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    font-size:12.5px; color:var(--ink-faint);
+  }
+  table{width:100%; border-collapse:collapse; margin:4px 0 16px; font-size:14.5px;}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top;}
+  th{color:var(--ink); font-weight:600; font-size:13px;}
+  .legal-nav{display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:14px; font-size:13.5px;}
+  .legal-nav a[aria-current]{color:var(--ink); font-weight:600; text-decoration:none;}
+  @media (max-width:560px){ .wrap{padding:0 16px;} header.topbar{padding:18px 16px;} }
+  .brand .wm{color:var(--ink);} .brand .wm span{color:var(--accent);}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:18px 0 8px;}
+  .card{border:1px solid var(--line); border-radius:12px; padding:18px; background:var(--surface);}
+  .card h3{font-family:'Plus Jakarta Sans','Inter',sans-serif; font-size:16px; margin:0 0 6px; color:var(--ink);}
+  .card p{font-size:14px; margin-bottom:12px;}
+  .btn-cta{display:inline-block; background:var(--accent-fill,#6D28D9); color:#fff; text-decoration:none; font-weight:600; font-size:14px; border-radius:8px; padding:10px 16px; border:0; cursor:pointer; font-family:inherit;}
+  .btn-cta:hover{filter:brightness(1.08);}
+  .btn-copy{background:transparent; color:var(--accent); border:1px solid var(--line); border-radius:6px; font:600 12.5px Inter,sans-serif; padding:6px 10px; cursor:pointer; float:right;}
+  .swipe{position:relative; border:1px solid var(--line); background:var(--surface); border-radius:10px; padding:16px 18px; margin:0 0 16px;}
+  .swipe .label{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint);}
+  .swipe pre{white-space:pre-wrap; font-family:Inter,system-ui,sans-serif; font-size:14.5px; color:var(--ink-soft); margin:10px 0 0; line-height:1.6;}
+  .banners{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px;}
+  .banners figure{margin:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface);}
+  .banners img{display:block; width:100%; height:auto;}
+  .banners figcaption{display:flex; justify-content:space-between; align-items:center; padding:10px 12px; font-size:13px; color:var(--ink-soft);}
+  form.pform{border:1px solid var(--line); background:var(--surface); border-radius:12px; padding:20px; margin-top:8px;}
+  .field{margin-bottom:14px;} .field label{display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:6px;}
+  .field input,.field select{width:100%; font:15px Inter,sans-serif; padding:10px 12px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink);}
+  .field input:focus,.field select:focus{outline:2px solid var(--accent); outline-offset:1px;}
+  .hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+  .hint{font-size:12.5px; color:var(--ink-faint); margin-top:10px;}
+  .confirm{font-size:14.5px; color:var(--ink); margin-top:12px; font-weight:500;}
+  .perks{list-style:none; padding:0;} .perks li{padding-left:26px; position:relative;} .perks li:before{content:"✓"; position:absolute; left:0; color:var(--accent); font-weight:700;}
+</style>
+<script src="/ph.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Subastian home"><img class="brand-mark" src="/emblem.png" alt="" width="24" height="24"><span class="wm">SUBA<span>STIAN</span></span></a>
+  <a href="/" class="btn-ghost">&larr; Back to home</a>
+</header>
+
+<main>
+  <div class="wrap">
+    <p class="eyebrow">Subscription Audit Kit</p>
+    <h1>Find the software you pay for and forget.</h1>
+    <p class="updated">A spreadsheet and one-page guide. About 15 minutes. Instant download.</p>
+
+    <section>
+      <div class="cards">
+        <div class="card">
+          <h3>$<span class="js-price">29</span> &middot; one time</h3>
+          <p>List every tool once. Monthly and annual cost, renewal alerts, overlap, idle tools and savings all calculate for you.</p>
+          <a class="btn-cta js-checkout" href="/#waitlist">Get the Audit Kit</a>
+          <p class="hint js-fine">Secure checkout. Full refund within 60 days, no questions asked.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>What's in the kit</h2>
+      <ul class="perks">
+        <li><strong>Audit spreadsheet.</strong> Totals your monthly and yearly software spend as you list your tools.</li>
+        <li><strong>Built-in flags</strong> for duplicate tools, subscriptions nobody uses, and renewals in the next 90 days.</li>
+        <li><strong>15-minute guide.</strong> Where subscriptions hide, a keep / cancel / review test, and when to set renewal reminders.</li>
+        <li>Works in Excel and Google Sheets.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Who it's for</h2>
+      <p>Affiliate marketers, agencies and small teams who pay for a lot of tools and suspect some are wasted. It runs on your own device, and we never see what you enter.</p>
+    </section>
+
+    <section>
+      <h2>Questions</h2>
+      <p><strong>How do I get it?</strong> Right after checkout you're sent to a download page with both files.</p>
+      <p><strong>Refunds?</strong> Yes, within 60 days. See the <a href="/refund-policy/">refund policy</a> or email <a href="mailto:subastianllc@gmail.com">subastianllc@gmail.com</a>.</p>
+      <p><strong>Is Subastian the software available?</strong> Not yet. It's in development, and you can join the <a href="/#waitlist">free founding roster</a> for early access.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div>Subastian, LLC &middot; Denver, CO</div>
+      <div><a href="mailto:subastianllc@gmail.com">subastianllc@gmail.com</a> &middot; <a href="/partners/">Partners</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/refund-policy/">Refunds</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ===== EDIT THESE =====
+     CHECKOUT_URL: paste your Stripe Payment Link (https://buy.stripe.com/...).
+                   Leave it empty and the button sends people to the free roster instead.
+     PRICE:        keep in sync with the price on your Stripe Payment Link. */
+  var CHECKOUT_URL = '';
+  var PRICE = 29;
+  /* ====================== */
+  var live = CHECKOUT_URL.indexOf('https://') === 0;
+  document.querySelectorAll('.js-price').forEach(function(el){ el.textContent = PRICE; });
+  document.querySelectorAll('.js-checkout').forEach(function(a){
+    if (live) {
+      a.href = CHECKOUT_URL;
+      a.textContent = 'Get the Audit Kit \u2014 $' + PRICE;
+      a.addEventListener('click', function(){ if (window.subTrack) subTrack('auditkit_checkout_click', { price: PRICE }); });
+    } else {
+      a.textContent = 'Opening soon. Join the free roster for first notice';
+    }
+  });
+  if (!live) document.querySelectorAll('.js-fine').forEach(function(p){ p.textContent = 'Not on sale yet.'; });
+})();
+</script>
+</body>
+</html>

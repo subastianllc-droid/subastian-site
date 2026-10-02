@@ -127,7 +127,7 @@
           <h3>$<span class="js-price">9</span> &middot; one time</h3>
           <p>List what you pay for once. Monthly and annual cost, renewal alerts, overlap, unused subscriptions and savings all calculate for you.</p>
           <a class="btn-cta js-checkout" href="/#waitlist">Get the Audit Kit</a>
-          <p class="hint js-fine">Secure checkout. Full refund within 60 days, no questions asked.</p>
+          <p class="hint js-fine">Secure checkout. Full refund within 30 days, no questions asked.</p>
         </div>
       </div>
     </section>
@@ -149,8 +149,8 @@
 
     <section>
       <h2>Questions</h2>
-      <p><strong>How do I get it?</strong> Right after checkout you're sent to a download page with both files.</p>
-      <p><strong>Refunds?</strong> Yes, within 60 days. See the <a href="/refund-policy/">refund policy</a> or email <a href="mailto:subastianllc@gmail.com">subastianllc@gmail.com</a>.</p>
+      <p><strong>How do I get it?</strong> Right after checkout, Gumroad shows you both files to download and emails you a receipt with the link.</p>
+      <p><strong>Refunds?</strong> Yes, within 30 days. See the <a href="/refund-policy/">refund policy</a> or email <a href="mailto:subastianllc@gmail.com">subastianllc@gmail.com</a>.</p>
       <p><strong>Is Subastian the software available?</strong> Not yet. It's in development, and you can join the <a href="/#waitlist">free founding roster</a> for early access.</p>
     </section>
   </div>
@@ -168,10 +168,10 @@
 <script>
 (function(){
   /* ===== EDIT THESE =====
-     CHECKOUT_URL: paste your Stripe Payment Link (https://buy.stripe.com/...).
+     CHECKOUT_URL: your Gumroad product link.
                    Leave it empty and the button sends people to the free roster instead.
-     PRICE:        keep in sync with the price on your Stripe Payment Link. */
-  var CHECKOUT_URL = ''; /* paste the LIVE checkout link here (Gumroad or Stripe). A test-mode link (contains test_) is ignored. */
+     PRICE:        keep in sync with the price on your Gumroad product. */
+  var CHECKOUT_URL = 'https://subastian.gumroad.com/l/subscription-audit-kit';
   var PRICE = 9;
   /* ====================== */
   var live = CHECKOUT_URL.indexOf('https://') === 0 && CHECKOUT_URL.indexOf('test_') < 0;

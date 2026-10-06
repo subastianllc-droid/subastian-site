@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Find Duplicate Subscriptions | Subastian</title>
+<meta name="description" content="Paying for two tools that do the same job is the easiest waste to miss. Use this category checklist to find overlapping subscriptions and decide which to keep.">
+<link rel="canonical" href="https://subastian.us/guides/duplicate-subscriptions/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Subastian, LLC">
+<meta name="theme-color" content="#6D28D9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0A14" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Subastian">
+<meta property="og:url" content="https://subastian.us/guides/duplicate-subscriptions/">
+<meta property="og:title" content="How to Find Duplicate Subscriptions | Subastian">
+<meta property="og:description" content="Paying for two tools that do the same job is the easiest waste to miss. Use this category checklist to find overlapping subscriptions and decide which to keep.">
+<meta property="og:image" content="https://subastian.us/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/emblem.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --bg:#F8F7FC; --bg-band:#F1EDFA; --surface:#FFFFFF; --ink:#15132A;
+    --ink-soft:#5C5678; --ink-faint:#7A7399; --line:#E2DCF2;
+    --accent:#6D28D9; --accent-strong:#54169E; --accent-tint:#ECE3FB; --accent-fill:#6D28D9;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+      --ink-soft:#B4ADCF; --ink-faint:#8F88AE; --line:#2B2745;
+      --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E; --accent-fill:#7C4DEB;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+    --ink-soft:#B4ADCF; --ink-faint:#8F88AE; --line:#2B2745;
+    --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E; --accent-fill:#7C4DEB;
+  }
+  *{box-sizing:border-box;}
+  html{color-scheme:light dark;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif; line-height:1.7; -webkit-font-smoothing:antialiased;}
+  a{color:var(--accent);}
+  h1,h2,h3{font-family:'Plus Jakarta Sans','Inter',sans-serif; color:var(--ink); line-height:1.2; text-wrap:balance;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
+  .wrap{max-width:720px; margin:0 auto; padding:0 24px;}
+  header.topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; max-width:1040px; margin:0 auto; padding:22px 24px;}
+  .brand{font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:18px; text-decoration:none; color:var(--ink); display:flex; align-items:center; gap:8px;}
+  .brand img{width:24px; height:24px; object-fit:contain;}
+  .brand span span{color:var(--accent);}
+  .nav{display:flex; align-items:center; gap:18px;}
+  .nav a{font-size:13px; font-weight:600; text-decoration:none; color:var(--ink-soft); white-space:nowrap;}
+  .nav a:hover{color:var(--accent);}
+  .nav .nav-cta{background:var(--accent-fill); color:#fff; padding:9px 16px; border-radius:8px;}
+  .nav .nav-cta:hover{color:#fff;}
+  main{padding:8px 0 72px;}
+  .crumbs{font-size:13px; color:var(--ink-faint); margin:8px 0 18px;}
+  .crumbs a{color:var(--ink-soft); text-decoration:none;} .crumbs a:hover{color:var(--accent);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 10px;}
+  h1{font-size:clamp(28px,4.4vw,40px); font-weight:800; letter-spacing:-.02em; margin:0;}
+  .meta{color:var(--ink-faint); font-size:13.5px; margin:12px 0 0;}
+  .lede{font-size:18px; color:var(--ink-soft); margin:22px 0 0;}
+  .tldr{margin:26px 0 0; padding:18px 20px; border-left:3px solid var(--accent); background:var(--accent-tint); border-radius:0 10px 10px 0;}
+  .tldr b{display:block; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-strong); margin-bottom:6px;}
+  .tldr ul{margin:0; padding-left:20px; color:var(--ink-soft); font-size:15px;} .tldr li{margin:4px 0;}
+  article h2{font-size:24px; margin:40px 0 10px;}
+  article h3{font-size:18px; margin:26px 0 6px;}
+  article p{margin:0 0 16px; color:var(--ink-soft); font-size:16.5px;}
+  article ul, article ol{margin:0 0 18px; padding-left:22px; color:var(--ink-soft); font-size:16.5px;}
+  article li{margin:6px 0;}
+  article strong{color:var(--ink);}
+  .tablewrap{overflow-x:auto; margin:6px 0 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  table{width:100%; border-collapse:collapse; font-size:14.5px; min-width:480px;}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top;}
+  th{color:var(--ink); font-weight:600; font-size:13px; background:var(--bg-band);}
+  tr:last-child td{border-bottom:0;}
+  td.num, th.num{text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums;}
+  .caption{font-size:13px; color:var(--ink-faint); margin:-8px 0 18px;}
+  code{font-family:'IBM Plex Mono',monospace; font-size:.9em; background:var(--bg-band); padding:2px 6px; border-radius:5px; color:var(--ink);}
+  .callout{margin:22px 0; padding:16px 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  .callout p{margin:0; font-size:15.5px;}
+  .cta{margin:34px 0; padding:24px; border:1px solid var(--accent); border-radius:16px; background:var(--surface);}
+  .cta h2{font-size:21px; margin:0 0 8px;} .cta p{margin:0 0 14px; font-size:15.5px;}
+  .cta-kicker{font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 6px !important;}
+  .btn{display:inline-block; background:var(--accent-fill); color:#fff; text-decoration:none; font-weight:600; font-size:14.5px; border-radius:8px; padding:12px 18px;}
+  .btn:hover{filter:brightness(1.08);}
+  .btn.ghost{background:transparent; color:var(--accent); border:1px solid var(--accent);}
+  .btn.ghost:hover{background:var(--accent-tint); filter:none;}
+  .related{margin-top:44px; padding-top:22px; border-top:1px solid var(--line);}
+  .related h2{font-size:18px; margin:0 0 10px;}
+  .related ul{list-style:none; padding:0; margin:0;} .related li{margin:8px 0;} .related a{font-weight:600;}
+  .guide-list{list-style:none; padding:0; margin:26px 0 0; display:grid; gap:14px;}
+  .guide-list li{margin:0;}
+  .guide-card{display:block; text-decoration:none; padding:18px 20px; border:1px solid var(--line); border-radius:14px; background:var(--surface);}
+  .guide-card:hover{border-color:var(--accent);}
+  .guide-card h2{font-size:19px; margin:0 0 6px; color:var(--ink);} .guide-card p{margin:0; font-size:15px; color:var(--ink-soft);}
+  .guide-card .rt{display:block; margin-top:8px; font-size:12.5px; color:var(--ink-faint);}
+  footer{border-top:1px solid var(--line); margin-top:30px; padding:28px 0 40px;}
+  .foot-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px 24px; font-size:13px; color:var(--ink-faint);}
+  .foot-row a{color:var(--ink-soft); text-decoration:none; font-weight:600;} .foot-row a:hover{color:var(--accent);}
+  @media (max-width:560px){ .wrap{padding:0 16px;} header.topbar{padding:16px;} .nav{gap:12px;} .nav .hide-sm{display:none;} article h2{font-size:22px;} .lede{font-size:17px;} }
+</style>
+<script src="/ph.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "How to Find Duplicate Subscriptions (Two Tools Doing the Same Job)",
+      "description": "Paying for two tools that do the same job is the easiest waste to miss. Use this category checklist to find overlapping subscriptions and decide which to keep.",
+      "image": "https://subastian.us/hero.jpg",
+      "datePublished": "2026-10-06",
+      "dateModified": "2026-10-06",
+      "inLanguage": "en-US",
+      "mainEntityOfPage": "https://subastian.us/guides/duplicate-subscriptions/",
+      "author": {
+        "@type": "Organization",
+        "name": "Subastian, LLC",
+        "url": "https://subastian.us/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Subastian, LLC",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://subastian.us/emblem.png"
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://subastian.us/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://subastian.us/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How to Find Duplicate Subscriptions (Two Tools Doing the Same Job)",
+          "item": "https://subastian.us/guides/duplicate-subscriptions/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body data-guide="duplicate-subscriptions">
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Subastian home"><img src="/emblem.png" alt="" width="24" height="24"><span>SUBA<span>STIAN</span></span></a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/guides/" class="hide-sm">Guides</a>
+    <a href="/stack-audit/" class="hide-sm">Calculator</a>
+    <a href="/audit-kit/" class="hide-sm">Audit Kit</a>
+    <a href="/#waitlist" class="nav-cta">Join the Roster</a>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/guides/">Guides</a></nav>
+    <p class="eyebrow">Guide</p>
+    <h1>How to Find Duplicate Subscriptions (Two Tools Doing the Same Job)</h1>
+    <p class="meta">By Subastian &middot; Updated October 6, 2026 &middot; 3 min read</p>
+    <p class="lede">The easiest subscription waste to miss is not the tool nobody uses. It is two tools that each get used a little because they do the same job. Neither looks wasteful on its own. Together, they are paying twice. Here is how to find them.</p>
+    <div class="tldr"><b>The short version</b><ul><li>Overlap is about the job, not the brand: two tools for the same task.</li><li>Check each category on the list below for overlapping tools.</li><li>Keep the one you actually open and export your data before cancelling the other.</li><li>Before buying anything new, check what you already own.</li></ul></div>
+    <article>
+<h2>What counts as a duplicate</h2>
+<ul>
+  <li><strong>Two tools for the same job.</strong> Two project managers, two email platforms, two cloud-storage plans.</li>
+  <li><strong>A tool you pay for separately that is already included</strong> in another plan you have.</li>
+  <li><strong>Overlapping add-ons.</strong> A paid add-on inside one tool that does what another subscription already does.</li>
+</ul>
+
+<h2>A category checklist</h2>
+<p>List your subscriptions first (our <a href="/guides/subscription-audit/">15-minute audit</a> shows how), then go category by category and ask whether you have more than one tool doing the job:</p>
+<div class="tablewrap"><table>
+  <thead><tr><th>Category</th><th>Overlap to look for</th></tr></thead>
+  <tbody>
+    <tr><td>AI tools</td><td>Several AI chat or writing subscriptions, plus AI add-ons inside tools you already pay for</td></tr>
+    <tr><td>Analytics</td><td>More than one tool tracking the same website or app</td></tr>
+    <tr><td>Automation</td><td>More than one platform connecting the same apps</td></tr>
+    <tr><td>Cloud storage</td><td>Several storage plans, personal and work, holding the same files</td></tr>
+    <tr><td>Communication</td><td>Separate paid chat and video-meeting tools when one of them covers both</td></tr>
+    <tr><td>CRM</td><td>A CRM plus another contact database or spreadsheet service</td></tr>
+    <tr><td>Design</td><td>Multiple design or stock-asset subscriptions</td></tr>
+    <tr><td>Email marketing</td><td>Two platforms sending newsletters or campaigns</td></tr>
+    <tr><td>Funnels &amp; landing pages</td><td>A page builder and a funnel builder that both publish landing pages</td></tr>
+    <tr><td>Hosting &amp; domains</td><td>Domains or hosting split across providers for the same site</td></tr>
+    <tr><td>Project management</td><td>A task tool and a project board used by the same team</td></tr>
+    <tr><td>SEO</td><td>More than one rank tracker or keyword tool</td></tr>
+    <tr><td>Social scheduling</td><td>A scheduler plus another tool that also schedules posts</td></tr>
+    <tr><td>Video</td><td>More than one editing or video-hosting subscription</td></tr>
+  </tbody>
+</table></div>
+
+<aside class="cta" aria-label="Subscription Audit Kit">
+  <p class="cta-kicker">Skip the setup</p>
+  <h2>Get the audit done in about 15 minutes</h2>
+  <p>The Subscription Audit Kit is a spreadsheet and one-page guide. List what you pay for once and it totals your monthly and yearly cost and flags duplicates, subscriptions you no longer use and renewals in the next 90 days. $9 one time, instant download, 30-day refund.</p>
+  <a class="btn" href="/audit-kit/?src=guide-duplicate-subscriptions" data-cta="kit">See the Audit Kit &mdash; $9</a>
+</aside>
+
+<h2>How to decide which one to keep</h2>
+<ol>
+  <li><strong>Check which one you actually open.</strong> Usage tells you more than the feature list.</li>
+  <li><strong>List the features you really use,</strong> not the ones that exist. The cheaper tool often covers them.</li>
+  <li><strong>Compare the real price,</strong> including the per-seat cost for your whole team and the annual versus monthly rate.</li>
+  <li><strong>Consider where your data lives</strong> and how hard it would be to move. Moving a lot of data is a real cost.</li>
+  <li><strong>Export your data first,</strong> then stop using the tool you are dropping for a couple of weeks before you cancel it. If nothing breaks, cancel.</li>
+</ol>
+
+<h2>Stop duplicates before they start</h2>
+<p>The cheapest duplicate to fix is the one you never buy. Before adding a tool, ask one question: <em>do I already own something that does this?</em> Keep your list somewhere you will actually look, and make that check part of every purchase, including free trials. The risk with trials is covered in our guide to <a href="/guides/free-trial-charges/">stopping free trials from charging you</a>.</p>
+<p>That check is what Subastian's Purchase Guard is being built to do automatically: compare a tool you are about to buy with your existing stack and flag heavy feature overlap before you pay.</p>
+<aside class="cta" aria-label="Join the founding roster">
+  <p class="cta-kicker">Founding roster</p>
+  <h2>Want this done for you automatically?</h2>
+  <p>Subastian is subscription management software in development. It is being built to check new purchases against what you already own, flag tools that have gone unused, and send renewal alerts at 30, 7, 3 and 1 days out. Join the free founding roster for early access and locked-in launch pricing, plus a free Free Trial Tracker and Cancel &amp; Refund Scripts.</p>
+  <a class="btn ghost" href="/#waitlist" data-cta="roster">Join the founding roster &mdash; free</a>
+</aside>
+</article>
+    <section class="related" aria-label="Keep reading">
+      <h2>Keep reading</h2>
+      <ul><li><a href="/guides/subscription-audit/">How to Audit Your Subscriptions in 15 Minutes</a></li><li><a href="/guides/software-costs-per-client/">How to Track Software Costs Per Client (for Agencies and Freelancers)</a></li><li><a href="/guides/free-trial-charges/">How to Stop Free Trials From Charging You</a></li><li><a href="/stack-audit/">Free subscription waste calculator</a></li></ul>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div>Subastian, LLC &middot; Denver, CO</div>
+      <div><a href="/guides/">Guides</a> &middot; <a href="/audit-kit/">Audit Kit</a> &middot; <a href="/partners/">Partners</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/refund-policy/">Refunds</a></div>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  var guide = document.body.getAttribute('data-guide') || 'hub';
+  document.querySelectorAll('a[data-cta]').forEach(function(a){
+    a.addEventListener('click', function(){
+      if (window.subTrack) subTrack('guide_cta_click', { guide: guide, cta: a.getAttribute('data-cta') });
+    });
+  });
+})();
+</script>
+</body>
+</html>

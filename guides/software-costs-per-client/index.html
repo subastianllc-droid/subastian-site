@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track Software Costs Per Client: Agency Guide | Subastian</title>
+<meta name="description" content="See what software really costs per client: sort tools into client-specific and shared, split shared costs fairly, and clean up licenses when a project ends.">
+<link rel="canonical" href="https://subastian.us/guides/software-costs-per-client/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Subastian, LLC">
+<meta name="theme-color" content="#6D28D9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0A14" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Subastian">
+<meta property="og:url" content="https://subastian.us/guides/software-costs-per-client/">
+<meta property="og:title" content="Track Software Costs Per Client: Agency Guide | Subastian">
+<meta property="og:description" content="See what software really costs per client: sort tools into client-specific and shared, split shared costs fairly, and clean up licenses when a project ends.">
+<meta property="og:image" content="https://subastian.us/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/emblem.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --bg:#F8F7FC; --bg-band:#F1EDFA; --surface:#FFFFFF; --ink:#15132A;
+    --ink-soft:#5C5678; --ink-faint:#7A7399; --line:#E2DCF2;
+    --accent:#6D28D9; --accent-strong:#54169E; --accent-tint:#ECE3FB; --accent-fill:#6D28D9;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+      --ink-soft:#B4ADCF; --ink-faint:#8F88AE; --line:#2B2745;
+      --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E; --accent-fill:#7C4DEB;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+    --ink-soft:#B4ADCF; --ink-faint:#8F88AE; --line:#2B2745;
+    --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E; --accent-fill:#7C4DEB;
+  }
+  *{box-sizing:border-box;}
+  html{color-scheme:light dark;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif; line-height:1.7; -webkit-font-smoothing:antialiased;}
+  a{color:var(--accent);}
+  h1,h2,h3{font-family:'Plus Jakarta Sans','Inter',sans-serif; color:var(--ink); line-height:1.2; text-wrap:balance;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
+  .wrap{max-width:720px; margin:0 auto; padding:0 24px;}
+  header.topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; max-width:1040px; margin:0 auto; padding:22px 24px;}
+  .brand{font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:18px; text-decoration:none; color:var(--ink); display:flex; align-items:center; gap:8px;}
+  .brand img{width:24px; height:24px; object-fit:contain;}
+  .brand span span{color:var(--accent);}
+  .nav{display:flex; align-items:center; gap:18px;}
+  .nav a{font-size:13px; font-weight:600; text-decoration:none; color:var(--ink-soft); white-space:nowrap;}
+  .nav a:hover{color:var(--accent);}
+  .nav .nav-cta{background:var(--accent-fill); color:#fff; padding:9px 16px; border-radius:8px;}
+  .nav .nav-cta:hover{color:#fff;}
+  main{padding:8px 0 72px;}
+  .crumbs{font-size:13px; color:var(--ink-faint); margin:8px 0 18px;}
+  .crumbs a{color:var(--ink-soft); text-decoration:none;} .crumbs a:hover{color:var(--accent);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 10px;}
+  h1{font-size:clamp(28px,4.4vw,40px); font-weight:800; letter-spacing:-.02em; margin:0;}
+  .meta{color:var(--ink-faint); font-size:13.5px; margin:12px 0 0;}
+  .lede{font-size:18px; color:var(--ink-soft); margin:22px 0 0;}
+  .tldr{margin:26px 0 0; padding:18px 20px; border-left:3px solid var(--accent); background:var(--accent-tint); border-radius:0 10px 10px 0;}
+  .tldr b{display:block; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-strong); margin-bottom:6px;}
+  .tldr ul{margin:0; padding-left:20px; color:var(--ink-soft); font-size:15px;} .tldr li{margin:4px 0;}
+  article h2{font-size:24px; margin:40px 0 10px;}
+  article h3{font-size:18px; margin:26px 0 6px;}
+  article p{margin:0 0 16px; color:var(--ink-soft); font-size:16.5px;}
+  article ul, article ol{margin:0 0 18px; padding-left:22px; color:var(--ink-soft); font-size:16.5px;}
+  article li{margin:6px 0;}
+  article strong{color:var(--ink);}
+  .tablewrap{overflow-x:auto; margin:6px 0 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  table{width:100%; border-collapse:collapse; font-size:14.5px; min-width:480px;}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top;}
+  th{color:var(--ink); font-weight:600; font-size:13px; background:var(--bg-band);}
+  tr:last-child td{border-bottom:0;}
+  td.num, th.num{text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums;}
+  .caption{font-size:13px; color:var(--ink-faint); margin:-8px 0 18px;}
+  code{font-family:'IBM Plex Mono',monospace; font-size:.9em; background:var(--bg-band); padding:2px 6px; border-radius:5px; color:var(--ink);}
+  .callout{margin:22px 0; padding:16px 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  .callout p{margin:0; font-size:15.5px;}
+  .cta{margin:34px 0; padding:24px; border:1px solid var(--accent); border-radius:16px; background:var(--surface);}
+  .cta h2{font-size:21px; margin:0 0 8px;} .cta p{margin:0 0 14px; font-size:15.5px;}
+  .cta-kicker{font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 6px !important;}
+  .btn{display:inline-block; background:var(--accent-fill); color:#fff; text-decoration:none; font-weight:600; font-size:14.5px; border-radius:8px; padding:12px 18px;}
+  .btn:hover{filter:brightness(1.08);}
+  .btn.ghost{background:transparent; color:var(--accent); border:1px solid var(--accent);}
+  .btn.ghost:hover{background:var(--accent-tint); filter:none;}
+  .related{margin-top:44px; padding-top:22px; border-top:1px solid var(--line);}
+  .related h2{font-size:18px; margin:0 0 10px;}
+  .related ul{list-style:none; padding:0; margin:0;} .related li{margin:8px 0;} .related a{font-weight:600;}
+  .guide-list{list-style:none; padding:0; margin:26px 0 0; display:grid; gap:14px;}
+  .guide-list li{margin:0;}
+  .guide-card{display:block; text-decoration:none; padding:18px 20px; border:1px solid var(--line); border-radius:14px; background:var(--surface);}
+  .guide-card:hover{border-color:var(--accent);}
+  .guide-card h2{font-size:19px; margin:0 0 6px; color:var(--ink);} .guide-card p{margin:0; font-size:15px; color:var(--ink-soft);}
+  .guide-card .rt{display:block; margin-top:8px; font-size:12.5px; color:var(--ink-faint);}
+  footer{border-top:1px solid var(--line); margin-top:30px; padding:28px 0 40px;}
+  .foot-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px 24px; font-size:13px; color:var(--ink-faint);}
+  .foot-row a{color:var(--ink-soft); text-decoration:none; font-weight:600;} .foot-row a:hover{color:var(--accent);}
+  @media (max-width:560px){ .wrap{padding:0 16px;} header.topbar{padding:16px;} .nav{gap:12px;} .nav .hide-sm{display:none;} article h2{font-size:22px;} .lede{font-size:17px;} }
+</style>
+<script src="/ph.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "How to Track Software Costs Per Client (for Agencies and Freelancers)",
+      "description": "See what software really costs per client: sort tools into client-specific and shared, split shared costs fairly, and clean up licenses when a project ends.",
+      "image": "https://subastian.us/hero.jpg",
+      "datePublished": "2026-10-06",
+      "dateModified": "2026-10-06",
+      "inLanguage": "en-US",
+      "mainEntityOfPage": "https://subastian.us/guides/software-costs-per-client/",
+      "author": {
+        "@type": "Organization",
+        "name": "Subastian, LLC",
+        "url": "https://subastian.us/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Subastian, LLC",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://subastian.us/emblem.png"
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://subastian.us/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://subastian.us/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How to Track Software Costs Per Client (for Agencies and Freelancers)",
+          "item": "https://subastian.us/guides/software-costs-per-client/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body data-guide="software-costs-per-client">
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Subastian home"><img src="/emblem.png" alt="" width="24" height="24"><span>SUBA<span>STIAN</span></span></a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/guides/" class="hide-sm">Guides</a>
+    <a href="/stack-audit/" class="hide-sm">Calculator</a>
+    <a href="/audit-kit/" class="hide-sm">Audit Kit</a>
+    <a href="/#waitlist" class="nav-cta">Join the Roster</a>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/guides/">Guides</a></nav>
+    <p class="eyebrow">Guide</p>
+    <h1>How to Track Software Costs Per Client (for Agencies and Freelancers)</h1>
+    <p class="meta">By Subastian &middot; Updated October 6, 2026 &middot; 3 min read</p>
+    <p class="lede">Software is part of what it costs to deliver your work, but it rarely shows up on a client&#x27;s profit line. When tools are not allocated to clients, margins look better than they are, quotes come in too low, and licenses outlive the projects they were bought for. Here is a simple way to fix that.</p>
+    <div class="tldr"><b>The short version</b><ul><li>Sort every tool into client-specific, shared or overhead.</li><li>Pick one rule for splitting shared tools and stick to it.</li><li>Show software cost next to each client&#x27;s revenue to see real margin.</li><li>Use an offboarding checklist so licenses do not outlive projects.</li></ul></div>
+    <article>
+<h2>Step 1: Sort every tool into three buckets</h2>
+<ul>
+  <li><strong>Client-specific:</strong> bought for one client and used only for them, such as a dedicated hosting account or seats you pay for on a client's own tool.</li>
+  <li><strong>Shared:</strong> used across several clients, such as your project management tool, design software, SEO suite and email platform.</li>
+  <li><strong>Overhead:</strong> keeps the business running but is not tied to client work, such as accounting and internal chat.</li>
+</ul>
+<p>Client-specific costs go straight to that client. Overhead stays in the business. Shared costs are the ones that need a rule.</p>
+
+<h2>Step 2: Choose a rule for splitting shared tools</h2>
+<p>There is no single right answer. Pick one, apply it every month, and write it down so it stays consistent:</p>
+<ul>
+  <li><strong>Equal split</strong> across active clients. Simple, and fine when clients are similar in size.</li>
+  <li><strong>By hours worked.</strong> Fairer when workloads differ, but needs time tracking.</li>
+  <li><strong>By revenue share.</strong> Larger clients carry more of the cost.</li>
+</ul>
+<p>For example, a $240-a-month SEO suite shared across four active clients costs $60 each on an equal split. If one client accounts for half of the hours, splitting by hours gives that client $120.</p>
+
+<h2>Step 3: Put software cost next to revenue</h2>
+<p>Once each client has an allocated software cost, compare it with what they pay you. Here is an illustration:</p>
+<div class="tablewrap"><table>
+  <thead><tr><th>Client</th><th class="num">Monthly revenue</th><th class="num">Software allocated</th><th class="num">Software as % of revenue</th></tr></thead>
+  <tbody>
+    <tr><td>Client A</td><td class="num">$2,000</td><td class="num">$310</td><td class="num">15.5%</td></tr>
+    <tr><td>Client B</td><td class="num">$1,200</td><td class="num">$180</td><td class="num">15.0%</td></tr>
+    <tr><td>Client C</td><td class="num">$800</td><td class="num">$190</td><td class="num">23.8%</td></tr>
+  </tbody>
+</table></div>
+<p class="caption">Made-up numbers to show the method.</p>
+<p>In this example, Client C is the smallest account but carries the heaviest software load. That is a pricing conversation, and you would never see it without the allocation.</p>
+
+<aside class="cta" aria-label="Subscription Audit Kit">
+  <p class="cta-kicker">Skip the setup</p>
+  <h2>Get the audit done in about 15 minutes</h2>
+  <p>The Subscription Audit Kit is a spreadsheet and one-page guide. List what you pay for once and it totals your monthly and yearly cost and flags duplicates, subscriptions you no longer use and renewals in the next 90 days. $9 one time, instant download, 30-day refund.</p>
+  <a class="btn" href="/audit-kit/?src=guide-software-costs-per-client" data-cta="kit">See the Audit Kit &mdash; $9</a>
+</aside>
+
+<h2>Step 4: Clean up when a project ends</h2>
+<p>Licenses outlive projects more than anything else. Keep a short offboarding checklist and run it every time a client ends:</p>
+<ul>
+  <li>Remove or reassign the client's seats in every shared tool.</li>
+  <li>Cancel client-specific tools, or transfer ownership to the client.</li>
+  <li>Note the final billing date so you are not charged for another cycle.</li>
+  <li>Save any exports or files the client is owed.</li>
+</ul>
+
+<h2>Step 5: Price it into your quotes</h2>
+<p>Use your allocation to quote with real numbers. Either build the tool cost into your retainer, or show it as a separate line item. Either way, you are charging for the tools you actually use instead of absorbing them.</p>
+
+<h2>Review once a month</h2>
+<p>New tools get added all the time. A ten-minute monthly review catches new subscriptions, seats that nobody uses and tools that duplicate each other. Our guides on <a href="/guides/subscription-audit/">auditing your subscriptions</a> and <a href="/guides/duplicate-subscriptions/">finding duplicates</a> show how.</p>
+<p>Subastian's planned Agency Maestro plan is aimed at exactly this: up to 20 client accounts with white-label reporting. It is not on sale yet, but roster members get launch pricing locked in.</p>
+<aside class="cta" aria-label="Join the founding roster">
+  <p class="cta-kicker">Founding roster</p>
+  <h2>Want this done for you automatically?</h2>
+  <p>Subastian is subscription management software in development. It is being built to check new purchases against what you already own, flag tools that have gone unused, and send renewal alerts at 30, 7, 3 and 1 days out. Join the free founding roster for early access and locked-in launch pricing, plus a free Free Trial Tracker and Cancel &amp; Refund Scripts.</p>
+  <a class="btn ghost" href="/#waitlist" data-cta="roster">Join the founding roster &mdash; free</a>
+</aside>
+</article>
+    <section class="related" aria-label="Keep reading">
+      <h2>Keep reading</h2>
+      <ul><li><a href="/guides/duplicate-subscriptions/">How to Find Duplicate Subscriptions (Two Tools Doing the Same Job)</a></li><li><a href="/guides/subscription-audit/">How to Audit Your Subscriptions in 15 Minutes</a></li><li><a href="/guides/renewal-reminders/">Never Miss a Subscription Renewal: The 30-7-3-1 Reminder Schedule</a></li><li><a href="/stack-audit/">Free subscription waste calculator</a></li></ul>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div>Subastian, LLC &middot; Denver, CO</div>
+      <div><a href="/guides/">Guides</a> &middot; <a href="/audit-kit/">Audit Kit</a> &middot; <a href="/partners/">Partners</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/refund-policy/">Refunds</a></div>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  var guide = document.body.getAttribute('data-guide') || 'hub';
+  document.querySelectorAll('a[data-cta]').forEach(function(a){
+    a.addEventListener('click', function(){
+      if (window.subTrack) subTrack('guide_cta_click', { guide: guide, cta: a.getAttribute('data-cta') });
+    });
+  });
+})();
+</script>
+</body>
+</html>

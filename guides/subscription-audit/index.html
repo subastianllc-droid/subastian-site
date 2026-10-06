@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Audit Your Subscriptions in 15 Minutes | Subastian</title>
+<meta name="description" content="A step-by-step way to find every subscription you pay for, spot duplicates and unused tools, and decide what to keep, cancel or review. About 15 minutes.">
+<link rel="canonical" href="https://subastian.us/guides/subscription-audit/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Subastian, LLC">
+<meta name="theme-color" content="#6D28D9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0A14" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Subastian">
+<meta property="og:url" content="https://subastian.us/guides/subscription-audit/">
+<meta property="og:title" content="How to Audit Your Subscriptions in 15 Minutes | Subastian">
+<meta property="og:description" content="A step-by-step way to find every subscription you pay for, spot duplicates and unused tools, and decide what to keep, cancel or review. About 15 minutes.">
+<meta property="og:image" content="https://subastian.us/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/emblem.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --bg:#F8F7FC; --bg-band:#F1EDFA; --surface:#FFFFFF; --ink:#15132A;
+    --ink-soft:#5C5678; --ink-faint:#7A7399; --line:#E2DCF2;
+    --accent:#6D28D9; --accent-strong:#54169E; --accent-tint:#ECE3FB; --accent-fill:#6D28D9;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+      --ink-soft:#B4ADCF; --ink-faint:#8F88AE; --line:#2B2745;
+      --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E; --accent-fill:#7C4DEB;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+    --ink-soft:#B4ADCF; --ink-faint:#8F88AE; --line:#2B2745;
+    --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E; --accent-fill:#7C4DEB;
+  }
+  *{box-sizing:border-box;}
+  html{color-scheme:light dark;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif; line-height:1.7; -webkit-font-smoothing:antialiased;}
+  a{color:var(--accent);}
+  h1,h2,h3{font-family:'Plus Jakarta Sans','Inter',sans-serif; color:var(--ink); line-height:1.2; text-wrap:balance;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
+  .wrap{max-width:720px; margin:0 auto; padding:0 24px;}
+  header.topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; max-width:1040px; margin:0 auto; padding:22px 24px;}
+  .brand{font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:18px; text-decoration:none; color:var(--ink); display:flex; align-items:center; gap:8px;}
+  .brand img{width:24px; height:24px; object-fit:contain;}
+  .brand span span{color:var(--accent);}
+  .nav{display:flex; align-items:center; gap:18px;}
+  .nav a{font-size:13px; font-weight:600; text-decoration:none; color:var(--ink-soft); white-space:nowrap;}
+  .nav a:hover{color:var(--accent);}
+  .nav .nav-cta{background:var(--accent-fill); color:#fff; padding:9px 16px; border-radius:8px;}
+  .nav .nav-cta:hover{color:#fff;}
+  main{padding:8px 0 72px;}
+  .crumbs{font-size:13px; color:var(--ink-faint); margin:8px 0 18px;}
+  .crumbs a{color:var(--ink-soft); text-decoration:none;} .crumbs a:hover{color:var(--accent);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 10px;}
+  h1{font-size:clamp(28px,4.4vw,40px); font-weight:800; letter-spacing:-.02em; margin:0;}
+  .meta{color:var(--ink-faint); font-size:13.5px; margin:12px 0 0;}
+  .lede{font-size:18px; color:var(--ink-soft); margin:22px 0 0;}
+  .tldr{margin:26px 0 0; padding:18px 20px; border-left:3px solid var(--accent); background:var(--accent-tint); border-radius:0 10px 10px 0;}
+  .tldr b{display:block; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-strong); margin-bottom:6px;}
+  .tldr ul{margin:0; padding-left:20px; color:var(--ink-soft); font-size:15px;} .tldr li{margin:4px 0;}
+  article h2{font-size:24px; margin:40px 0 10px;}
+  article h3{font-size:18px; margin:26px 0 6px;}
+  article p{margin:0 0 16px; color:var(--ink-soft); font-size:16.5px;}
+  article ul, article ol{margin:0 0 18px; padding-left:22px; color:var(--ink-soft); font-size:16.5px;}
+  article li{margin:6px 0;}
+  article strong{color:var(--ink);}
+  .tablewrap{overflow-x:auto; margin:6px 0 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  table{width:100%; border-collapse:collapse; font-size:14.5px; min-width:480px;}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top;}
+  th{color:var(--ink); font-weight:600; font-size:13px; background:var(--bg-band);}
+  tr:last-child td{border-bottom:0;}
+  td.num, th.num{text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums;}
+  .caption{font-size:13px; color:var(--ink-faint); margin:-8px 0 18px;}
+  code{font-family:'IBM Plex Mono',monospace; font-size:.9em; background:var(--bg-band); padding:2px 6px; border-radius:5px; color:var(--ink);}
+  .callout{margin:22px 0; padding:16px 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  .callout p{margin:0; font-size:15.5px;}
+  .cta{margin:34px 0; padding:24px; border:1px solid var(--accent); border-radius:16px; background:var(--surface);}
+  .cta h2{font-size:21px; margin:0 0 8px;} .cta p{margin:0 0 14px; font-size:15.5px;}
+  .cta-kicker{font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 6px !important;}
+  .btn{display:inline-block; background:var(--accent-fill); color:#fff; text-decoration:none; font-weight:600; font-size:14.5px; border-radius:8px; padding:12px 18px;}
+  .btn:hover{filter:brightness(1.08);}
+  .btn.ghost{background:transparent; color:var(--accent); border:1px solid var(--accent);}
+  .btn.ghost:hover{background:var(--accent-tint); filter:none;}
+  .related{margin-top:44px; padding-top:22px; border-top:1px solid var(--line);}
+  .related h2{font-size:18px; margin:0 0 10px;}
+  .related ul{list-style:none; padding:0; margin:0;} .related li{margin:8px 0;} .related a{font-weight:600;}
+  .guide-list{list-style:none; padding:0; margin:26px 0 0; display:grid; gap:14px;}
+  .guide-list li{margin:0;}
+  .guide-card{display:block; text-decoration:none; padding:18px 20px; border:1px solid var(--line); border-radius:14px; background:var(--surface);}
+  .guide-card:hover{border-color:var(--accent);}
+  .guide-card h2{font-size:19px; margin:0 0 6px; color:var(--ink);} .guide-card p{margin:0; font-size:15px; color:var(--ink-soft);}
+  .guide-card .rt{display:block; margin-top:8px; font-size:12.5px; color:var(--ink-faint);}
+  footer{border-top:1px solid var(--line); margin-top:30px; padding:28px 0 40px;}
+  .foot-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px 24px; font-size:13px; color:var(--ink-faint);}
+  .foot-row a{color:var(--ink-soft); text-decoration:none; font-weight:600;} .foot-row a:hover{color:var(--accent);}
+  @media (max-width:560px){ .wrap{padding:0 16px;} header.topbar{padding:16px;} .nav{gap:12px;} .nav .hide-sm{display:none;} article h2{font-size:22px;} .lede{font-size:17px;} }
+</style>
+<script src="/ph.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "How to Audit Your Subscriptions in 15 Minutes",
+      "description": "A step-by-step way to find every subscription you pay for, spot duplicates and unused tools, and decide what to keep, cancel or review. About 15 minutes.",
+      "image": "https://subastian.us/hero.jpg",
+      "datePublished": "2026-10-06",
+      "dateModified": "2026-10-06",
+      "inLanguage": "en-US",
+      "mainEntityOfPage": "https://subastian.us/guides/subscription-audit/",
+      "author": {
+        "@type": "Organization",
+        "name": "Subastian, LLC",
+        "url": "https://subastian.us/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Subastian, LLC",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://subastian.us/emblem.png"
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://subastian.us/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://subastian.us/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How to Audit Your Subscriptions in 15 Minutes",
+          "item": "https://subastian.us/guides/subscription-audit/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body data-guide="subscription-audit">
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Subastian home"><img src="/emblem.png" alt="" width="24" height="24"><span>SUBA<span>STIAN</span></span></a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/guides/" class="hide-sm">Guides</a>
+    <a href="/stack-audit/" class="hide-sm">Calculator</a>
+    <a href="/audit-kit/" class="hide-sm">Audit Kit</a>
+    <a href="/#waitlist" class="nav-cta">Join the Roster</a>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/guides/">Guides</a></nav>
+    <p class="eyebrow">Guide</p>
+    <h1>How to Audit Your Subscriptions in 15 Minutes</h1>
+    <p class="meta">By Subastian &middot; Updated October 6, 2026 &middot; 4 min read</p>
+    <p class="lede">If you can&#x27;t name everything you pay for from memory, you&#x27;re in good company. Subscriptions are built to be forgotten: they bill quietly, renew on their own, and each one is small enough to ignore. This guide gets you a complete list and a clear decision on every item in about 15 minutes.</p>
+    <div class="tldr"><b>The short version</b><ul><li>Pull two to three months of statements, plus app-store and email receipts.</li><li>Write each subscription down with its price, billing cycle and renewal date.</li><li>Mark each one Keep, Cancel or Review, then act before the next renewal.</li><li>Repeat every quarter. It gets faster each time.</li></ul></div>
+    <article>
+<h2>Step 1: Gather your statements (2 minutes)</h2>
+<p>Open the last two to three months of statements for every card and bank account you use, for work and for personal spending. Subscriptions hide in more places than most people expect, so also check:</p>
+<ul>
+  <li><strong>App-store subscriptions.</strong> On an iPhone, look under Settings, your name, then Subscriptions. On Android, open the Google Play Store, tap your profile, then Payments &amp; subscriptions. (Menu names change between versions.)</li>
+  <li><strong>PayPal and other payment apps</strong> that keep a list of recurring payments.</li>
+  <li><strong>Your email inbox.</strong> Search for words like &ldquo;receipt&rdquo;, &ldquo;subscription&rdquo;, &ldquo;trial&rdquo; and &ldquo;renews&rdquo;. This catches annual charges that did not appear in the last few months.</li>
+</ul>
+
+<h2>Step 2: Scan for repeating charges (4 minutes)</h2>
+<p>Look for the same merchant appearing at regular intervals. Monthly charges are easy to spot. Annual ones are not, because they appear once a year, so look back twelve months if your bank lets you. Be ready for names that do not match the product. Billing descriptors are often a parent company or an abbreviation, so search your inbox for the amount if a charge is unfamiliar.</p>
+
+<h2>Step 3: Write each one down (3 minutes)</h2>
+<p>For every subscription, record the same five things so you can compare them fairly:</p>
+<div class="tablewrap"><table>
+  <thead><tr><th>Name</th><th class="num">Price</th><th>Billed</th><th>Next renewal</th><th>Who uses it, and for what</th></tr></thead>
+  <tbody>
+    <tr><td>Example: design tool</td><td class="num">$19.00</td><td>Monthly</td><td>Nov 12</td><td>Me, social graphics</td></tr>
+    <tr><td>Example: domain and hosting</td><td class="num">$180.00</td><td>Annual</td><td>Mar 3</td><td>Whole team, company site</td></tr>
+  </tbody>
+</table></div>
+<p class="caption">Made-up examples to show the format.</p>
+<p>Convert annual prices to a monthly figure by dividing by twelve ($180 a year is $15 a month). That lets you rank everything on the same scale and see what the whole pile costs.</p>
+
+<h2>Step 4: Mark each one Keep, Cancel or Review (3 minutes)</h2>
+<ul>
+  <li><strong>Keep</strong> if you used it in the last 30 days and it is worth the price.</li>
+  <li><strong>Cancel</strong> if you have not used it in 30 days or more, or if another tool you already pay for does the same job.</li>
+  <li><strong>Review</strong> if you use it occasionally or you are not sure. Put a date on it, usually a month away, and decide then.</li>
+</ul>
+<p>A quick test for the in-between ones: <em>if this charged me today for the first time, would I sign up?</em> If the honest answer is no, it belongs in Cancel.</p>
+
+<aside class="cta" aria-label="Subscription Audit Kit">
+  <p class="cta-kicker">Skip the setup</p>
+  <h2>Get the audit done in about 15 minutes</h2>
+  <p>The Subscription Audit Kit is a spreadsheet and one-page guide. List what you pay for once and it totals your monthly and yearly cost and flags duplicates, subscriptions you no longer use and renewals in the next 90 days. $9 one time, instant download, 30-day refund.</p>
+  <a class="btn" href="/audit-kit/?src=guide-subscription-audit" data-cta="kit">See the Audit Kit &mdash; $9</a>
+</aside>
+
+<h2>Step 5: Act and set reminders (3 minutes)</h2>
+<p>Cancel anything marked Cancel <strong>before its next renewal date</strong>, and save a screenshot or email of each cancellation confirmation. Then, for every Keep and Review item, add a calendar reminder a week before it renews, so you make a decision instead of letting the charge decide for you. For annual plans, our <a href="/guides/renewal-reminders/">30-7-3-1 reminder schedule</a> shows what to do at each point.</p>
+
+<h2>Add up what you save</h2>
+<p>Total the monthly cost of everything you cancelled, then multiply by twelve. As an example, cancelling three tools at $12, $19 and $29 a month saves $60 a month, which is $720 a year. Small subscriptions are easy to dismiss one at a time, but the yearly total is the number worth looking at.</p>
+
+<h2>Make it a habit</h2>
+<ul>
+  <li><strong>Repeat every quarter.</strong> Put a repeating event in your calendar. Later audits take a fraction of the time, because you are only checking for new charges.</li>
+  <li><strong>Run it for your team too.</strong> Ask each person to list the tools they pay for or use, then merge the lists. Shared tools are where duplicates pile up. See <a href="/guides/duplicate-subscriptions/">how to find duplicate subscriptions</a>.</li>
+  <li><strong>Check before you buy.</strong> Before adding a new tool, look at your list and ask whether you already own something that does the job.</li>
+</ul>
+<aside class="cta" aria-label="Join the founding roster">
+  <p class="cta-kicker">Founding roster</p>
+  <h2>Want this done for you automatically?</h2>
+  <p>Subastian is subscription management software in development. It is being built to check new purchases against what you already own, flag tools that have gone unused, and send renewal alerts at 30, 7, 3 and 1 days out. Join the free founding roster for early access and locked-in launch pricing, plus a free Free Trial Tracker and Cancel &amp; Refund Scripts.</p>
+  <a class="btn ghost" href="/#waitlist" data-cta="roster">Join the founding roster &mdash; free</a>
+</aside>
+</article>
+    <section class="related" aria-label="Keep reading">
+      <h2>Keep reading</h2>
+      <ul><li><a href="/guides/duplicate-subscriptions/">How to Find Duplicate Subscriptions (Two Tools Doing the Same Job)</a></li><li><a href="/guides/renewal-reminders/">Never Miss a Subscription Renewal: The 30-7-3-1 Reminder Schedule</a></li><li><a href="/guides/free-trial-charges/">How to Stop Free Trials From Charging You</a></li><li><a href="/stack-audit/">Free subscription waste calculator</a></li></ul>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div>Subastian, LLC &middot; Denver, CO</div>
+      <div><a href="/guides/">Guides</a> &middot; <a href="/audit-kit/">Audit Kit</a> &middot; <a href="/partners/">Partners</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/refund-policy/">Refunds</a></div>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  var guide = document.body.getAttribute('data-guide') || 'hub';
+  document.querySelectorAll('a[data-cta]').forEach(function(a){
+    a.addEventListener('click', function(){
+      if (window.subTrack) subTrack('guide_cta_click', { guide: guide, cta: a.getAttribute('data-cta') });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subscription Management Guides | Subastian</title>
+<meta name="description" content="Practical, plain-language guides on finding forgotten subscriptions, stopping free-trial charges, catching duplicate tools and never missing a renewal.">
+<link rel="canonical" href="https://subastian.us/guides/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Subastian, LLC">
+<meta name="theme-color" content="#6D28D9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0A14" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Subastian">
+<meta property="og:url" content="https://subastian.us/guides/">
+<meta property="og:title" content="Subscription Management Guides | Subastian">
+<meta property="og:description" content="Practical, plain-language guides on finding forgotten subscriptions, stopping free-trial charges, catching duplicate tools and never missing a renewal.">
+<meta property="og:image" content="https://subastian.us/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/emblem.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --bg:#F8F7FC; --bg-band:#F1EDFA; --surface:#FFFFFF; --ink:#15132A;
+    --ink-soft:#5C5678; --ink-faint:#7A7399; --line:#E2DCF2;
+    --accent:#6D28D9; --accent-strong:#54169E; --accent-tint:#ECE3FB; --accent-fill:#6D28D9;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+      --ink-soft:#B4ADCF; --ink-faint:#8F88AE; --line:#2B2745;
+      --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E; --accent-fill:#7C4DEB;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+    --ink-soft:#B4ADCF; --ink-faint:#8F88AE; --line:#2B2745;
+    --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E; --accent-fill:#7C4DEB;
+  }
+  *{box-sizing:border-box;}
+  html{color-scheme:light dark;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif; line-height:1.7; -webkit-font-smoothing:antialiased;}
+  a{color:var(--accent);}
+  h1,h2,h3{font-family:'Plus Jakarta Sans','Inter',sans-serif; color:var(--ink); line-height:1.2; text-wrap:balance;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
+  .wrap{max-width:720px; margin:0 auto; padding:0 24px;}
+  header.topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; max-width:1040px; margin:0 auto; padding:22px 24px;}
+  .brand{font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:18px; text-decoration:none; color:var(--ink); display:flex; align-items:center; gap:8px;}
+  .brand img{width:24px; height:24px; object-fit:contain;}
+  .brand span span{color:var(--accent);}
+  .nav{display:flex; align-items:center; gap:18px;}
+  .nav a{font-size:13px; font-weight:600; text-decoration:none; color:var(--ink-soft); white-space:nowrap;}
+  .nav a:hover{color:var(--accent);}
+  .nav .nav-cta{background:var(--accent-fill); color:#fff; padding:9px 16px; border-radius:8px;}
+  .nav .nav-cta:hover{color:#fff;}
+  main{padding:8px 0 72px;}
+  .crumbs{font-size:13px; color:var(--ink-faint); margin:8px 0 18px;}
+  .crumbs a{color:var(--ink-soft); text-decoration:none;} .crumbs a:hover{color:var(--accent);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 10px;}
+  h1{font-size:clamp(28px,4.4vw,40px); font-weight:800; letter-spacing:-.02em; margin:0;}
+  .meta{color:var(--ink-faint); font-size:13.5px; margin:12px 0 0;}
+  .lede{font-size:18px; color:var(--ink-soft); margin:22px 0 0;}
+  .tldr{margin:26px 0 0; padding:18px 20px; border-left:3px solid var(--accent); background:var(--accent-tint); border-radius:0 10px 10px 0;}
+  .tldr b{display:block; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-strong); margin-bottom:6px;}
+  .tldr ul{margin:0; padding-left:20px; color:var(--ink-soft); font-size:15px;} .tldr li{margin:4px 0;}
+  article h2{font-size:24px; margin:40px 0 10px;}
+  article h3{font-size:18px; margin:26px 0 6px;}
+  article p{margin:0 0 16px; color:var(--ink-soft); font-size:16.5px;}
+  article ul, article ol{margin:0 0 18px; padding-left:22px; color:var(--ink-soft); font-size:16.5px;}
+  article li{margin:6px 0;}
+  article strong{color:var(--ink);}
+  .tablewrap{overflow-x:auto; margin:6px 0 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  table{width:100%; border-collapse:collapse; font-size:14.5px; min-width:480px;}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top;}
+  th{color:var(--ink); font-weight:600; font-size:13px; background:var(--bg-band);}
+  tr:last-child td{border-bottom:0;}
+  td.num, th.num{text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums;}
+  .caption{font-size:13px; color:var(--ink-faint); margin:-8px 0 18px;}
+  code{font-family:'IBM Plex Mono',monospace; font-size:.9em; background:var(--bg-band); padding:2px 6px; border-radius:5px; color:var(--ink);}
+  .callout{margin:22px 0; padding:16px 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  .callout p{margin:0; font-size:15.5px;}
+  .cta{margin:34px 0; padding:24px; border:1px solid var(--accent); border-radius:16px; background:var(--surface);}
+  .cta h2{font-size:21px; margin:0 0 8px;} .cta p{margin:0 0 14px; font-size:15.5px;}
+  .cta-kicker{font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 6px !important;}
+  .btn{display:inline-block; background:var(--accent-fill); color:#fff; text-decoration:none; font-weight:600; font-size:14.5px; border-radius:8px; padding:12px 18px;}
+  .btn:hover{filter:brightness(1.08);}
+  .btn.ghost{background:transparent; color:var(--accent); border:1px solid var(--accent);}
+  .btn.ghost:hover{background:var(--accent-tint); filter:none;}
+  .related{margin-top:44px; padding-top:22px; border-top:1px solid var(--line);}
+  .related h2{font-size:18px; margin:0 0 10px;}
+  .related ul{list-style:none; padding:0; margin:0;} .related li{margin:8px 0;} .related a{font-weight:600;}
+  .guide-list{list-style:none; padding:0; margin:26px 0 0; display:grid; gap:14px;}
+  .guide-list li{margin:0;}
+  .guide-card{display:block; text-decoration:none; padding:18px 20px; border:1px solid var(--line); border-radius:14px; background:var(--surface);}
+  .guide-card:hover{border-color:var(--accent);}
+  .guide-card h2{font-size:19px; margin:0 0 6px; color:var(--ink);} .guide-card p{margin:0; font-size:15px; color:var(--ink-soft);}
+  .guide-card .rt{display:block; margin-top:8px; font-size:12.5px; color:var(--ink-faint);}
+  footer{border-top:1px solid var(--line); margin-top:30px; padding:28px 0 40px;}
+  .foot-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px 24px; font-size:13px; color:var(--ink-faint);}
+  .foot-row a{color:var(--ink-soft); text-decoration:none; font-weight:600;} .foot-row a:hover{color:var(--accent);}
+  @media (max-width:560px){ .wrap{padding:0 16px;} header.topbar{padding:16px;} .nav{gap:12px;} .nav .hide-sm{display:none;} article h2{font-size:22px;} .lede{font-size:17px;} }
+</style>
+<script src="/ph.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": "Subscription Management Guides",
+      "description": "Practical, plain-language guides on finding forgotten subscriptions, stopping free-trial charges, catching duplicate tools and never missing a renewal.",
+      "url": "https://subastian.us/guides/",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Subastian",
+        "url": "https://subastian.us/"
+      }
+    },
+    {
+      "@type": "ItemList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "url": "https://subastian.us/guides/subscription-audit/",
+          "name": "How to Audit Your Subscriptions in 15 Minutes"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "url": "https://subastian.us/guides/free-trial-charges/",
+          "name": "How to Stop Free Trials From Charging You"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "url": "https://subastian.us/guides/software-costs-per-client/",
+          "name": "How to Track Software Costs Per Client (for Agencies and Freelancers)"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "url": "https://subastian.us/guides/duplicate-subscriptions/",
+          "name": "How to Find Duplicate Subscriptions (Two Tools Doing the Same Job)"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "url": "https://subastian.us/guides/renewal-reminders/",
+          "name": "Never Miss a Subscription Renewal: The 30-7-3-1 Reminder Schedule"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://subastian.us/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://subastian.us/guides/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Subastian home"><img src="/emblem.png" alt="" width="24" height="24"><span>SUBA<span>STIAN</span></span></a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/guides/" class="hide-sm">Guides</a>
+    <a href="/stack-audit/" class="hide-sm">Calculator</a>
+    <a href="/audit-kit/" class="hide-sm">Audit Kit</a>
+    <a href="/#waitlist" class="nav-cta">Join the Roster</a>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; Guides</nav>
+    <p class="eyebrow">Guides</p>
+    <h1>Subscription management guides</h1>
+    <p class="lede">Plain-language, step-by-step guides on keeping software and subscription costs under control, from the team building Subastian.</p>
+    <ul class="guide-list"><li><a class="guide-card" href="/guides/subscription-audit/"><h2>How to Audit Your Subscriptions in 15 Minutes</h2><p>Find every subscription you pay for and decide what stays, in five short steps.</p><span class="rt">4 min read</span></a></li><li><a class="guide-card" href="/guides/free-trial-charges/"><h2>How to Stop Free Trials From Charging You</h2><p>A simple routine so free trials never turn into surprise charges.</p><span class="rt">3 min read</span></a></li><li><a class="guide-card" href="/guides/software-costs-per-client/"><h2>How to Track Software Costs Per Client (for Agencies and Freelancers)</h2><p>See what software really costs for each client, and stop paying for licenses a finished project left behind.</p><span class="rt">3 min read</span></a></li><li><a class="guide-card" href="/guides/duplicate-subscriptions/"><h2>How to Find Duplicate Subscriptions (Two Tools Doing the Same Job)</h2><p>A category-by-category checklist for catching tools that overlap.</p><span class="rt">3 min read</span></a></li><li><a class="guide-card" href="/guides/renewal-reminders/"><h2>Never Miss a Subscription Renewal: The 30-7-3-1 Reminder Schedule</h2><p>Why annual renewals cost the most, and a reminder schedule that gives you time to act.</p><span class="rt">3 min read</span></a></li></ul>
+    <aside class="cta" aria-label="Free tools">
+      <p class="cta-kicker">Quick start</p>
+      <h2>See what your stack could be wasting</h2>
+      <p>Try the free subscription waste calculator, or get the $9 Subscription Audit Kit to find the exact number.</p>
+      <p><a class="btn" href="/stack-audit/" data-cta="calculator">Free calculator</a> &nbsp; <a class="btn ghost" href="/audit-kit/?src=guides-hub" data-cta="kit">Audit Kit &mdash; $9</a></p>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div>Subastian, LLC &middot; Denver, CO</div>
+      <div><a href="/guides/">Guides</a> &middot; <a href="/audit-kit/">Audit Kit</a> &middot; <a href="/partners/">Partners</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/refund-policy/">Refunds</a></div>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  var guide = document.body.getAttribute('data-guide') || 'hub';
+  document.querySelectorAll('a[data-cta]').forEach(function(a){
+    a.addEventListener('click', function(){
+      if (window.subTrack) subTrack('guide_cta_click', { guide: guide, cta: a.getAttribute('data-cta') });
+    });
+  });
+})();
+</script>
+</body>
+</html>

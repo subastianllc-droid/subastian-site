@@ -49,17 +49,14 @@ Never commit:
 
 ```text
 subastian-site/
-├── index.html
-├── CNAME
-├── robots.txt
-├── sitemap.xml
-├── emblem.png
-├── hero.jpg
-├── orrery.jpg
-├── vase.jpg
-├── stack-audit/
-└── subastian-brand/
-
-**One important point:** I wouldn't make the README overly complicated yet. Your immediate priority is getting **Subastian's website, waitlist, security, analytics, and customer acquisition system** working. The README can evolve alongside the product.
-
-And yes — that **“stack-audit” folder is something I would pay attention to next**, because based on the name, it may contain information useful for checking how the current site is built.
+├── index.html              Home page and founding-roster signup
+├── audit-kit/              $9 Subscription Audit Kit sales page (Gumroad checkout)
+├── bonus/                  Free roster bonus: Trial Tracker (.xlsx) and Cancel & Refund Scripts (.pdf)
+├── stack-audit/            Free subscription waste calculator
+├── partners/               Founding Partner program (+ partners/kit/ promo assets)
+├── terms/  privacy/  refund-policy/
+├── ph.js                   Analytics (PostHog, cookie-free)
+├── CNAME  robots.txt  sitemap.xml
+├── emblem.png  hero.*  orrery.jpg  vase.jpg
+└── subastian-brand/        Brand assets (not served as site pages)
+```

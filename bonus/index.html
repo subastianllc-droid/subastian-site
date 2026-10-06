@@ -144,6 +144,7 @@
     <h1>Welcome to the roster. Here are your two free tools.</h1>
     <p class="updated">Thanks for joining the Subastian founding roster. Download both below.</p>
     <div class="pre-launch-note">Use them together: track every free trial so nothing charges you by surprise, and use the scripts to cancel or get a refund when it does.</div>
+    <p class="hint">Want to check everything you pay for, not just trials? <a href="/audit-kit/" data-kit="top">The $9 Subscription Audit Kit</a> does that.</p>
 
     <section id="tracker">
       <h2>Your Free Trial Tracker</h2>
@@ -177,18 +178,23 @@
     </section>
 
     <section>
+      <h2>Next: find every forgotten subscription</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Subscription Audit Kit &middot; $9 one time</h3>
+          <p>The tracker covers free trials. The kit lists everything you pay for, flags duplicates and unused subscriptions, shows what renews next and totals what you could save. About 15 minutes, instant download, 30-day refund.</p>
+          <a class="btn-cta" href="/audit-kit/" data-kit="mid">See the Audit Kit &mdash; $9</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
       <h2>Using Google Sheets instead of Excel?</h2>
       <ul>
         <li>Download the tracker, then open <a href="https://drive.google.com" rel="noopener">Google Drive</a>.</li>
         <li>Drag the file into Drive, then right-click it and choose <strong>Open with &rarr; Google Sheets</strong>.</li>
         <li>Fill in the yellow cells and the rest calculates.</li>
       </ul>
-    </section>
-
-    <section>
-      <h2>Want to find every forgotten subscription?</h2>
-      <p>The tracker covers free trials. The <a href="/audit-kit/">Subscription Audit Kit</a> ($9, one time) goes further: it lists everything you pay for, flags duplicates and unused subscriptions, shows what renews next and totals what you could save. About 15 minutes.</p>
-      <p><a class="btn-cta" href="/audit-kit/">See the Audit Kit</a></p>
     </section>
 
     <section>
@@ -249,6 +255,10 @@
     if(window.subTrack) subTrack('trial_tracker_add',{});
   });
   load(); render();
+
+  document.querySelectorAll('a[data-kit]').forEach(function(a){
+    a.addEventListener('click', function(){ if(window.subTrack) subTrack('bonus_kit_click',{position:a.getAttribute('data-kit')}); });
+  });
 })();
 </script>
 </body>

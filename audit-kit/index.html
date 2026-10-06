@@ -11,6 +11,9 @@
 <meta property="og:type" content="website"><meta property="og:site_name" content="Subastian">
 <meta property="og:title" content="Subscription Audit Kit: find the subscriptions you forgot you pay for"><meta property="og:description" content="A spreadsheet and one-page guide to find forgotten, duplicate and renewing subscriptions in 15 minutes.">
 <meta property="og:image" content="https://subastian.us/audit-kit/cover-wide.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://subastian.us/audit-kit/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/emblem.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -105,6 +108,31 @@
   .hint{font-size:12.5px; color:var(--ink-faint); margin-top:10px;}
   .confirm{font-size:14.5px; color:var(--ink); margin-top:12px; font-weight:500;}
   .perks{list-style:none; padding:0;} .perks li{padding-left:26px; position:relative;} .perks li:before{content:"✓"; position:absolute; left:0; color:var(--accent); font-weight:700;}
+
+  /* example output */
+  .preview{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--surface); margin:6px 0 10px;}
+  .preview .ph{background:#6D28D9; color:#fff; font:600 11.5px 'IBM Plex Mono',monospace; letter-spacing:.1em; text-transform:uppercase; padding:11px 16px;}
+  .preview table{margin:0;}
+  .preview tr:last-child td{border-bottom:0;}
+  .preview td:nth-child(2){white-space:nowrap; font-family:'IBM Plex Mono',monospace; font-size:13.5px;}
+  .preview .total td{background:var(--accent-tint); color:var(--accent-strong); font-weight:700;}
+  .flag{white-space:nowrap; display:inline-block; font:600 11.5px 'IBM Plex Mono',monospace; letter-spacing:.04em; text-transform:uppercase; padding:3px 10px; border-radius:999px; background:#DDF5E6; color:#1B6B3A;}
+  .flag.dup{background:#FDE7E7; color:#B42318;} .flag.warn{background:#FFF1D6; color:#9A5B00;}
+
+  /* how it works */
+  .steps{list-style:none; padding:0; margin:0; display:grid; gap:12px;}
+  .steps li{margin:0; padding:14px 16px 14px 56px; position:relative; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  .steps li:before{content:attr(data-n); position:absolute; left:16px; top:14px; width:26px; height:26px; border-radius:50%; border:1px solid var(--accent); color:var(--accent); font:600 12px 'IBM Plex Mono',monospace; display:flex; align-items:center; justify-content:center;}
+
+  /* closing offer + mobile sticky bar */
+  .final{border:1px solid var(--accent); border-radius:16px; padding:26px 24px; background:var(--surface); text-align:center;}
+  .final h2{margin-bottom:8px;}
+  .final .btn-cta{padding:13px 22px; font-size:15px;}
+  .final .hint{margin-top:14px;}
+  .sticky-buy{display:none; position:fixed; left:0; right:0; bottom:0; z-index:60; padding:10px 16px calc(10px + env(safe-area-inset-bottom)); background:var(--surface); border-top:1px solid var(--line); box-shadow:0 -8px 24px -16px rgba(0,0,0,.5); transition:transform .2s ease;}
+  .sticky-buy.hidden{transform:translateY(110%);}
+  .sticky-buy .btn-cta{display:block; width:100%; text-align:center; padding:13px 18px; font-size:15px;}
+  @media (max-width:700px){ .sticky-buy{display:block;} body{padding-bottom:72px;} }
 </style>
 <script src="/ph.js" defer></script>
 </head>
@@ -121,15 +149,43 @@
     <h1>Find the subscriptions you forgot you pay for.</h1>
     <p class="updated">A spreadsheet and one-page guide. About 15 minutes. Instant download.</p>
 
-    <section>
+    <section id="price">
       <div class="cards">
         <div class="card">
           <h3>$<span class="js-price">9</span> &middot; one time</h3>
           <p>List what you pay for once. Monthly and annual cost, renewal alerts, overlap, unused subscriptions and savings all calculate for you.</p>
-          <a class="btn-cta js-checkout" href="/#waitlist">Get the Audit Kit</a>
+          <a class="btn-cta js-checkout" data-pos="top" href="/#waitlist">Get the Audit Kit</a>
           <p class="hint js-fine">Secure checkout. Full refund within 30 days, no questions asked.</p>
         </div>
       </div>
+    </section>
+
+    <section>
+      <h2>What it flags</h2>
+      <div class="preview">
+        <div class="ph">Subscription audit &middot; example</div>
+        <table>
+          <thead><tr><th scope="col">Subscription</th><th scope="col">Cost</th><th scope="col">Flag</th></tr></thead>
+          <tbody>
+            <tr><td>Streaming A</td><td>$15.99/mo</td><td><span class="flag">Keep</span></td></tr>
+            <tr><td>Streaming B</td><td>$13.99/mo</td><td><span class="flag dup">Duplicate</span></td></tr>
+            <tr><td>Music app</td><td>$10.99/mo</td><td><span class="flag">Keep</span></td></tr>
+            <tr><td>Fitness app</td><td>$12.99/mo</td><td><span class="flag warn">Unused</span></td></tr>
+            <tr><td>Free-trial app</td><td>$9.99/mo</td><td><span class="flag warn">Renews in 3 days</span></td></tr>
+            <tr class="total"><td>Possible savings</td><td>$37/mo</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="hint">An illustration with made-up services and prices. The kit does this math for the subscriptions you list.</p>
+    </section>
+
+    <section>
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li data-n="1"><strong>List what you pay for.</strong> Name, price, how often it bills and when it renews. About 15 minutes.</li>
+        <li data-n="2"><strong>Read the flags.</strong> Duplicates, subscriptions you no longer use and renewals in the next 90 days show up on their own.</li>
+        <li data-n="3"><strong>Decide.</strong> Use the guide's keep / cancel / review test, then set renewal reminders for what stays.</li>
+      </ol>
     </section>
 
     <section>
@@ -145,6 +201,14 @@
     <section>
       <h2>Who it's for</h2>
       <p>Anyone who pays for streaming, apps, memberships or software and suspects some of it is wasted. It runs on your own device, and we never see what you enter.</p>
+    </section>
+
+    <section class="final" id="buy">
+      <h2>See what you're paying for and not using.</h2>
+      <p>$<span class="js-price">9</span>, one time. Instant download.</p>
+      <a class="btn-cta js-checkout" data-pos="bottom" href="/#waitlist">Get the Audit Kit</a>
+      <p class="hint js-fine">Secure checkout. Full refund within 30 days, no questions asked.</p>
+      <p class="hint">Not ready? <a href="/#waitlist">Join the free founding roster</a> instead and get a Free Trial Tracker and Cancel &amp; Refund Scripts.</p>
     </section>
 
     <section>
@@ -165,6 +229,27 @@
   </div>
 </footer>
 
+<div class="sticky-buy" id="stickyBuy"><a class="btn-cta js-checkout" data-pos="sticky" href="/#waitlist">Get the Audit Kit</a></div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Subscription Audit Kit",
+  "description": "A spreadsheet and one-page guide that finds forgotten subscriptions, duplicates and upcoming renewals in about 15 minutes. Works in Excel and Google Sheets.",
+  "image": "https://subastian.us/audit-kit/cover-wide.png",
+  "url": "https://subastian.us/audit-kit/",
+  "brand": { "@type": "Brand", "name": "Subastian" },
+  "offers": {
+    "@type": "Offer",
+    "url": "https://subastian.us/audit-kit/",
+    "price": "9.00",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  }
+}
+</script>
+
 <script>
 (function(){
   /* ===== EDIT THESE =====
@@ -175,25 +260,45 @@
   var PRICE = 9;
   /* ====================== */
   var live = CHECKOUT_URL.indexOf('https://') === 0 && CHECKOUT_URL.indexOf('test_') < 0;
-  /* Source tracking: share /audit-kit/?src=email, ?src=tiktok, ?src=partnername to see what sells. */
-  var src = '';
-  try { src = (new URLSearchParams(location.search).get('src') || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40); } catch (e) {}
+  /* Source tracking: share /audit-kit/?src=email, ?src=tiktok, ?src=partnername.
+     The page view and every checkout click are tagged with src (and any partner ref from
+     earlier in the visit) in analytics. Gumroad does not receive src, so to see which source
+     produced a SALE, give each channel its own Gumroad offer code. */
+  var clean = function(s){ return (s || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40); };
+  var src = '', ref = '';
+  try { src = clean(new URLSearchParams(location.search).get('src')); } catch (e) {}
+  try { ref = clean(sessionStorage.getItem('sub_ref')); } catch (e) {}
   var url = CHECKOUT_URL;
   if (live && src) {
     if (url.indexOf('buy.stripe.com') > -1) url += (url.indexOf('?') < 0 ? '?' : '&') + 'client_reference_id=' + encodeURIComponent(src);
   }
-  if (window.subTrack) subTrack('auditkit_page_view', { src: src || null });
+  /* ph.js is deferred, so subTrack only exists once the document has finished parsing. */
+  document.addEventListener('DOMContentLoaded', function(){
+    if (window.subTrack) subTrack('auditkit_page_view', { src: src || null, referral_code: ref || null });
+  });
   document.querySelectorAll('.js-price').forEach(function(el){ el.textContent = PRICE; });
   document.querySelectorAll('.js-checkout').forEach(function(a){
+    var pos = a.getAttribute('data-pos') || 'unknown';
     if (live) {
       a.href = url;
       a.textContent = 'Get the Audit Kit \u2014 $' + PRICE;
-      a.addEventListener('click', function(){ if (window.subTrack) subTrack('auditkit_checkout_click', { price: PRICE, src: src || null }); });
+      a.addEventListener('click', function(){ if (window.subTrack) subTrack('auditkit_checkout_click', { price: PRICE, src: src || null, referral_code: ref || null, position: pos }); });
     } else {
       a.textContent = 'Opening soon. Join the free roster for first notice';
     }
   });
   if (!live) document.querySelectorAll('.js-fine').forEach(function(p){ p.textContent = 'Not on sale yet.'; });
+
+  /* The mobile buy bar steps aside while a full buy button is already on screen. */
+  var sticky = document.getElementById('stickyBuy');
+  if (sticky && 'IntersectionObserver' in window) {
+    var seen = {};
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ seen[e.target.id] = e.isIntersecting; });
+      sticky.classList.toggle('hidden', !!(seen.price || seen.buy));
+    }, { threshold: 0.2 });
+    ['price', 'buy'].forEach(function(id){ var el = document.getElementById(id); if (el) io.observe(el); });
+  }
 })();
 </script>
 </body>

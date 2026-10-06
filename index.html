@@ -339,6 +339,9 @@
   }
   .confirm-msg.show{display:block;}
   .confirm-msg a{color:#7CF0C0;}
+  .plan-pick{margin:0; padding:10px 12px; border:1px dashed var(--f-line,rgba(255,255,255,.28)); border-radius:8px; font-size:13px; color:var(--f-body,#C9C3E0);}
+  .plan-pick b{color:var(--f-h,#fff);}
+  .plan-pick button{background:none; border:0; padding:0 0 0 6px; font:inherit; font-weight:600; color:var(--f-link,#B296F5); text-decoration:underline; cursor:pointer;}
 
   /* Dark theme: the finale card flips to a light surface (it uses --ink),
      so its text and form must switch to dark ink to stay readable. */
@@ -440,6 +443,7 @@
     <a href="#how-it-works" class="hide-sm">How it works</a>
     <a href="#pricing">Pricing</a>
     <a href="#faq" class="hide-sm">FAQ</a>
+    <a href="/audit-kit/" class="hide-sm">Audit Kit</a>
     <a href="/partners/">Partners</a>
     <a href="#waitlist" class="btn-cta">Join the Roster</a>
   </nav>
@@ -565,6 +569,10 @@
       <div class="flow-step"><div class="n mono" aria-hidden="true">3</div><h3>Purchase Guard activates</h3><p>Duplicate-subscription checks turn on automatically.</p></div>
       <div class="flow-step"><div class="n mono" aria-hidden="true">4</div><h3>Renewal alerts on</h3><p>Renewal and neglect warnings start tracking your stack.</p></div>
     </div>
+    <div class="cta-inline">
+      <p><b>Don't want to wait for launch?</b> The Subscription Audit Kit is a spreadsheet and one-page guide that finds the subscriptions you forgot, duplicates and upcoming renewals in about 15 minutes. $9 one time, instant download, 30-day refund.</p>
+      <a href="/audit-kit/" class="btn-cta" data-kit="how-it-works">See the Audit Kit — $9</a>
+    </div>
   </section>
 </div>
 
@@ -583,7 +591,7 @@
           <li>Purchase Guard duplicate checks</li>
           <li>Standard renewal alerts</li>
         </ul>
-        <a href="#waitlist" class="btn-ghost">Lock in $49/mo</a>
+        <a href="#waitlist" class="btn-ghost" data-plan="Starter ($49/mo)">Lock in $49/mo</a>
       </div>
       <div class="price-card featured">
         <span class="badge">Most anticipated</span>
@@ -595,7 +603,7 @@
           <li>Neglect Radar for unused subscriptions</li>
           <li>Team seats</li>
         </ul>
-        <a href="#waitlist" class="btn-cta">Lock in $99/mo</a>
+        <a href="#waitlist" class="btn-cta" data-plan="Conductor Pro ($99/mo)">Lock in $99/mo</a>
       </div>
       <div class="price-card">
         <div class="price-tier">Agency Maestro</div>
@@ -607,10 +615,10 @@
           <li>White-label reporting</li>
           <li>API access</li>
         </ul>
-        <a href="#waitlist" class="btn-ghost">Lock in $299/mo</a>
+        <a href="#waitlist" class="btn-ghost" data-plan="Agency Maestro ($299/mo)">Lock in $299/mo</a>
       </div>
     </div>
-    <p class="price-note" style="margin-top:20px;">Joining the roster costs nothing and doesn't ask for a card — you're reserving the monthly rate, not buying it today.  Nothing is on sale before launch.</p>
+    <p class="price-note" style="margin-top:20px;">Joining the roster costs nothing and doesn't ask for a card — you're reserving the monthly rate, not buying it today. None of these monthly plans is on sale before launch. If you'd rather start now, the one-time $9 <a href="/audit-kit/" class="text-link" data-kit="pricing">Subscription Audit Kit</a> is available today.</p>
     <p class="price-note">Recommend software to your audience? Founding Partners are planned to earn 40% of these plans every month a referral stays subscribed. <a href="/partners/" class="text-link">See the partner program →</a></p>
   </div>
 </div>
@@ -704,6 +712,7 @@
             <label for="rf-company">Company (leave blank)</label>
             <input id="rf-company" name="company" type="text" tabindex="-1" autocomplete="off">
           </div>
+          <p class="plan-pick" id="planPick" hidden>Plan you're interested in: <b id="planName"></b> <button type="button" id="planClear" aria-label="Clear plan choice">Clear</button></p>
           <div class="submit-row">
             <button type="submit" class="btn-submit">Reserve My Spot — Free</button>
             <span class="submit-hint">Opens a pre-filled email — hit send to confirm. No card, no spam.</span>
@@ -726,10 +735,11 @@
     <nav class="foot-links" aria-label="Footer">
       <a href="#waitlist">Join the founding roster</a>
       <a href="/stack-audit/">Subscription waste calculator</a>
+      <a href="/audit-kit/">Subscription Audit Kit — $9</a>
       <a href="/partners/">Founding Partner program</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <p class="foot-keywords">Subastian is subscription management software and a SaaS subscription tracker in development for affiliate marketers, agencies, freelancers and IT teams — covering software renewal reminders, duplicate subscription detection, unused subscription tracking and SaaS spend management. <a href="#waitlist">Join the founding roster</a> or try the free <a href="/stack-audit/">subscription waste calculator</a>.</p>
+    <p class="foot-keywords">Subastian is subscription management software and a SaaS subscription tracker in development for affiliate marketers, agencies, freelancers and IT teams — covering software renewal reminders, duplicate subscription detection, unused subscription tracking and SaaS spend management. <a href="#waitlist">Join the founding roster</a> or try the free <a href="/stack-audit/">subscription waste calculator</a>. Prefer a spreadsheet you can use today? Get the $9 <a href="/audit-kit/">Subscription Audit Kit</a>.</p>
   </div>
 </footer>
 
@@ -803,7 +813,7 @@
         {
           "@type": "Question",
           "name": "Is Subastian available yet?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Not yet — it's in active development and this is a pre-launch page. Joining the founding roster gets you early access when it opens, a say in what gets built next, and today's launch pricing locked in./founding." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Not yet — it's in active development and this is a pre-launch page. Joining the founding roster gets you early access when it opens, a say in what gets built next, and today's launch pricing locked in." }
         },
         {
           "@type": "Question",
@@ -867,6 +877,28 @@
     } catch(e){ return ''; }
   })();
 
+  // Which monthly plan the visitor clicked on the pricing cards. Sent with the signup so we
+  // can see demand per tier and follow up with the right offer.
+  var PLAN = '';
+  var planPick = document.getElementById('planPick');
+  var planName = document.getElementById('planName');
+  function setPlan(p){
+    PLAN = p || '';
+    if(planPick && planName){ planName.textContent = PLAN; planPick.hidden = !PLAN; }
+  }
+  document.querySelectorAll('a[data-plan]').forEach(function(a){
+    a.addEventListener('click', function(){
+      setPlan(a.getAttribute('data-plan'));
+      if(window.subTrack) subTrack('pricing_tier_click', { plan: a.getAttribute('data-plan') });
+    });
+  });
+  var planClear = document.getElementById('planClear');
+  if(planClear) planClear.addEventListener('click', function(){ setPlan(''); });
+
+  document.querySelectorAll('a[data-kit]').forEach(function(a){
+    a.addEventListener('click', function(){ if(window.subTrack) subTrack('home_kit_click', { position: a.getAttribute('data-kit') }); });
+  });
+
   /* ------------------------------------------------------------------
      GoHighLevel integration
 
@@ -907,7 +939,7 @@
 
   function mailtoFallback(name, email, niche){
     var subject = 'Subastian founding roster signup';
-    var body = 'Name: ' + name + '\nEmail: ' + email + '\nDescribes them as: ' + niche + '\n\n(Sent from the Subastian pre-launch page)';
+    var body = 'Name: ' + name + '\nEmail: ' + email + '\nDescribes them as: ' + niche + (PLAN ? '\nPlan interest: ' + PLAN : '') + '\n\n(Sent from the Subastian pre-launch page)';
     show(confirmHtml.mail);
     window.location.href = 'mailto:' + FOUNDER
       + '?subject=' + encodeURIComponent(subject)
@@ -991,14 +1023,16 @@
         lastName: name.split(' ').slice(1).join(' '),
         email: email,
         niche: niche,
+        planInterest: PLAN,
         type: 'roster',
         ref: REF,
         source: 'subastian.us founding roster',
         submittedAt: new Date().toISOString()
       }).then(function(){
         show(confirmHtml.sent);
-        if(window.subTrack) subTrack('roster_signup', { form: 'home', niche: niche, referral_code: REF || null });
+        if(window.subTrack) subTrack('roster_signup', { form: 'home', niche: niche, plan: PLAN || null, referral_code: REF || null });
         form.reset();
+        setPlan('');
       }).catch(function(){
         // GHL unreachable — hand the lead to email rather than lose it.
         mailtoFallback(name, email, niche);

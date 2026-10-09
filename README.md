@@ -53,6 +53,7 @@ subastian-site/
 ├── audit-kit/              $9 Subscription Audit Kit sales page (Gumroad checkout)
 ├── bonus/                  Free roster bonus: Trial Tracker (.xlsx) and Cancel & Refund Scripts (.pdf)
 ├── leak-test/              Free 60-second Subscription Leak Test (lead magnet: score, estimate, printable plan, roster signup)
+├── audit-service/          $49 done-for-you audit page (+ audit-service/thanks/: unlisted post-payment page and customer list template)
 ├── stack-audit/            Free subscription waste calculator
 ├── partners/               Founding Partner program (+ partners/kit/ promo assets)
 ├── terms/  privacy/  refund-policy/

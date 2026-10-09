@@ -212,7 +212,7 @@
           <form id="gateForm" novalidate>
             <div class="field"><label for="lt-name">First name</label><input id="lt-name" name="name" type="text" autocomplete="given-name" placeholder="Jordan" required></div>
             <div class="field"><label for="lt-email">Email</label><input id="lt-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required></div>
-            <div class="hp" aria-hidden="true"><label for="lt-company">Company (leave blank)</label><input id="lt-company" type="text" tabindex="-1" autocomplete="off"></div>
+            <div class="hp" aria-hidden="true"><label for="lt-hp">Leave this field empty</label><input id="lt-hp" name="hp_trap" type="text" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore></div>
             <button class="btn-cta" type="submit" id="gateBtn">Unlock my plan</button>
             <p class="hint">No spam. Unsubscribe anytime. See the <a href="/privacy/">privacy policy</a>.</p>
             <p class="msg" id="gateMsg" role="status" aria-live="polite"></p>
@@ -487,7 +487,7 @@
   $('gateForm').addEventListener('submit', function(e){
     e.preventDefault();
     if (busy || !result) return;
-    if ($('lt-company').value) return; // honeypot
+    var trap = !!$('lt-hp').value; // spam trap: bots fill it in, people don't. It is never named or labeled like a real field, so browsers don't autofill it.
     var nameEl = $('lt-name'), emailEl = $('lt-email');
     var name = nameEl.value.trim(), email = emailEl.value.trim();
     if (!name) { nameEl.focus(); return; }
@@ -496,7 +496,7 @@
     var btn = $('gateBtn'), label = btn.textContent, r = result;
     busy = true; btn.disabled = true; btn.textContent = 'Unlocking…';
 
-    send({
+    (trap ? Promise.reject(new Error('trap')) : send({
       name:name, firstName:name.split(' ')[0], lastName:name.split(' ').slice(1).join(' '), email:email,
       niche:NICHE[answers.who], segment:labels.who,
       source:'subastian.us leak test', affiliateRef:ref, ref:ref, entrySource:src, type:'roster',
@@ -505,7 +505,7 @@
       unusedAnswer:labels.unused, duplicatesAnswer:labels.dupes, renewalsAnswer:labels.renew,
       surpriseAnswer:labels.surprise, trackingAnswer:labels.track, willingToPay:wtp,
       submittedAt:new Date().toISOString()
-    }).then(function(){
+    })).then(function(){
       track('roster_signup', { form:'leak_test', niche:NICHE[answers.who], score:r.score, referral_code:ref || null, src:src || null });
       return true;
     }).catch(function(){

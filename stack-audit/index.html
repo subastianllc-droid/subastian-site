@@ -214,7 +214,7 @@
           <form id="rosterForm" novalidate>
             <label>First name<input id="rf-name" name="name" type="text" autocomplete="given-name" placeholder="Jordan" required></label>
             <label>Email<input id="rf-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required></label>
-            <div class="hp" aria-hidden="true"><label>Company (leave blank)<input id="rf-company" type="text" tabindex="-1" autocomplete="off"></label></div>
+            <div class="hp" aria-hidden="true"><label>Leave this field empty<input id="rf-hp" name="hp_trap" type="text" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore></label></div>
             <button type="submit">Join the Free Founding Roster →</button>
             <p class="fine">No card, no spam. Unsubscribe anytime.</p>
           </form>
@@ -293,7 +293,7 @@
   form.addEventListener('submit', function(e){
     e.preventDefault();
     if(busy) return;
-    if($('rf-company').value) return; // honeypot
+    var trap = !!$('rf-hp').value; // spam trap: bots fill it in, people don't
     var nameEl = $('rf-name'), emailEl = $('rf-email');
     var name = nameEl.value.trim(), email = emailEl.value.trim();
     if(!name){ nameEl.focus(); return; }
@@ -302,13 +302,13 @@
     var r = calc(), btn = form.querySelector('button'), label = btn.textContent;
     busy = true; btn.disabled = true; btn.textContent = 'Reserving…';
 
-    send({
+    (trap ? Promise.reject(new Error('trap')) : send({
       name: name, firstName: name.split(' ')[0], lastName: name.split(' ').slice(1).join(' '),
       email: email, niche: $('niche').value,
       source: 'subastian.us stack audit', affiliateRef: ref, ref: ref, type: 'roster',
       monthlySpend: r.monthly, subscriptionCount: r.subs, teamSize: r.team, estimatedAnnualWaste: r.waste,
       submittedAt: new Date().toISOString()
-    }).then(function(){
+    })).then(function(){
       form.style.display = 'none';
       if(window.subTrack) subTrack('roster_signup', { form: 'stack_audit', niche: $('niche').value, monthly_spend: r.monthly, tool_count: r.subs, team_size: r.team, referral_code: ref || null });
       show('You’re on the founding roster, ' + name.split(' ')[0].replace(/[<>&"]/g,'') + '. Daniel will email you when early access opens — your launch pricing is locked in. <a href="/bonus/">Get your free bonus: Free Trial Tracker and Cancel &amp; Refund Scripts</a>.');

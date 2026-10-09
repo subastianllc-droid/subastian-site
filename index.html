@@ -705,8 +705,8 @@
             </select>
           </div>
           <div class="hp" aria-hidden="true">
-            <label for="rf-company">Company (leave blank)</label>
-            <input id="rf-company" name="company" type="text" tabindex="-1" autocomplete="off">
+            <label for="rf-hp">Leave this field empty</label>
+            <input id="rf-hp" name="hp_trap" type="text" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore>
           </div>
           <p class="plan-pick" id="planPick" hidden>Plan you're interested in: <b id="planName"></b> <button type="button" id="planClear" aria-label="Clear plan choice">Clear</button></p>
           <div class="submit-row">
@@ -1003,11 +1003,13 @@
       var email = emailEl.value.trim();
       var niche = document.getElementById('rf-niche').value;
 
-      // Honeypot: silently accept and drop bot submissions.
-      if(document.getElementById('rf-company').value){ return; }
+      // Spam trap: bots fill it in, people don't. It is never named or labeled like a real field, so browsers don't autofill it.
+      var trap = !!document.getElementById('rf-hp').value;
 
       if(!name){ nameEl.focus(); return; }
       if(!email || email.indexOf('@') < 1 || email.indexOf('.') < 0){ emailEl.focus(); return; }
+
+      if(trap){ show('Something went wrong sending that. Email <a href="mailto:' + FOUNDER + '">' + FOUNDER + '</a> and we’ll add you by hand.'); return; }
 
       if(!GHL.webhookUrl){ mailtoFallback(name, email, niche); return; }
 

@@ -32,3 +32,9 @@ It was tested against a simulated Sheet and Gmail, not live Google. Do the dry r
 - `EARLIEST_SIGNUP: '2026-09-01'` leaves older signups alone. `MAX_PER_RUN` caps each hourly batch.
 - To stop everything: Apps Script > Triggers (clock icon) > delete the `runDrip` trigger.
 - Your replies are the survey. Paste them into one sheet with a "pain point" column and count the A/B/C/D/E answers.
+
+## Keep the partner-form database awake (optional, free)
+
+Supabase pauses free-tier projects after 7 days without activity. `supabase-keepalive.gs` makes one small
+request every 2 days so the partner application form keeps working. Paste it into the same Apps Script project,
+paste the public anon key from `partners/index.html` into `ANON_KEY`, and run `installKeepAliveTrigger` once.

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subscription Leak Test: Your Free 60-Second Score | Subastian</title>
+<meta name="description" content="Answer 8 quick questions and get your Subscription Leak Score, a rough estimate of what your subscriptions waste each month, and a free printable 14-day Fix-It Plan.">
+<link rel="canonical" href="https://subastian.us/leak-test/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Subastian, LLC">
+<meta name="theme-color" content="#6D28D9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0A14" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Subastian">
+<meta property="og:title" content="How much are your subscriptions quietly leaking? Take the free 60-second test">
+<meta property="og:description" content="Get your Subscription Leak Score, a rough monthly estimate and a free printable 14-day Fix-It Plan.">
+<meta property="og:image" content="https://subastian.us/hero.jpg">
+<meta property="og:url" content="https://subastian.us/leak-test/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/emblem.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --bg:#F8F7FC; --bg-band:#F1EDFA; --surface:#FFFFFF; --ink:#15132A;
+    --ink-soft:#5C5678; --ink-faint:#7A7399; --line:#E2DCF2;
+    --accent:#6D28D9; --accent-strong:#54169E; --accent-tint:#ECE3FB; --accent-fill:#6D28D9;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+      --ink-soft:#B4ADCF; --ink-faint:#8F88AE; --line:#2B2745;
+      --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E; --accent-fill:#7C4DEB;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+    --ink-soft:#B4ADCF; --ink-faint:#8F88AE; --line:#2B2745;
+    --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E; --accent-fill:#7C4DEB;
+  }
+  *{box-sizing:border-box;}
+  html{color-scheme:light dark;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  a{color:var(--accent);}
+  h1,h2,h3{font-family:'Plus Jakarta Sans','Inter',sans-serif; color:var(--ink); line-height:1.2; text-wrap:balance;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
+  [hidden]{display:none!important;}
+  .wrap{max-width:680px; margin:0 auto; padding:0 24px;}
+  header.topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; max-width:1040px; margin:0 auto; padding:22px 24px;}
+  .brand{font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:18px; text-decoration:none; color:var(--ink); display:flex; align-items:center; gap:8px;}
+  .brand img{width:24px; height:24px; object-fit:contain;}
+  .brand span span{color:var(--accent);}
+  .btn-ghost{background:transparent; color:var(--ink-soft); border:1px solid var(--line); border-radius:8px; padding:9px 16px; font-weight:600; font-size:13.5px; text-decoration:none;}
+  main{padding:16px 0 80px;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 10px;}
+  h1{font-size:clamp(28px,4.4vw,40px); font-weight:800; letter-spacing:-.02em; margin:0;}
+  h2{font-size:21px; font-weight:700; margin:0 0 12px;}
+  h3{font-size:17px; font-weight:700; margin:0 0 8px;}
+  p{margin:0 0 14px; font-size:15px; color:var(--ink-soft);}
+  strong{color:var(--ink);}
+  .lead{font-size:17px; margin-top:16px; max-width:56ch;}
+  .hint{font-size:12.5px; color:var(--ink-faint); margin:10px 0 0;}
+  .card{border:1px solid var(--line); border-radius:14px; padding:20px; background:var(--surface); margin-top:20px;}
+  .card.accent{border-color:var(--accent);}
+
+  .btn-cta{display:inline-block; background:var(--accent-fill); color:#fff; text-decoration:none; font:600 15px Inter,sans-serif; border-radius:10px; padding:13px 22px; border:0; cursor:pointer;}
+  .btn-cta:hover{filter:brightness(1.08);}
+  .btn-cta[disabled]{opacity:.6; cursor:default;}
+  .btn-line{display:inline-block; background:transparent; color:var(--accent); border:1px solid var(--line); border-radius:10px; padding:11px 18px; font:600 14px Inter,sans-serif; text-decoration:none; cursor:pointer;}
+  .link-btn{background:none; border:0; color:var(--accent); font:600 14px Inter,sans-serif; cursor:pointer; padding:10px 0;}
+
+  .perks{list-style:none; padding:0; margin:22px 0 26px;}
+  .perks li{padding-left:28px; position:relative; margin-bottom:10px; font-size:15.5px; color:var(--ink-soft);}
+  .perks li:before{content:"\2713"; position:absolute; left:0; color:var(--accent); font-weight:700;}
+
+  /* quiz */
+  .progress{display:flex; align-items:center; gap:14px; margin:8px 0 22px; font:600 12px 'IBM Plex Mono',monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint);}
+  .bar{flex:1; height:6px; background:var(--accent-tint); border-radius:999px; overflow:hidden;}
+  .bar i{display:block; height:100%; width:0; background:var(--accent-fill); border-radius:999px; transition:width .25s ease;}
+  #qText{outline:none; margin-bottom:18px; font-size:clamp(21px,3.4vw,26px);}
+  .opts{display:grid; gap:10px;}
+  .opt{display:block; width:100%; text-align:left; min-height:50px; font:500 15.5px Inter,sans-serif; color:var(--ink); background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:13px 16px; cursor:pointer;}
+  .opt:hover{border-color:var(--accent);}
+  .opt[aria-pressed="true"]{border-color:var(--accent); background:var(--accent-tint);}
+
+  /* result */
+  .score-row{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;}
+  .score-num{font:800 clamp(56px,12vw,76px)/1 'Plus Jakarta Sans',sans-serif; color:var(--ink); letter-spacing:-.03em;}
+  .score-of{font:600 18px 'IBM Plex Mono',monospace; color:var(--ink-faint);}
+  .flag{display:inline-block; font:600 12px 'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase; padding:4px 12px; border-radius:999px; background:#DDF5E6; color:#1B6B3A;}
+  .flag.warn{background:#FFF1D6; color:#9A5B00;} .flag.bad{background:#FDE7E7; color:#B42318;}
+  .meter{height:12px; background:var(--accent-tint); border-radius:999px; overflow:hidden; margin:16px 0 14px;}
+  .meter i{display:block; height:100%; width:0; border-radius:999px; background:#2E9E5B; transition:width .5s ease;}
+  .meter i.warn{background:#D98A00;} .meter i.bad{background:#D63A2B;}
+  .leak-box{background:var(--accent-tint); border-radius:12px; padding:16px 18px; margin:18px 0 6px;}
+  .leak-box .big{font:800 clamp(24px,5vw,30px) 'Plus Jakarta Sans',sans-serif; color:var(--accent-strong); letter-spacing:-.01em;}
+  .leak-box p{margin:6px 0 0; font-size:13.5px;}
+  .tip-label{font:600 11px 'IBM Plex Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 6px;}
+
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+  .chip{font:600 13.5px Inter,sans-serif; color:var(--ink); background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:9px 14px; cursor:pointer; min-height:40px;}
+  .chip:hover{border-color:var(--accent);}
+  .chip[aria-pressed="true"]{border-color:var(--accent); background:var(--accent-tint);}
+
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:6px;}
+  .field input{width:100%; font:16px Inter,sans-serif; padding:11px 12px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink);}
+  .field input:focus{outline:2px solid var(--accent); outline-offset:1px;}
+  .hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+  .msg{font-size:14px; color:var(--ink); margin-top:12px; font-weight:500;}
+
+  /* plan */
+  .plan-block{border-top:1px solid var(--line); padding:16px 0 4px;}
+  .plan-block:first-of-type{border-top:0; padding-top:4px;}
+  .plan-when{font:600 11.5px 'IBM Plex Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin:0 0 4px;}
+  .checks{list-style:none; padding:0; margin:8px 0 10px;}
+  .checks li{margin-bottom:8px;}
+  .checks label{display:flex; gap:10px; align-items:flex-start; font-size:14.5px; color:var(--ink-soft); cursor:pointer;}
+  .checks input{margin-top:5px; flex:none; width:16px; height:16px; accent-color:var(--accent);}
+  .actions-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;}
+
+  footer{border-top:1px solid var(--line); margin-top:60px; padding:28px 0 40px;}
+  .foot-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:12.5px; color:var(--ink-faint);}
+  @media (max-width:560px){ .wrap{padding:0 16px;} header.topbar{padding:18px 16px;} .card{padding:16px;} }
+  @media (prefers-reduced-motion: reduce){ .bar i, .meter i{transition:none;} }
+
+  @media print{
+    .noprint{display:none!important;}
+    body{background:#fff; color:#000;}
+    .card{border:0; padding:0; margin:0;}
+    p, .checks label{color:#000;}
+    h1,h2,h3{color:#000;}
+  }
+</style>
+<script src="/ph.js" defer></script>
+</head>
+<body>
+
+<header class="topbar noprint">
+  <a class="brand" href="/" aria-label="Subastian home"><img src="/emblem.png" alt="" width="24" height="24"><span>SUBA<span>STIAN</span></span></a>
+  <a href="/" class="btn-ghost">&larr; Back to home</a>
+</header>
+
+<main>
+  <div class="wrap">
+    <noscript><p class="card">This test needs JavaScript turned on. You can also try the <a href="/stack-audit/">subscription waste calculator</a>.</p></noscript>
+
+    <!-- intro -->
+    <section id="intro" class="noprint">
+      <p class="eyebrow">Free &middot; 60 seconds &middot; No signup to see your score</p>
+      <h1>How much are your subscriptions quietly leaking?</h1>
+      <p class="lead">Answer 8 quick questions. You get your Subscription Leak Score, a rough dollar estimate of what's slipping away, and the one fix that will save you the most.</p>
+      <ul class="perks">
+        <li><strong>Your Leak Score</strong> from 0 to 100</li>
+        <li><strong>A monthly and yearly estimate</strong> of what you may be wasting</li>
+        <li><strong>Your biggest fix,</strong> then a free printable 14-day Fix-It Plan built from your answers</li>
+      </ul>
+      <button class="btn-cta" type="button" id="startBtn">Start the test</button>
+      <p class="hint">An estimate from your own answers. It does not read your bank, email or accounts. Answers are counted anonymously (no name or email) so we can see what people struggle with.</p>
+    </section>
+
+    <!-- quiz -->
+    <section id="quiz" class="noprint" hidden>
+      <div class="progress"><span id="qNum">Question 1 of 8</span><div class="bar" aria-hidden="true"><i id="barFill"></i></div></div>
+      <h2 id="qText" tabindex="-1"></h2>
+      <div class="opts" id="qOpts" role="group" aria-labelledby="qText"></div>
+      <button class="link-btn" type="button" id="backBtn">&larr; Back</button>
+    </section>
+
+    <!-- result -->
+    <section id="result" hidden>
+      <div class="noprint">
+        <p class="eyebrow" id="resHead" tabindex="-1">Your Subscription Leak Score</p>
+        <div class="score-row">
+          <span class="score-num" id="resScore">0</span><span class="score-of">/ 100</span>
+          <span class="flag" id="resBand">Tight ship</span>
+        </div>
+        <div class="meter" aria-hidden="true"><i id="resMeter"></i></div>
+        <p id="resLine"></p>
+
+        <div class="leak-box" id="leakBox">
+          <div class="big" id="leakBig"></div>
+          <p id="leakBasis"></p>
+        </div>
+        <p class="hint">A rough estimate built only from your answers. Your real number depends on what you actually pay for.</p>
+
+        <div class="card">
+          <p class="tip-label">Your biggest fix</p>
+          <h3 id="topTitle"></h3>
+          <p id="topStep" style="margin-bottom:0"></p>
+        </div>
+
+        <div class="card" id="wtpCard">
+          <h3>One quick question (optional)</h3>
+          <p style="margin-bottom:0">If software watched this for you and warned you before every renewal, what would that be worth to you each month?</p>
+          <div class="chips" id="wtpChips" role="group" aria-label="Monthly value of automatic tracking">
+            <button type="button" class="chip" aria-pressed="false" data-v="none">Nothing, I'd do it myself</button>
+            <button type="button" class="chip" aria-pressed="false" data-v="lt5">Up to $5</button>
+            <button type="button" class="chip" aria-pressed="false" data-v="5-15">$5 to $15</button>
+            <button type="button" class="chip" aria-pressed="false" data-v="15-50">$15 to $50</button>
+            <button type="button" class="chip" aria-pressed="false" data-v="50plus">More than $50</button>
+          </div>
+          <p class="hint" id="wtpThanks" role="status"></p>
+        </div>
+
+        <div class="card accent" id="gate">
+          <h2>Unlock your free 14-day Fix-It Plan</h2>
+          <p>A one-page, printable plan built from your answers, plus the free Trial Tracker and Cancel &amp; Refund Scripts. You'll also join the Subastian founding roster, which gets you early access and launch pricing locked in. Free, no card.</p>
+          <form id="gateForm" novalidate>
+            <div class="field"><label for="lt-name">First name</label><input id="lt-name" name="name" type="text" autocomplete="given-name" placeholder="Jordan" required></div>
+            <div class="field"><label for="lt-email">Email</label><input id="lt-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required></div>
+            <div class="hp" aria-hidden="true"><label for="lt-company">Company (leave blank)</label><input id="lt-company" type="text" tabindex="-1" autocomplete="off"></div>
+            <button class="btn-cta" type="submit" id="gateBtn">Unlock my plan</button>
+            <p class="hint">No spam. Unsubscribe anytime. See the <a href="/privacy/">privacy policy</a>.</p>
+            <p class="msg" id="gateMsg" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+
+      <!-- unlocked plan (also the printable page) -->
+      <div class="card accent" id="plan" hidden>
+        <p class="eyebrow">Your 14-day Fix-It Plan</p>
+        <h2 id="planHead">Here's your plan</h2>
+        <p id="planIntro"></p>
+        <div id="planBody"></div>
+        <div class="actions-row noprint">
+          <button class="btn-cta" type="button" id="printBtn">Print or save as PDF</button>
+          <a class="btn-line" href="/bonus/">Get the free Trial Tracker and Cancel Scripts</a>
+        </div>
+        <p class="msg noprint" id="planMsg" role="status" aria-live="polite"></p>
+      </div>
+
+      <div class="noprint">
+        <div class="card">
+          <h3>Want your exact number, not an estimate?</h3>
+          <p>The Subscription Audit Kit is a spreadsheet and one-page guide. List what you pay for once and it flags overlapping tools, subscriptions idle for 14+ days and renewals in the next 30 days, then totals what you could save. About 15 minutes.</p>
+          <a class="btn-cta js-kit" data-pos="result" href="/audit-kit/?src=leaktest">Get the Audit Kit &mdash; $9</a>
+          <p class="hint">One-time payment. Instant download. 30-day refund.</p>
+        </div>
+
+        <div class="card">
+          <h3>Know someone who'd score high?</h3>
+          <p>Share the test. It's free and takes a minute.</p>
+          <button class="btn-line" type="button" id="shareBtn">Copy my score to share</button>
+          <p class="hint" id="shareMsg" role="status"></p>
+        </div>
+
+        <p style="margin-top:22px"><button class="link-btn" type="button" id="retakeBtn">Retake the test</button></p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="noprint">
+  <div class="wrap">
+    <div class="foot-row">
+      <div>Subastian, LLC &middot; Denver, CO</div>
+      <div><a href="mailto:daniel@subastian.us">daniel@subastian.us</a> &middot; <a href="/partners/">Partners</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/refund-policy/">Refunds</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var WEBHOOK = 'https://script.google.com/macros/s/AKfycbyvksixB6fINYn89dmVtKRozuvALrFP_YH7y_cUv1RdUq6D60qx9Brz3G1VCsQl4kU2/exec';
+  var FOUNDER = 'daniel@subastian.us';
+
+  var $ = function(id){ return document.getElementById(id); };
+  var clean = function(s){ return (s || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40); };
+  var usd = function(n){ return '$' + Math.round(n).toLocaleString('en-US'); };
+  var track = function(ev, props){ if (window.subTrack) subTrack(ev, props || {}); };
+
+  /* ?src=tiktok tags where the visit came from; ?ref= / ?via= / ?aff= is a partner code,
+     kept for the visit so the Audit Kit page picks it up too. */
+  var src = '', ref = '';
+  try {
+    var q = new URLSearchParams(location.search);
+    src = clean(q.get('src'));
+    ref = clean(q.get('ref') || q.get('via') || q.get('aff'));
+    if (ref) sessionStorage.setItem('sub_ref', ref); else ref = clean(sessionStorage.getItem('sub_ref'));
+  } catch (e) {}
+
+  var QUESTIONS = [
+    { id:'who', q:'Who are you keeping track of subscriptions for?', opts:[
+      ['Just me', 'personal'], ['My solo business or freelance work', 'solo'], ['An agency or a team', 'agency'],
+      ['My content or affiliate business', 'creator'], ['An IT or operations team', 'it'] ] },
+    { id:'count', q:'About how many paid subscriptions do you have?', opts:[
+      ['1 to 5', 3], ['6 to 10', 8], ['11 to 20', 15], ['21 to 40', 30], ['More than 40', 45] ] },
+    { id:'spend', q:'Roughly what do they cost per month, all together?', opts:[
+      ['Under $50', 35], ['$50 to $150', 100], ['$150 to $400', 275], ['$400 to $1,000', 700], ['Over $1,000', 1300] ] },
+    { id:'unused', q:'How many have you not used in the last 30 days?', opts:[
+      ['None', 0], ['1 or 2', 1.5], ['3 to 5', 4], ['6 or more', 7], ['I’m not sure', -1] ] },
+    { id:'dupes', q:'Do you pay for two or more things that do the same job?', opts:[
+      ['No', 'no'], ['I’m not sure', 'unsure'], ['Yes', 'yes'] ] },
+    { id:'renew', q:'How many of your renewal dates could you name right now?', opts:[
+      ['All or almost all', 'all'], ['Some of them', 'some'], ['Hardly any', 'few'] ] },
+    { id:'surprise', q:'When did a subscription charge last catch you by surprise?', opts:[
+      ['It never has', 'never'], ['Once in the past year', 'once'], ['More than once in the past year', 'several'],
+      ['There’s one I haven’t sorted out yet', 'open'] ] },
+    { id:'track', q:'How do you keep track of subscriptions today?', opts:[
+      ['I don’t. I check bank statements when I remember', 'none'], ['In my head', 'memory'],
+      ['Notes or calendar reminders', 'notes'], ['A spreadsheet or a budgeting app', 'tool'] ] }
+  ];
+
+  var POINTS = {
+    unused: function(v){ return v < 0 ? 25 : v === 0 ? 0 : v < 3 ? 15 : v < 6 ? 28 : 40; },
+    dupes: { no:0, unsure:8, yes:15 },
+    renew: { all:0, some:8, few:15 },
+    surprise: { never:0, once:6, several:12, open:15 },
+    track: { tool:0, notes:4, memory:9, none:15 }
+  };
+  var NICHE = { personal:'Other', solo:'Other', agency:'Agency owner', creator:'Content creator', it:'IT / ops team' };
+  var BANDS = [
+    { max:25, name:'Tight ship', cls:'',     line:'You keep a close eye on things. A yearly review will keep it that way.' },
+    { max:50, name:'A few drips', cls:'warn', line:'Nothing dramatic, but small leaks add up over a year. A little tidying will pay off.' },
+    { max:75, name:'Leaking', cls:'warn',     line:'Money is probably slipping out every month. The fixes below are quick and worth doing.' },
+    { max:101, name:'Flooding', cls:'bad',    line:'A lot is probably slipping through. The good news: the biggest wins are also the fastest.' }
+  ];
+
+  var step = 0, answers = {}, labels = {}, wtp = '', result = null, started = false;
+
+  function show(id, focusId){
+    ['intro', 'quiz', 'result'].forEach(function(s){ $(s).hidden = (s !== id); });
+    var f = $(focusId);
+    if (f) { try { f.focus({ preventScroll:true }); } catch (e) { f.focus(); } }
+    window.scrollTo(0, 0);
+  }
+
+  function renderQuestion(){
+    var item = QUESTIONS[step];
+    $('qNum').textContent = 'Question ' + (step + 1) + ' of ' + QUESTIONS.length;
+    $('barFill').style.width = (step / QUESTIONS.length * 100) + '%';
+    $('qText').textContent = item.q;
+    var box = $('qOpts');
+    box.innerHTML = '';
+    item.opts.forEach(function(o){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'opt';
+      b.textContent = o[0];
+      b.setAttribute('aria-pressed', answers[item.id] === o[1] ? 'true' : 'false');
+      b.addEventListener('click', function(){ choose(item, o); });
+      box.appendChild(b);
+    });
+    $('backBtn').hidden = step === 0;
+  }
+
+  function choose(item, o){
+    answers[item.id] = o[1];
+    labels[item.id] = o[0];
+    if (step < QUESTIONS.length - 1) {
+      step++;
+      renderQuestion();
+      var f = $('qText'); try { f.focus({ preventScroll:true }); } catch (e) { f.focus(); }
+    } else {
+      finish();
+    }
+  }
+
+  function compute(){
+    var a = answers;
+    var score = POINTS.unused(a.unused) + POINTS.dupes[a.dupes] + POINTS.renew[a.renew] + POINTS.surprise[a.surprise] + POINTS.track[a.track];
+    score = Math.max(0, Math.min(100, score));
+    var band = BANDS.filter(function(b){ return score < b.max; })[0];
+
+    var avg = a.spend / a.count;
+    var unusedN = a.unused < 0 ? a.count * 0.2 : a.unused;
+    var dupN = a.dupes === 'yes' ? 1 : a.dupes === 'unsure' ? 0.5 : 0;
+    var leakN = Math.min(a.count * 0.6, unusedN + dupN);
+    var monthly = Math.min(a.spend * 0.6, avg * leakN);
+    monthly = monthly >= 25 ? Math.round(monthly / 5) * 5 : Math.round(monthly);
+
+    return { score:score, band:band, avg:avg, leakN:leakN, monthly:monthly, yearly:monthly * 12, actions:buildActions() };
+  }
+
+  function buildActions(){
+    var a = answers, list = [], p;
+    if ((p = POINTS.unused(a.unused)) > 0) list.push({ pts:p, title:'Cancel or pause what you haven’t used in 30 days', steps:[
+      (a.unused < 0 ? 'You weren’t sure which ones go unused, so check each one. ' : '') +
+        'Open your phone’s subscription settings, PayPal’s automatic payments and your last two card statements. List every subscription you didn’t use in the last 30 days.',
+      'Cancel the ones you don’t need. If you might want one later, switch to a cheaper plan or pause it instead.',
+      'If a charge just went through, ask for a refund. The free Cancel & Refund Scripts have copy-and-paste messages.' ] });
+    if (a.surprise === 'open') list.push({ pts:POINTS.surprise.open, title:'Sort out the charge that surprised you', steps:[
+      'Find the charge on your statement and the service behind it.',
+      'Check the provider’s refund window. Many only refund within a short period, so ask soon, using the refund message from the free scripts.',
+      'If you don’t want it, cancel before the next billing date.' ] });
+    else if ((p = POINTS.surprise[a.surprise]) > 0) list.push({ pts:p, title:'Catch free trials and quiet renewals before they charge', steps:[
+      'Write down every free trial you have running and its last day to cancel. The free Trial Tracker does this for you.',
+      'Add a calendar reminder 3 days before each trial ends.',
+      'Next time you start a trial, set the reminder the same minute you sign up.' ] });
+    if ((p = POINTS.dupes[a.dupes]) > 0) list.push({ pts:p, title:'Keep one of each pair of overlapping tools', steps:[
+      'Write one line next to each subscription saying what job it does.',
+      'Where two do the same job, keep the one you open most and cancel the other.',
+      'Before you buy something new, check that you don’t already own a version of it.' ] });
+    if ((p = POINTS.renew[a.renew]) > 0) list.push({ pts:p, title:'Put every renewal date where you’ll see it', steps:[
+      'Start with annual plans. They renew once a year, so they’re the easiest to forget.',
+      'Add a calendar reminder 7 days before each renewal date.',
+      'For anything you’re unsure about, decide now: keep it, cancel it, or review it at the next renewal.' ] });
+    if ((p = POINTS.track[a.track]) > 0) list.push({ pts:p, title:'Keep one list of everything you pay for', steps:[
+      'Make one list with four columns: name, price, how often it bills, and the date it renews.',
+      'Update it whenever you subscribe to or cancel something.',
+      'A spreadsheet works. The Audit Kit is the same list with the totals and flags built in.' ] });
+    list.sort(function(x, y){ return y.pts - x.pts; });
+    if (!list.length) list.push({ pts:0, title:'Keep your good habits going', steps:[
+      'Set a calendar reminder to review your subscriptions once a year.',
+      'Before each renewal, ask yourself: did I use this in the last 30 days?',
+      'Cancel anything that fails that test.' ] });
+    return list;
+  }
+
+  function finish(){
+    result = compute();
+    var r = result, b = r.band;
+    $('barFill').style.width = '100%';
+    $('resScore').textContent = r.score;
+    var flag = $('resBand'); flag.textContent = b.name; flag.className = 'flag' + (b.cls ? ' ' + b.cls : '');
+    var meter = $('resMeter'); meter.className = b.cls; meter.style.width = '0';
+    setTimeout(function(){ meter.style.width = r.score + '%'; }, 30);
+    $('resLine').textContent = b.line;
+
+    if (r.monthly > 0) {
+      $('leakBig').textContent = 'About ' + usd(r.monthly) + ' a month, ' + usd(r.yearly) + ' a year';
+      var n = Math.max(1, Math.round(r.leakN));
+      $('leakBasis').textContent = 'Based on your answers: roughly ' + n + (n === 1 ? ' subscription' : ' subscriptions') +
+        ' you may not be getting value from, at an average of about ' + usd(r.avg) + ' each.';
+    } else {
+      $('leakBig').textContent = 'No obvious leak from your answers';
+      $('leakBasis').textContent = 'You said nothing sits unused and nothing overlaps. Keep it that way with a yearly check.';
+    }
+
+    $('topTitle').textContent = r.actions[0].title;
+    $('topStep').textContent = r.actions[0].steps[0];
+
+    $('plan').hidden = true;
+    $('gate').hidden = false;
+    show('result', 'resHead');
+    track('leaktest_complete', {
+      score:r.score, band:b.name, segment:answers.who, subs_range:labels.count, spend_range:labels.spend,
+      unused:labels.unused, dupes:answers.dupes, renewals:answers.renew, surprise:answers.surprise, tracking:answers.track,
+      est_monthly_leak:r.monthly, src:src || null, referral_code:ref || null
+    });
+  }
+
+  function buildPlan(name){
+    var r = result, acts = r.actions.slice(0, 3);
+    $('planHead').textContent = name ? name + ', here’s your plan' : 'Here’s your plan';
+    $('planIntro').textContent = 'Leak Score ' + r.score + '/100 (' + r.band.name + ')' +
+      (r.monthly > 0 ? ', roughly ' + usd(r.monthly) + ' a month at stake.' : '.') + ' Tick each step as you go.';
+    var body = $('planBody');
+    body.innerHTML = '';
+    function block(when, title, steps){
+      var d = document.createElement('div'); d.className = 'plan-block';
+      var w = document.createElement('p'); w.className = 'plan-when'; w.textContent = when;
+      var h = document.createElement('h3'); h.textContent = title;
+      var ul = document.createElement('ul'); ul.className = 'checks';
+      steps.forEach(function(s){
+        var li = document.createElement('li'), lb = document.createElement('label'), cb = document.createElement('input'), sp = document.createElement('span');
+        cb.type = 'checkbox'; sp.textContent = s;
+        lb.appendChild(cb); lb.appendChild(sp); li.appendChild(lb); ul.appendChild(li);
+      });
+      d.appendChild(w); d.appendChild(h); d.appendChild(ul); body.appendChild(d);
+    }
+    block('Days 1 to 2', 'Make the list', [
+      'Open your phone’s subscription settings (App Store or Google Play) and PayPal’s automatic payments.',
+      'Look through the last two months of card and bank statements for repeating charges.',
+      'Write each one down with its price, how often it bills and its renewal date.' ]);
+    var whens = ['Days 3 to 5', 'Days 6 to 9', 'Days 10 to 12'];
+    acts.forEach(function(a, i){ block(whens[i], a.title, a.steps); });
+    block('Days 13 to 14', 'Lock it in', [
+      'Add a calendar reminder to repeat this check in 3 months.',
+      'Add up what you stopped paying each month. That’s your win.' ]);
+  }
+
+  /* ---- email gate: also joins the founding roster ---- */
+  function send(payload){
+    return fetch(WEBHOOK, { method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify(payload) })
+      .then(function(r){ if (!r.ok) throw new Error(r.status); })
+      .catch(function(){
+        return fetch(WEBHOOK, { method:'POST', mode:'no-cors', headers:{ 'Content-Type':'text/plain;charset=UTF-8' }, body:JSON.stringify(payload) });
+      });
+  }
+
+  var busy = false;
+  $('gateForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if (busy || !result) return;
+    if ($('lt-company').value) return; // honeypot
+    var nameEl = $('lt-name'), emailEl = $('lt-email');
+    var name = nameEl.value.trim(), email = emailEl.value.trim();
+    if (!name) { nameEl.focus(); return; }
+    if (email.indexOf('@') < 1 || email.indexOf('.') < 0) { emailEl.focus(); return; }
+
+    var btn = $('gateBtn'), label = btn.textContent, r = result;
+    busy = true; btn.disabled = true; btn.textContent = 'Unlocking…';
+
+    send({
+      name:name, firstName:name.split(' ')[0], lastName:name.split(' ').slice(1).join(' '), email:email,
+      niche:NICHE[answers.who], segment:labels.who,
+      source:'subastian.us leak test', affiliateRef:ref, ref:ref, entrySource:src, type:'roster',
+      leakScore:r.score, leakBand:r.band.name, estimatedMonthlyLeak:r.monthly, estimatedAnnualLeak:r.yearly,
+      subscriptionRange:labels.count, monthlySpendRange:labels.spend,
+      unusedAnswer:labels.unused, duplicatesAnswer:labels.dupes, renewalsAnswer:labels.renew,
+      surpriseAnswer:labels.surprise, trackingAnswer:labels.track, willingToPay:wtp,
+      submittedAt:new Date().toISOString()
+    }).then(function(){
+      track('roster_signup', { form:'leak_test', niche:NICHE[answers.who], score:r.score, referral_code:ref || null, src:src || null });
+      return true;
+    }).catch(function(){
+      return false;
+    }).then(function(ok){
+      buildPlan(name.split(' ')[0]);
+      $('gate').hidden = true;
+      $('plan').hidden = false;
+      $('planMsg').textContent = ok
+        ? 'You’re on the founding roster. Your plan is below and your free tools are on the bonus page.'
+        : 'Your plan is below. Your signup may not have gone through, so email ' + FOUNDER + ' and we’ll add you by hand.';
+      $('plan').scrollIntoView({ block:'start' });
+      busy = false; btn.disabled = false; btn.textContent = label;
+    });
+  });
+
+  /* ---- optional value question ---- */
+  var chips = document.querySelectorAll('#wtpChips .chip');
+  Array.prototype.forEach.call(chips, function(c){
+    c.addEventListener('click', function(){
+      wtp = c.getAttribute('data-v');
+      Array.prototype.forEach.call(chips, function(o){ o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
+      $('wtpThanks').textContent = 'Thanks. That helps us decide what to build.';
+      track('leaktest_wtp', { value:wtp, score:result ? result.score : null, segment:answers.who });
+    });
+  });
+
+  /* ---- buttons ---- */
+  $('startBtn').addEventListener('click', function(){
+    step = 0; answers = {}; labels = {}; wtp = ''; result = null;
+    renderQuestion();
+    show('quiz', 'qText');
+    if (!started) { started = true; track('leaktest_start', { src:src || null, referral_code:ref || null }); }
+  });
+  $('backBtn').addEventListener('click', function(){
+    if (step > 0) { step--; renderQuestion(); }
+  });
+  $('retakeBtn').addEventListener('click', function(){
+    Array.prototype.forEach.call(chips, function(o){ o.setAttribute('aria-pressed', 'false'); });
+    $('wtpThanks').textContent = '';
+    $('startBtn').click();
+  });
+  $('printBtn').addEventListener('click', function(){ window.print(); });
+
+  $('shareBtn').addEventListener('click', function(){
+    if (!result) return;
+    var text = 'My Subscription Leak Score is ' + result.score + '/100 (' + result.band.name + '). Free 60-second test: https://subastian.us/leak-test/?src=share';
+    var done = function(msg){ $('shareMsg').textContent = msg; };
+    track('leaktest_share', { score:result.score });
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function(){ done('Copied. Paste it anywhere.'); }, function(){ done(text); });
+    } else {
+      done(text);
+    }
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('.js-kit'), function(a){
+    if (ref) a.href += '&ref=' + encodeURIComponent(ref);
+    a.addEventListener('click', function(){
+      track('leaktest_kit_click', { position:a.getAttribute('data-pos'), score:result ? result.score : null, src:src || null, referral_code:ref || null });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -243,7 +243,7 @@
         gap++;
         var gc=document.createElement('span'); gc.className='chip amber'; gc.textContent='Line one up'; tn.appendChild(gc);
         var gb=document.createElement('button'); gb.type='button'; gb.className='lnk'; gb.textContent='Add'; gb.setAttribute('aria-label','Add next tool for '+x.name);
-        gb.onclick=function(){ var v=window.prompt('What replaces '+x.name+' when it ends? Type "none" if nothing.',''); if(v!==null && v.trim()){ x.next=v.trim().slice(0,60); save(); render(); } };
+        gb.onclick=function(){ var v=window.prompt('What replaces '+x.name+' when it ends? Type "none" if nothing.',''); if(v!==null && v.trim()){ x.next=v.trim().slice(0,60); save(); render(); if(window.subTrack) subTrack('trial_tracker_next_added',{}); } };
         tn.appendChild(gb);
       } else { tn.textContent='—'; }
       tr.appendChild(tn);
@@ -262,9 +262,10 @@
     if(!name){ msg.textContent='Enter the service name.'; return; }
     if(!/^\d{4}-\d{2}-\d{2}$/.test(start)){ msg.textContent='Choose the trial start date.'; return; }
     if(!(days>=1&&days<=365)){ msg.textContent='Trial length should be 1 to 365 days.'; return; }
-    list.push({name:name.slice(0,60),start:start,days:days,price:isFinite(price)&&price>=0?price:0,status:'active',next:$('ttNext').value.trim().slice(0,60)});
+    var nxt=$('ttNext').value.trim().slice(0,60);
+    list.push({name:name.slice(0,60),start:start,days:days,price:isFinite(price)&&price>=0?price:0,status:'active',next:nxt});
     save(); render(); $('ttName').value=''; $('ttPrice').value=''; $('ttNext').value=''; msg.textContent='Added.'; $('ttName').focus();
-    if(window.subTrack) subTrack('trial_tracker_add',{});
+    if(window.subTrack) subTrack('trial_tracker_add',{has_next:!!nxt});
   });
   load(); render();
 

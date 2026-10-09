@@ -27,6 +27,7 @@ It was tested against a simulated Sheet and Gmail, not live Google. Do the dry r
 
 ## Good to know
 
+- **Replies go to the Gmail that sends the emails.** That is on purpose: the script skips anyone who already replied, and it can only see that inbox. Don't set `REPLY_TO` to daniel@subastian.us unless a test email to it really arrives in the same Gmail.
 - Emails come from the Google account that owns the script. Set `FROM_ALIAS` to send as daniel@subastian.us if that alias is set up in Gmail.
 - `EARLIEST_SIGNUP: '2026-09-01'` leaves older signups alone. `MAX_PER_RUN` caps each hourly batch.
 - To stop everything: Apps Script > Triggers (clock icon) > delete the `runDrip` trigger.

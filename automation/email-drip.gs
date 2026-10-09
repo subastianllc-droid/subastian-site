@@ -18,7 +18,8 @@ var CONFIG = {
   SHEET_NAME: '',           // blank = the first tab
   FROM_NAME: 'Daniel at Subastian',
   FROM_ALIAS: '',           // optional: a "send mail as" alias, e.g. daniel@subastian.us
-  REPLY_TO: 'daniel@subastian.us',
+  REPLY_TO: '',             // leave blank so replies land in the Gmail that sends these emails (the "skip if they
+                            // replied" check can only see that inbox). Set it only if that address forwards into it.
   POSTAL_ADDRESS: '',       // REQUIRED to send, e.g. 'Subastian, LLC, PO Box 123, Denver, CO 80202'
   WEB_APP_URL: '',          // REQUIRED to send: the deployed web app URL ending in /exec
   EARLIEST_SIGNUP: '',      // optional 'YYYY-MM-DD'; older signups are left alone
@@ -126,7 +127,7 @@ function doGet(e) {
       markUnsubscribed_(p.u);
       return page('You\'re unsubscribed. You won\'t get any more emails from Subastian.');
     }
-    return page('That link isn\'t valid. Email daniel@subastian.us and we\'ll remove you by hand.');
+    return page('That link isn\'t valid. Reply to any Subastian email and we\'ll remove you by hand.');
   }
   return page('Subastian');
 }
@@ -270,7 +271,8 @@ function hasReplied_(email, since) {
 
 function sendMail_(to, mail) {
   if (MailApp.getRemainingDailyQuota() < 5) throw new Error('Daily email quota nearly used up. Try again tomorrow.');
-  var opts = { name: CONFIG.FROM_NAME, replyTo: CONFIG.REPLY_TO };
+  var opts = { name: CONFIG.FROM_NAME };
+  if (CONFIG.REPLY_TO) opts.replyTo = CONFIG.REPLY_TO;
   if (CONFIG.FROM_ALIAS && GmailApp.getAliases().indexOf(CONFIG.FROM_ALIAS) > -1) opts.from = CONFIG.FROM_ALIAS;
   GmailApp.sendEmail(to, mail.subject, mail.body, opts);
 }

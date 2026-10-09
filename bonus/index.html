@@ -148,21 +148,23 @@
 
     <section id="tracker">
       <h2>Your Free Trial Tracker</h2>
-      <p>Add each free trial below. It shows when it ends, the day to cancel, and what could be charged. Your entries stay in this browser on your device. We never see them.</p>
+      <p>Add each free trial below. It shows when it ends, the day to cancel, and what could be charged. Add a &ldquo;next up&rdquo; so you've lined up what replaces it before it ends. Your entries stay in this browser on your device. We never see them.</p>
       <form class="pform tt-form" id="ttForm" novalidate>
         <div class="field"><label for="ttName">Service or app</label><input id="ttName" maxlength="60" placeholder="e.g. Streaming app" autocomplete="off"></div>
         <div class="field"><label for="ttStart">Trial start date</label><input id="ttStart" type="date"></div>
         <div class="field"><label for="ttDays">Trial length (days)</label><input id="ttDays" type="number" min="1" max="365" value="7"></div>
         <div class="field"><label for="ttPrice">Price after trial ($/mo)</label><input id="ttPrice" type="number" min="0" step="0.01" placeholder="12.99"></div>
+        <div class="field full"><label for="ttNext">Next up: what replaces it? (optional)</label><input id="ttNext" maxlength="60" placeholder="e.g. a cheaper plan, or another tool you want to try" autocomplete="off"></div>
         <div class="full"><button type="submit">Add trial</button> <span class="hint" id="ttMsg" role="status"></span></div>
       </form>
       <div class="tt-sum" aria-live="polite">
         <div><b id="ttActive">0</b>active trials</div>
         <div><b id="ttSoon">0</b>ending in 7 days</div>
         <div><b id="ttRisk">$0.00</b>could be charged in 14 days</div>
+        <div><b id="ttGap">0</b>ending in 7 days with no next tool</div>
       </div>
       <div class="tt-wrap"><table class="tt" id="ttTable" hidden>
-        <thead><tr><th>Service</th><th>Ends</th><th>Cancel by</th><th>Days left</th><th>After trial</th><th></th></tr></thead>
+        <thead><tr><th>Service</th><th>Ends</th><th>Cancel by</th><th>Days left</th><th>After trial</th><th>Next up</th><th></th></tr></thead>
         <tbody id="ttBody"></tbody>
       </table></div>
       <p class="tt-empty" id="ttEmpty">No trials yet. Add your first one above.</p>
@@ -225,7 +227,7 @@
   function today(){ var t=new Date(); return new Date(t.getFullYear(),t.getMonth(),t.getDate()); }
   function calc(x){ var s=pd(x.start), end=new Date(s.getFullYear(),s.getMonth(),s.getDate()+(+x.days||0)); var left=Math.round((end-today())/86400000); return {end:end,cancel:new Date(end.getFullYear(),end.getMonth(),end.getDate()-1),left:left}; }
   function render(){
-    var body=$('ttBody'); body.innerHTML=''; var active=0,soon=0,risk=0;
+    var body=$('ttBody'); body.innerHTML=''; var active=0,soon=0,risk=0,gap=0;
     list.slice().sort(function(a,b){return calc(a).end-calc(b).end;}).forEach(function(x){
       var c=calc(x), done=x.status==='cancelled', tr=document.createElement('tr');
       if(!done && c.left>=0){ active++; if(c.left<=7) soon++; if(c.left<=14) risk+=(+x.price||0); }
@@ -235,13 +237,23 @@
       td(x.name); td(fmt(c.end)); td(fmt(c.cancel));
       var tc=document.createElement('td'), ch=document.createElement('span'); ch.className='chip '+chipCls; ch.textContent=chipTxt; tc.appendChild(ch); tr.appendChild(tc);
       td(x.price?('$'+(+x.price).toFixed(2)+'/mo'):'—');
+      var nx=(x.next||'').trim(), tn=document.createElement('td');
+      if(nx){ tn.textContent=nx; }
+      else if(!done && c.left>=0 && c.left<=7){
+        gap++;
+        var gc=document.createElement('span'); gc.className='chip amber'; gc.textContent='Line one up'; tn.appendChild(gc);
+        var gb=document.createElement('button'); gb.type='button'; gb.className='lnk'; gb.textContent='Add'; gb.setAttribute('aria-label','Add next tool for '+x.name);
+        gb.onclick=function(){ var v=window.prompt('What replaces '+x.name+' when it ends? Type "none" if nothing.',''); if(v!==null && v.trim()){ x.next=v.trim().slice(0,60); save(); render(); } };
+        tn.appendChild(gb);
+      } else { tn.textContent='—'; }
+      tr.appendChild(tn);
       var ta=document.createElement('td');
       if(!done){ var b1=document.createElement('button'); b1.type='button'; b1.className='lnk'; b1.textContent='Mark cancelled'; b1.onclick=function(){ x.status='cancelled'; save(); render(); }; ta.appendChild(b1); }
       var b2=document.createElement('button'); b2.type='button'; b2.className='lnk'; b2.textContent='Remove'; b2.setAttribute('aria-label','Remove '+x.name); b2.onclick=function(){ list=list.filter(function(y){return y!==x;}); save(); render(); }; ta.appendChild(b2);
       tr.appendChild(ta); body.appendChild(tr);
     });
     $('ttTable').hidden=!list.length; $('ttEmpty').hidden=!!list.length;
-    $('ttActive').textContent=active; $('ttSoon').textContent=soon; $('ttRisk').textContent='$'+risk.toFixed(2);
+    $('ttActive').textContent=active; $('ttSoon').textContent=soon; $('ttRisk').textContent='$'+risk.toFixed(2); $('ttGap').textContent=gap;
   }
   $('ttStart').value=iso(today());
   $('ttForm').addEventListener('submit',function(e){
@@ -250,8 +262,8 @@
     if(!name){ msg.textContent='Enter the service name.'; return; }
     if(!/^\d{4}-\d{2}-\d{2}$/.test(start)){ msg.textContent='Choose the trial start date.'; return; }
     if(!(days>=1&&days<=365)){ msg.textContent='Trial length should be 1 to 365 days.'; return; }
-    list.push({name:name.slice(0,60),start:start,days:days,price:isFinite(price)&&price>=0?price:0,status:'active'});
-    save(); render(); $('ttName').value=''; $('ttPrice').value=''; msg.textContent='Added.'; $('ttName').focus();
+    list.push({name:name.slice(0,60),start:start,days:days,price:isFinite(price)&&price>=0?price:0,status:'active',next:$('ttNext').value.trim().slice(0,60)});
+    save(); render(); $('ttName').value=''; $('ttPrice').value=''; $('ttNext').value=''; msg.textContent='Added.'; $('ttName').focus();
     if(window.subTrack) subTrack('trial_tracker_add',{});
   });
   load(); render();

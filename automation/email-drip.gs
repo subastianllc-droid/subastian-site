@@ -5,6 +5,8 @@
  * Every hour it looks for roster signups that are due an email and sends it from your Gmail:
  *   Email 1: 2 days after signup. Asks for a one-sentence reply.
  *   Email 2: 3 days after Email 1. Asks for a one-letter reply.
+ *   Email 3 (only if OFFER_EMAILS is on): 5 days after Email 2. Offers the done-for-you audit, with the $9 Kit as the cheaper option.
+ *   Email 4 (only if OFFER_EMAILS is on): 7 days after Email 3. Last in the series: every offer in one place, plus share and partner links.
  * It skips anyone who unsubscribed, anyone who already replied, bad addresses and duplicates.
  * Every email carries an unsubscribe link and your postal address (both are required for
  * commercial email). Nothing here is a secret; the unsubscribe signing key is generated and
@@ -25,6 +27,13 @@ var CONFIG = {
   EARLIEST_SIGNUP: '',      // optional 'YYYY-MM-DD'; older signups are left alone
   DAYS_AFTER_SIGNUP: 2,     // Email 1 timing
   DAYS_AFTER_EMAIL_1: 3,    // Email 2 timing
+  OFFER_EMAILS: false,      // false = only Emails 1 and 2, exactly as before. true = also send Emails 3 and 4 (the offer emails).
+                            // Turning it on makes everyone who already got Email 2 eligible for Email 3 once the days below have passed.
+  DAYS_AFTER_EMAIL_2: 5,    // Email 3 timing
+  DAYS_AFTER_EMAIL_3: 7,    // Email 4 timing
+  AUDIT_PRICE_LINE: 'Founding client price: $49 for my first 5 clients, then $149.',
+                            // Used in Emails 3 and 4. Keep it identical to the /audit-service/ page, and change both
+                            // together when the founding-client spots are used up.
   MAX_PER_RUN: 30,          // keeps you far inside Gmail's daily limit
   DRY_RUN: true             // set to false once the test emails look right
 };
@@ -34,7 +43,7 @@ var HEADER_NAMES = {
   name: ['firstname', 'name', 'fullname'],
   time: ['submittedat', 'timestamp', 'date', 'createdat']
 };
-var TRACK_COLS = ['drip1_sent_at', 'drip2_sent_at', 'unsubscribed'];
+var TRACK_COLS = ['drip1_sent_at', 'drip2_sent_at', 'unsubscribed', 'drip3_sent_at', 'drip4_sent_at'];
 var DAY_MS = 86400000;
 
 /* ------------------------------ entry points ------------------------------ */
@@ -64,18 +73,25 @@ function runDrip() {
       signupAt: toDate_(row[cols.time]),
       sent1: row[cols.sent1],
       sent2: row[cols.sent2],
+      sent3: row[cols.sent3],
+      sent4: row[cols.sent4],
       unsub: row[cols.unsub]
     };
-    var d = decide_(rec, now, { earliest: earliest, days1: CONFIG.DAYS_AFTER_SIGNUP, days2: CONFIG.DAYS_AFTER_EMAIL_1 });
+    var d = decide_(rec, now, {
+      earliest: earliest, offers: CONFIG.OFFER_EMAILS,
+      days1: CONFIG.DAYS_AFTER_SIGNUP, days2: CONFIG.DAYS_AFTER_EMAIL_1,
+      days3: CONFIG.DAYS_AFTER_EMAIL_2, days4: CONFIG.DAYS_AFTER_EMAIL_3
+    });
     if (d.note) log.push('row ' + (r + 1) + ': ' + d.note);
     if (!d.step) continue;
 
     var k = key_(rec.email);
     if (d.step === 1 && emailed[k]) { markCell_(sheet, r, cols.sent1, 'skipped-duplicate'); continue; }
 
-    var since = d.step === 1 ? rec.signupAt : toDate_(rec.sent1);
+    // "Replied" means a message from them since the previous email (or since signup, for Email 1).
+    var since = d.step === 1 ? rec.signupAt : toDate_(rec['sent' + (d.step - 1)]);
     if (hasReplied_(rec.email, since)) {
-      markCell_(sheet, r, d.step === 1 ? cols.sent1 : cols.sent2, 'skipped-replied');
+      markCell_(sheet, r, cols['sent' + d.step], 'skipped-replied');
       log.push('row ' + (r + 1) + ': skipped, they already replied');
       continue;
     }
@@ -85,7 +101,7 @@ function runDrip() {
       log.push('DRY RUN: would send email ' + d.step + ' to ' + rec.email + ' (subject: ' + mail.subject + ')');
     } else {
       sendMail_(rec.email, mail);
-      markCell_(sheet, r, d.step === 1 ? cols.sent1 : cols.sent2, new Date());
+      markCell_(sheet, r, cols['sent' + d.step], new Date());
       emailed[k] = true;
       log.push('sent email ' + d.step + ' to ' + rec.email);
     }
@@ -95,16 +111,16 @@ function runDrip() {
   return log;
 }
 
-/** Sends both emails to you so you can read them exactly as a subscriber would. */
+/** Sends all four emails to you so you can read them exactly as a subscriber would, even while OFFER_EMAILS is off. */
 function sendTestToMe() {
   assertReadyToSend_();
   var to = Session.getEffectiveUser().getEmail() || CONFIG.REPLY_TO;
-  [1, 2].forEach(function (step) {
+  [1, 2, 3, 4].forEach(function (step) {
     var mail = buildEmail_(step, 'Daniel', to);
     mail.subject = '[TEST] ' + mail.subject;
     sendMail_(to, mail);
   });
-  Logger.log('Sent 2 test emails to ' + to);
+  Logger.log('Sent 4 test emails to ' + to);
 }
 
 /** Run once: makes runDrip fire every hour. */
@@ -134,16 +150,24 @@ function doGet(e) {
 
 /* ------------------------------ decisions (pure) ------------------------------ */
 
-/** Which email, if any, is due for one row. Returns { step: 0|1|2, note? }. */
+/** Which email, if any, is due for one row. Returns { step: 0|1|2|3|4, note? }.
+ *  Each later email is due a set number of days after the previous one was actually SENT. A cell that holds
+ *  'skipped-replied' or 'skipped-duplicate' is not a date, so it ends the sequence for that person. */
 function decide_(rec, now, cfg) {
   if (!isEmail_(rec.email)) return { step: 0, note: rec.email ? 'bad email address: ' + rec.email : '' };
   if (rec.unsub) return { step: 0 };
   if (!rec.signupAt) return { step: 0, note: 'no readable signup date for ' + rec.email };
   if (cfg.earliest && rec.signupAt < cfg.earliest) return { step: 0 };
   if (!rec.sent1) return now - rec.signupAt >= cfg.days1 * DAY_MS ? { step: 1 } : { step: 0 };
-  if (rec.sent2) return { step: 0 };
-  var s1 = toDate_(rec.sent1);
-  return s1 && now - s1 >= cfg.days2 * DAY_MS ? { step: 2 } : { step: 0 };
+  var due = function (prevSent, days, step) {
+    var prev = toDate_(prevSent);
+    return prev && now - prev >= days * DAY_MS ? { step: step } : { step: 0 };
+  };
+  if (!rec.sent2) return due(rec.sent1, cfg.days2, 2);
+  if (!cfg.offers) return { step: 0 };
+  if (!rec.sent3) return due(rec.sent2, cfg.days3, 3);
+  if (!rec.sent4) return due(rec.sent3, cfg.days4, 4);
+  return { step: 0 };
 }
 
 function buildEmail_(step, first, email) {
@@ -176,7 +200,7 @@ function buildEmail_(step, first, email) {
       '',
       'P.S. If you\'d be up for a 15-minute call about how you handle subscriptions today, reply "call" and I\'ll send times.'
     ].join('\n');
-  } else {
+  } else if (step === 2) {
     subject = 'Pick one (takes 5 seconds)';
     body = [
       'Hi ' + name + ',',
@@ -199,6 +223,54 @@ function buildEmail_(step, first, email) {
       '',
       'Thanks,',
       'Daniel'
+    ].join('\n');
+  } else if (step === 3) {
+    subject = 'I can do your subscription audit for you';
+    body = [
+      'Hi ' + name + ',',
+      '',
+      'Daniel here. No question this time, just an offer in case it helps.',
+      '',
+      'If you\'ve been meaning to check what you pay for and never got around to it, I\'ll do it for you. You send me a list of your tools and subscriptions (never passwords or card numbers). Within 3 business days you get:',
+      '',
+      '- a spreadsheet of everything, with monthly and yearly cost and what to keep, review or cancel',
+      '- a one-page savings summary with the top actions ranked by money saved',
+      '- a renewal calendar, so nothing renews by surprise',
+      '',
+      CONFIG.AUDIT_PRICE_LINE + ' You pay nothing up front: you ask, I reply with what\'s included, and you pay only if you want to go ahead. There\'s a 30-day money-back guarantee, and if I can\'t find any savings I\'ll tell you and refund you in full. Savings figures are estimates, not guarantees.',
+      '',
+      'Details and how to request it: ' + site + '/audit-service/?src=day10email',
+      '',
+      'Prefer to do it yourself? The $9 Subscription Audit Kit is the same idea as a spreadsheet, with a 30-day refund: ' + site + '/audit-kit/?src=day10email',
+      '',
+      'Questions? Just reply. I read every one.',
+      '',
+      'Thanks,',
+      'Daniel',
+      'Founder, Subastian'
+    ].join('\n');
+  } else {
+    subject = 'Last one in this series';
+    body = [
+      'Hi ' + name + ',',
+      '',
+      'Daniel again. This is the last email in this series, so here\'s everything in one place.',
+      '',
+      'Do it yourself, $9: the Subscription Audit Kit finds forgotten subscriptions, overlapping tools and upcoming renewals in about 15 minutes. 30-day refund. ' + site + '/audit-kit/?src=day17email',
+      '',
+      'Have me do it for you. ' + CONFIG.AUDIT_PRICE_LINE + ' Details: ' + site + '/audit-service/?src=day17email',
+      '',
+      'Free, if you haven\'t tried it: the 60-second Leak Test. ' + site + '/leak-test/?src=day17email',
+      '',
+      'Two small asks:',
+      '- Know someone who pays for too many tools? Send them the Leak Test. It\'s free and takes a minute.',
+      '- If you recommend software to an audience, the Founding Partner program is open for applications. Commissions are planned to start once Subastian launches: ' + site + '/partners/?src=day17email',
+      '',
+      'I\'ll email you when early access opens. Until then you can reply to this any time.',
+      '',
+      'Thanks,',
+      'Daniel',
+      'Founder, Subastian'
     ].join('\n');
   }
   body += '\n\n--\nYou\'re getting this because you joined the Subastian founding roster at subastian.us.' +
@@ -230,6 +302,8 @@ function mapColumns_(header) {
   cols.sent1 = names.indexOf(norm_(TRACK_COLS[0]));
   cols.sent2 = names.indexOf(norm_(TRACK_COLS[1]));
   cols.unsub = names.indexOf(norm_(TRACK_COLS[2]));
+  cols.sent3 = names.indexOf(norm_(TRACK_COLS[3]));
+  cols.sent4 = names.indexOf(norm_(TRACK_COLS[4]));
   if (cols.email < 0 || cols.time < 0) {
     throw new Error('Could not find the email and signup-date columns. Headers found: ' + header.join(', ') +
       '. Rename them to "email" and "submittedAt", or add your header names to HEADER_NAMES.');

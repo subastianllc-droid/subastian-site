@@ -231,10 +231,19 @@
       </div>
 
       <div class="noprint">
-        <div class="card">
-          <h3>Want your exact number, not an estimate?</h3>
+        <!-- shown only when the estimate is big enough that a done-for-you audit pays for itself -->
+        <div class="card accent" id="auditCard" hidden>
+          <p class="tip-label">Your next step</p>
+          <h3>Want the real number? I'll find it for you.</h3>
+          <p id="auditPitch"></p>
+          <a class="btn-cta js-audit" data-pos="result" id="auditBtn" href="/audit-service/?src=leaktest">See the done-for-you audit</a>
+          <p class="hint" id="auditFine"></p>
+        </div>
+
+        <div class="card" id="kitCard">
+          <h3 id="kitHead">Want your exact number, not an estimate?</h3>
           <p>The Subscription Audit Kit is a spreadsheet and one-page guide. List what you pay for once and it flags overlapping tools, subscriptions idle for 14+ days and renewals in the next 30 days, then totals what you could save. About 15 minutes.</p>
-          <a class="btn-cta js-kit" data-pos="result" href="/audit-kit/?src=leaktest">Get the Audit Kit &mdash; $9</a>
+          <a class="btn-cta js-kit" data-pos="result" id="kitBtn" href="/audit-kit/?src=leaktest">Get the Audit Kit &mdash; $9</a>
           <p class="hint">One-time payment. Instant download. 30-day refund.</p>
         </div>
 
@@ -264,6 +273,15 @@
 (function(){
   var WEBHOOK = 'https://script.google.com/macros/s/AKfycbyvksixB6fINYn89dmVtKRozuvALrFP_YH7y_cUv1RdUq6D60qx9Brz3G1VCsQl4kU2/exec';
   var FOUNDER = 'daniel@subastian.us';
+
+  /* ===== EDIT THESE =====
+     AUDIT_MIN_MONTHLY: show the done-for-you audit offer first when the estimated monthly leak is at least this
+                        many dollars. Below it, the $9 Audit Kit stays the lead offer. Set it very high to turn the audit offer off.
+     AUDIT_PRICE_TEXT:  one line of pricing under the audit button. Keep it identical to /audit-service/, and change it
+                        there and here together when the founding-client spots are used up. */
+  var AUDIT_MIN_MONTHLY = 50;
+  var AUDIT_PRICE_TEXT = 'Founding client price: $49 for my first 5 clients, then $149.';
+  /* ====================== */
 
   var $ = function(id){ return document.getElementById(id); };
   var clean = function(s){ return (s || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40); };
@@ -431,14 +449,33 @@
     $('topTitle').textContent = r.actions[0].title;
     $('topStep').textContent = r.actions[0].steps[0];
 
+    var offer = applyOffer(r);
+
     $('plan').hidden = true;
     $('gate').hidden = false;
     show('result', 'resHead');
     track('leaktest_complete', {
       score:r.score, band:b.name, segment:answers.who, subs_range:labels.count, spend_range:labels.spend,
       unused:labels.unused, dupes:answers.dupes, renewals:answers.renew, surprise:answers.surprise, tracking:answers.track,
-      est_monthly_leak:r.monthly, src:src || null, referral_code:ref || null
+      est_monthly_leak:r.monthly, offer_shown:offer, src:src || null, referral_code:ref || null
     });
+  }
+
+  /* Lead with the offer that fits the size of the leak: a big estimate gets the done-for-you audit
+     (the Kit stays right below it as the cheaper do-it-yourself option); a small one keeps the $9 Kit. */
+  function applyOffer(r){
+    var audit = r.monthly >= AUDIT_MIN_MONTHLY;
+    $('auditCard').hidden = !audit;
+    $('kitHead').textContent = audit ? 'Prefer to do it yourself?' : 'Want your exact number, not an estimate?';
+    $('kitBtn').className = (audit ? 'btn-line' : 'btn-cta') + ' js-kit';
+    if (audit) {
+      $('auditPitch').textContent = 'Your answers point to roughly ' + usd(r.yearly) + ' a year at stake (an estimate, not a measurement). ' +
+        'Send me the list of what you pay for and within 3 business days you get a spreadsheet of every tool with what to keep, review or cancel, ' +
+        'a one-page savings summary and a renewal calendar. If I can’t find any savings, I tell you and refund you in full.';
+      $('auditFine').textContent = AUDIT_PRICE_TEXT + ' You pay nothing up front: you request it, I reply with what’s included, and you pay only if you want to go ahead.';
+      $('auditBtn').href = '/audit-service/?src=leaktest&score=' + r.score + '&est=' + r.yearly + (ref ? '&ref=' + encodeURIComponent(ref) : '');
+    }
+    return audit ? 'audit' : 'kit';
   }
 
   function buildPlan(name){
@@ -564,6 +601,10 @@
     a.addEventListener('click', function(){
       track('leaktest_kit_click', { position:a.getAttribute('data-pos'), score:result ? result.score : null, src:src || null, referral_code:ref || null });
     });
+  });
+
+  $('auditBtn').addEventListener('click', function(){
+    track('leaktest_audit_click', { position:this.getAttribute('data-pos'), score:result ? result.score : null, est_monthly_leak:result ? result.monthly : null, src:src || null, referral_code:ref || null });
   });
 })();
 </script>

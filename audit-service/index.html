@@ -154,7 +154,7 @@
         <div class="card">
           <h3>$49 &middot; founding client price</h3>
           <p>For my first 5 clients. In return, I ask for your honest feedback after you read the report. After that, the price is $149.</p>
-          <a class="btn-cta" href="mailto:daniel@subastian.us?subject=Audit%20request&body=Hi%20Daniel%2C%0A%0AI%27d%20like%20a%20software%20subscription%20audit.%0A%0AName%3A%0ABusiness%20or%20role%3A%0ARoughly%20how%20many%20tools/subscriptions%20I%20pay%20for%3A%0AMy%20biggest%20concern%20%28cost%2C%20duplicates%2C%20renewals%29%3A%0ABest%20way%20to%20reach%20me%3A%0A%0A%28I%20understand%20I%20will%20never%20be%20asked%20for%20passwords%20or%20card%20numbers.%29">Request my audit</a>
+          <a class="btn-cta js-request" data-pos="top" href="mailto:daniel@subastian.us?subject=Audit%20request&body=Hi%20Daniel%2C%0A%0AI%27d%20like%20a%20software%20subscription%20audit.%0A%0AName%3A%0ABusiness%20or%20role%3A%0ARoughly%20how%20many%20tools/subscriptions%20I%20pay%20for%3A%0AMy%20biggest%20concern%20%28cost%2C%20duplicates%2C%20renewals%29%3A%0ABest%20way%20to%20reach%20me%3A%0A%0A%28I%20understand%20I%20will%20never%20be%20asked%20for%20passwords%20or%20card%20numbers.%29">Request my audit</a>
           <p class="hint">No payment yet. I reply with what's included, then send a secure payment link only if you want to go ahead. 30-day money-back guarantee.</p>
         </div>
       </div>
@@ -204,7 +204,7 @@
     <section class="final" id="request">
       <h2>Ready to see what you're overpaying for?</h2>
       <p>Request your audit. It takes about two minutes, and there's no payment until we agree on what's included.</p>
-      <a class="btn-cta" href="mailto:daniel@subastian.us?subject=Audit%20request&body=Hi%20Daniel%2C%0A%0AI%27d%20like%20a%20software%20subscription%20audit.%0A%0AName%3A%0ABusiness%20or%20role%3A%0ARoughly%20how%20many%20tools/subscriptions%20I%20pay%20for%3A%0AMy%20biggest%20concern%20%28cost%2C%20duplicates%2C%20renewals%29%3A%0ABest%20way%20to%20reach%20me%3A%0A%0A%28I%20understand%20I%20will%20never%20be%20asked%20for%20passwords%20or%20card%20numbers.%29">Request my audit</a>
+      <a class="btn-cta js-request" data-pos="bottom" href="mailto:daniel@subastian.us?subject=Audit%20request&body=Hi%20Daniel%2C%0A%0AI%27d%20like%20a%20software%20subscription%20audit.%0A%0AName%3A%0ABusiness%20or%20role%3A%0ARoughly%20how%20many%20tools/subscriptions%20I%20pay%20for%3A%0AMy%20biggest%20concern%20%28cost%2C%20duplicates%2C%20renewals%29%3A%0ABest%20way%20to%20reach%20me%3A%0A%0A%28I%20understand%20I%20will%20never%20be%20asked%20for%20passwords%20or%20card%20numbers.%29">Request my audit</a>
       <p class="hint">Prefer a cheaper do-it-yourself option? Try the <a href="/audit-kit/">Subscription Audit Kit ($9)</a>.</p>
     </section>
   </div>
@@ -219,5 +219,51 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  /* Works without this script: the buttons are plain mailto links. With it, a visitor who arrives from the Leak Test
+     (/audit-service/?src=leaktest&score=62&est=1200) gets their result written into the request email, so the
+     first reply can start from their numbers. The page view and every request click are tagged in analytics. */
+  var clean = function(s){ return (s || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40); };
+  var num = function(s, max){ var n = parseInt(s, 10); return isFinite(n) && n >= 0 && n <= max ? n : null; };
+  var src = '', ref = '', score = null, est = null;
+  try {
+    var q = new URLSearchParams(location.search);
+    src = clean(q.get('src'));
+    score = num(q.get('score'), 100);
+    est = num(q.get('est'), 1000000);
+    ref = clean(q.get('ref') || q.get('via') || q.get('aff'));
+    if (ref) sessionStorage.setItem('sub_ref', ref); else ref = clean(sessionStorage.getItem('sub_ref'));
+  } catch (e) {}
+
+  var lines = [
+    'Hi Daniel,', '',
+    'I’d like a software subscription audit.', '',
+    'Name:', 'Business or role:', 'Roughly how many tools/subscriptions I pay for:',
+    'My biggest concern (cost, duplicates, renewals):', 'Best way to reach me:', ''
+  ];
+  if (score !== null && est !== null) {
+    lines.push('From the free Leak Test: score ' + score + '/100, roughly $' + est.toLocaleString('en-US') + ' a year estimated at stake.');
+  }
+  if (ref) lines.push('Referral code: ' + ref);
+  if (lines[lines.length - 1] !== '') lines.push('');
+  lines.push('(I understand I will never be asked for passwords or card numbers.)');
+  var href = 'mailto:daniel@subastian.us?subject=' + encodeURIComponent('Audit request') + '&body=' + encodeURIComponent(lines.join('\n'));
+
+  var ctx = { src: src || null, referral_code: ref || null, leak_score: score, est_yearly_leak: est };
+  var track = function(ev, props){
+    if (!window.subTrack) return;
+    var p = {}; for (var k in ctx) p[k] = ctx[k]; for (var j in (props || {})) p[j] = props[j];
+    subTrack(ev, p);
+  };
+
+  /* ph.js is deferred, so subTrack only exists once the document has finished parsing. */
+  document.addEventListener('DOMContentLoaded', function(){ track('auditservice_page_view'); });
+  Array.prototype.forEach.call(document.querySelectorAll('.js-request'), function(a){
+    a.href = href;
+    a.addEventListener('click', function(){ track('auditservice_request_click', { position: a.getAttribute('data-pos') || 'unknown' }); });
+  });
+})();
+</script>
 </body>
 </html>

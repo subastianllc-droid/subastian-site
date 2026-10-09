@@ -133,6 +133,7 @@
   .sticky-buy.hidden{transform:translateY(110%);}
   .sticky-buy .btn-cta{display:block; width:100%; text-align:center; padding:13px 18px; font-size:15px;}
   
+.copy-addr{background:none;border:0;padding:0;color:var(--accent);font:inherit;text-decoration:underline;cursor:pointer}
 </style>
 <script src="/ph.js" defer></script>
 </head>
@@ -155,6 +156,7 @@
           <h3>$49 &middot; founding client price</h3>
           <p>For my first 5 clients. In return, I ask for your honest feedback after you read the report. After that, the price is $149.</p>
           <a class="btn-cta" href="mailto:daniel@subastian.us?subject=Audit%20request&body=Hi%20Daniel%2C%0A%0AI%27d%20like%20a%20software%20subscription%20audit.%0A%0AName%3A%0ABusiness%20or%20role%3A%0ARoughly%20how%20many%20tools/subscriptions%20I%20pay%20for%3A%0AMy%20biggest%20concern%20%28cost%2C%20duplicates%2C%20renewals%29%3A%0ABest%20way%20to%20reach%20me%3A%0A%0A%28I%20understand%20I%20will%20never%20be%20asked%20for%20passwords%20or%20card%20numbers.%29">Request my audit</a>
+          <p class="hint">Button not opening your email? <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=daniel%40subastian.us&amp;su=Audit%20request&amp;body=Hi%20Daniel%2C%0A%0AI%27d%20like%20a%20software%20subscription%20audit.%0A%0AName%3A%0ABusiness%20or%20role%3A%0ARoughly%20how%20many%20tools/subscriptions%20I%20pay%20for%3A%0AMy%20biggest%20concern%20%28cost%2C%20duplicates%2C%20renewals%29%3A%0ABest%20way%20to%20reach%20me%3A%0A%0A%28I%20understand%20I%20will%20never%20be%20asked%20for%20passwords%20or%20card%20numbers.%29" target="_blank" rel="noopener">Open it in Gmail</a>, or <button type="button" class="copy-addr" data-copy="daniel@subastian.us">copy daniel@subastian.us</button> and send me a short note.</p>
           <p class="hint">No payment yet. I reply with what's included, then send a secure payment link only if you want to go ahead. 30-day money-back guarantee.</p>
         </div>
       </div>
@@ -205,6 +207,7 @@
       <h2>Ready to see what you're overpaying for?</h2>
       <p>Request your audit. It takes about two minutes, and there's no payment until we agree on what's included.</p>
       <a class="btn-cta" href="mailto:daniel@subastian.us?subject=Audit%20request&body=Hi%20Daniel%2C%0A%0AI%27d%20like%20a%20software%20subscription%20audit.%0A%0AName%3A%0ABusiness%20or%20role%3A%0ARoughly%20how%20many%20tools/subscriptions%20I%20pay%20for%3A%0AMy%20biggest%20concern%20%28cost%2C%20duplicates%2C%20renewals%29%3A%0ABest%20way%20to%20reach%20me%3A%0A%0A%28I%20understand%20I%20will%20never%20be%20asked%20for%20passwords%20or%20card%20numbers.%29">Request my audit</a>
+          <p class="hint">Button not opening your email? <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=daniel%40subastian.us&amp;su=Audit%20request&amp;body=Hi%20Daniel%2C%0A%0AI%27d%20like%20a%20software%20subscription%20audit.%0A%0AName%3A%0ABusiness%20or%20role%3A%0ARoughly%20how%20many%20tools/subscriptions%20I%20pay%20for%3A%0AMy%20biggest%20concern%20%28cost%2C%20duplicates%2C%20renewals%29%3A%0ABest%20way%20to%20reach%20me%3A%0A%0A%28I%20understand%20I%20will%20never%20be%20asked%20for%20passwords%20or%20card%20numbers.%29" target="_blank" rel="noopener">Open it in Gmail</a>, or <button type="button" class="copy-addr" data-copy="daniel@subastian.us">copy daniel@subastian.us</button> and send me a short note.</p>
       <p class="hint">Prefer a cheaper do-it-yourself option? Try the <a href="/audit-kit/">Subscription Audit Kit ($9)</a>.</p>
     </section>
   </div>
@@ -219,5 +222,15 @@
   </div>
 </footer>
 
+<script>
+document.querySelectorAll('.copy-addr').forEach(function(b){
+  b.addEventListener('click', function(){
+    var t = b.getAttribute('data-copy'), label = b.textContent;
+    var done = function(){ b.textContent = 'Copied!'; setTimeout(function(){ b.textContent = label; }, 1800); };
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t).then(done, function(){ window.prompt('Copy this address:', t); }); }
+    else { window.prompt('Copy this address:', t); }
+  });
+});
+</script>
 </body>
 </html>

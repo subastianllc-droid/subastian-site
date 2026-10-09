@@ -12,7 +12,9 @@ It was tested against a simulated Sheet and Gmail, not live Google. Do the dry r
 1. Open the **Subastian Waitlist** sheet, then **Extensions > Apps Script**.
 2. Click **+ > Script**, name it `email-drip`, and paste in the contents of `email-drip.gs`.
    Your project can only have one `doGet`. If the existing script already has one, tell Claude and it will merge them.
-3. At the top of the file, fill in `POSTAL_ADDRESS` (a PO box works). Leave `DRY_RUN: true` for now.
+3. At the top of the file, fill in `POSTAL_ADDRESS` (a PO box works). Type it **in the Apps Script editor only,
+   never in this repo copy**: everything in this repo is served publicly on subastian.us.
+   Leave `DRY_RUN: true` for now.
 4. Check the sheet's header row has an email column and a signup-date column (`submittedAt`).
    The script adds its own three columns: `drip1_sent_at`, `drip2_sent_at`, `unsubscribed`.
 5. **Deploy > Manage deployments**, click the pencil on your existing web app, set Version to

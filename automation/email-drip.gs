@@ -5,8 +5,8 @@
  * Every hour it looks for roster signups that are due an email and sends it from your Gmail:
  *   Email 1: 2 days after signup. Asks for a one-sentence reply.
  *   Email 2: 3 days after Email 1. Asks for a one-letter reply.
- *   Email 3 (only if OFFER_EMAILS is on): 5 days after Email 2. Offers the done-for-you audit, with the $9 Kit as the cheaper option.
- *   Email 4 (only if OFFER_EMAILS is on): 7 days after Email 3. Last in the series: every offer in one place, plus share and partner links.
+ *   Email 3 (only if OFFER_EMAILS is on and they signed up on/after OFFERS_SIGNUP_FROM): 5 days after Email 2. Offers the done-for-you audit, with the $9 Kit as the cheaper option.
+ *   Email 4 (same condition): 7 days after Email 3. Last in the series: every offer in one place, plus share and partner links.
  * It skips anyone who unsubscribed, anyone who already replied, bad addresses and duplicates.
  * Every email carries an unsubscribe link and your postal address (both are required for
  * commercial email). Nothing here is a secret; the unsubscribe signing key is generated and
@@ -27,8 +27,12 @@ var CONFIG = {
   EARLIEST_SIGNUP: '',      // optional 'YYYY-MM-DD'; older signups are left alone
   DAYS_AFTER_SIGNUP: 2,     // Email 1 timing
   DAYS_AFTER_EMAIL_1: 3,    // Email 2 timing
-  OFFER_EMAILS: false,      // false = only Emails 1 and 2, exactly as before. true = also send Emails 3 and 4 (the offer emails).
-                            // Turning it on makes everyone who already got Email 2 eligible for Email 3 once the days below have passed.
+  OFFER_EMAILS: false,      // false = only Emails 1 and 2, exactly as before. true = also send Emails 3 and 4 (the offer emails),
+                            // but only to people on or after OFFERS_SIGNUP_FROM (below).
+  OFFERS_SIGNUP_FROM: '',   // REQUIRED for Emails 3 and 4, 'YYYY-MM-DD'. Only people who signed up on or after this date get them.
+                            // Set it to the day your signup forms began telling people they'll get offers for the Audit Kit and
+                            // the audit service. Blank = no offer emails are sent, even with OFFER_EMAILS on. Set it earlier only
+                            // if you're sure everyone after that date was told.
   DAYS_AFTER_EMAIL_2: 5,    // Email 3 timing
   DAYS_AFTER_EMAIL_3: 7,    // Email 4 timing
   AUDIT_PRICE_LINE: 'Founding client price: $49 for my first 5 clients, then $149.',
@@ -56,6 +60,7 @@ function runDrip() {
   var values = sheet.getDataRange().getValues();
   var now = new Date();
   var earliest = CONFIG.EARLIEST_SIGNUP ? new Date(CONFIG.EARLIEST_SIGNUP + 'T00:00:00') : null;
+  var offersFrom = CONFIG.OFFERS_SIGNUP_FROM ? new Date(CONFIG.OFFERS_SIGNUP_FROM + 'T00:00:00') : null;
 
   if (!CONFIG.DRY_RUN) assertReadyToSend_();
 
@@ -66,6 +71,9 @@ function runDrip() {
   }
 
   var sent = 0, log = [];
+  if (CONFIG.OFFER_EMAILS && !offersFrom) {
+    log.push('OFFER_EMAILS is on but OFFERS_SIGNUP_FROM is blank, so Emails 3 and 4 are NOT being sent. Set that date to choose who may receive them.');
+  }
   for (var r = 1; r < values.length && sent < CONFIG.MAX_PER_RUN; r++) {
     var row = values[r];
     var rec = {
@@ -78,7 +86,7 @@ function runDrip() {
       unsub: row[cols.unsub]
     };
     var d = decide_(rec, now, {
-      earliest: earliest, offers: CONFIG.OFFER_EMAILS,
+      earliest: earliest, offers: CONFIG.OFFER_EMAILS, offersFrom: offersFrom,
       days1: CONFIG.DAYS_AFTER_SIGNUP, days2: CONFIG.DAYS_AFTER_EMAIL_1,
       days3: CONFIG.DAYS_AFTER_EMAIL_2, days4: CONFIG.DAYS_AFTER_EMAIL_3
     });
@@ -164,7 +172,8 @@ function decide_(rec, now, cfg) {
     return prev && now - prev >= days * DAY_MS ? { step: step } : { step: 0 };
   };
   if (!rec.sent2) return due(rec.sent1, cfg.days2, 2);
-  if (!cfg.offers) return { step: 0 };
+  // Offer emails need the switch on AND a cut-off date: only people who signed up after the forms said offers were coming.
+  if (!cfg.offers || !cfg.offersFrom || rec.signupAt < cfg.offersFrom) return { step: 0 };
   if (!rec.sent3) return due(rec.sent2, cfg.days3, 3);
   if (!rec.sent4) return due(rec.sent3, cfg.days4, 4);
   return { step: 0 };

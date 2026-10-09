@@ -34,12 +34,24 @@ Emails 1 and 2 ask questions. Emails 3 and 4 are the first ones that make an off
 - **Email 3**, 5 days after Email 2 (about day 10): the done-for-you audit, with the $9 Kit as the cheaper option.
 - **Email 4**, 7 days after Email 3 (about day 17): every offer in one place, plus the Leak Test to share and the partner program.
 
-To turn them on, set `OFFER_EMAILS: true` in the Apps Script editor. Before you do:
+To turn them on you set **two** things in the Apps Script editor: `OFFER_EMAILS: true` and `OFFERS_SIGNUP_FROM: 'YYYY-MM-DD'`.
+With the date blank, no offer emails go out even with the switch on, and the log says why.
 
-1. Read both with `sendTestToMe`. Nothing in them is a testimonial or a statistic, and the price line comes from `AUDIT_PRICE_LINE`.
-2. **Keep `AUDIT_PRICE_LINE` true.** It says "$49 for my first 5 clients, then $149". When the 5 founding spots are gone, change that line here, on `/audit-service/` and in `AUDIT_PRICE_TEXT` on `/leak-test/` together.
-3. Know who it reaches. Anyone who already got Email 2 becomes eligible for Email 3 once 5 days have passed since it was sent, so a few existing roster members get it on the first run. `MAX_PER_RUN` still caps each batch. Anyone who replied is skipped, because those are conversations to answer yourself.
-4. Run `runDrip` with `DRY_RUN: true` once and read the log (`would send email 3 to ...`) before sending for real.
+**Why the date.** The signup forms say "No spam", and the privacy policy lists "founding-member offers", but nothing on the forms
+tells people they may be offered a paid service. Offer emails should only reach people who were told. So:
+
+1. Update the signup wording first (the roster form on the home page, the Leak Test unlock form and the calculator form) to say
+   subscribers may get occasional offers for the Audit Kit and the audit service, and make sure the privacy policy and terms match.
+2. Set `OFFERS_SIGNUP_FROM` to the day that wording went live. Only people who signed up on or after it get Emails 3 and 4.
+   Everyone, including people from before that date, still gets Emails 1 and 2 as before.
+3. Move the date earlier only if you are sure everyone after it was told.
+
+Then:
+
+4. Read both emails with `sendTestToMe`. Nothing in them is a testimonial or a statistic, and the price line comes from `AUDIT_PRICE_LINE`.
+5. **Keep `AUDIT_PRICE_LINE` true.** It says "$49 for my first 5 clients, then $149". When the 5 founding spots are gone, change that line here, on `/audit-service/` and in `AUDIT_PRICE_TEXT` on `/leak-test/` together. Check how many have actually been taken before you turn offers on.
+6. Only send what you can deliver. The audit promises a report within 3 business days. If requests outrun your time, turn `OFFER_EMAILS` off, and set `AUDIT_MIN_MONTHLY` on `/leak-test/` very high so the page stops leading with the audit.
+7. Run `runDrip` with `DRY_RUN: true` once and read the log (`would send email 3 to ...`) before sending for real. `MAX_PER_RUN` caps each batch, and anyone who replied is skipped, because those are conversations to answer yourself.
 
 Each email links with its own tag (`?src=day10email`, `?src=day17email`) so PostHog shows which one drives visits to the audit and Kit pages.
 
@@ -47,7 +59,7 @@ Each email links with its own tag (`?src=day10email`, `?src=day17email`) so Post
 
 Pasting a new `email-drip.gs` over the old one also overwrites the `CONFIG` block you filled in. Copy your
 `POSTAL_ADDRESS`, `WEB_APP_URL`, `FROM_ALIAS`, `EARLIEST_SIGNUP` and `DRY_RUN` values across, keep the new
-settings (`OFFER_EMAILS`, `DAYS_AFTER_EMAIL_2`, `DAYS_AFTER_EMAIL_3`, `AUDIT_PRICE_LINE`), then deploy a new version
+settings (`OFFER_EMAILS`, `OFFERS_SIGNUP_FROM`, `DAYS_AFTER_EMAIL_2`, `DAYS_AFTER_EMAIL_3`, `AUDIT_PRICE_LINE`), then deploy a new version
 as in step 5. The hourly trigger keeps running, and the two new sheet columns are added on the next run.
 
 ## Good to know

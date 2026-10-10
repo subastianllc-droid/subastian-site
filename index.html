@@ -414,6 +414,16 @@
 
   .hero-grid{ display:grid; grid-template-columns:1.15fr 1fr; gap:44px; align-items:center; }
   .hero-art img{ width:100%; height:auto; display:block; border-radius:20px; box-shadow:0 30px 70px -30px rgba(109,40,217,.5); }
+  .hero-art{ position:relative; }
+  .hero-film{ position:absolute; inset:0; z-index:2; border-radius:20px; display:flex; align-items:flex-end; justify-content:flex-start; padding:16px; text-decoration:none; }
+  .hero-film-pill{ display:inline-flex; align-items:center; gap:8px; background:rgba(11,10,20,.72); color:#fff; border:1px solid rgba(233,185,73,.55); border-radius:999px; padding:8px 14px 8px 10px; font-size:13px; font-weight:600; backdrop-filter:blur(4px); transition:background .15s ease; }
+  .hero-film-pill svg{ width:14px; height:14px; color:#E9B949; }
+  .hero-film:hover .hero-film-pill{ background:rgba(11,10,20,.9); }
+  .film-link{ display:inline-flex; align-items:center; gap:10px; margin-top:18px; font-size:14px; font-weight:600; color:var(--ink); text-decoration:none; }
+  .film-link:hover{ color:var(--accent); }
+  .film-disc{ width:30px; height:30px; border-radius:50%; background:#E9B949; color:#15102b; display:grid; place-items:center; flex:none; }
+  .film-disc svg{ width:12px; height:12px; margin-left:2px; }
+  .film-len{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-faint); font-weight:500; }
   .hero-art video{ width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; display:block; border-radius:20px; background:#15102b; box-shadow:0 30px 70px -30px rgba(109,40,217,.5); }
 
   .leak-grid{ display:grid; grid-template-columns:1.3fr .85fr; gap:44px; align-items:center; }
@@ -461,6 +471,7 @@
         <a href="#waitlist" class="btn-cta">Join the Founding Roster — Free</a>
         <a href="#pricing" class="btn-ghost">See launch pricing</a>
       </div>
+      <a href="/watch/?src=home-hero" class="film-link" data-film="hero-text"><span class="film-disc" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></span>Watch the 60-second film <span class="film-len">1:04</span></a>
       <p class="hero-note">Built for <b>affiliate marketers, agencies and IT teams</b> juggling a lot of tools.</p>
       <div class="trust-strip">
         <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Roster is free — no credit card</span>
@@ -469,6 +480,7 @@
       </div>
     </div>
     <div class="hero-art">
+      <a href="/watch/?src=home-hero" class="hero-film" data-film="hero-video" aria-label="Watch the full 60-second Subastian film with sound"><span class="hero-film-pill" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>Watch with sound</span></a>
       <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="hero-poster.jpg" width="1280" height="720" aria-label="The Subastian conductor waves his baton, orbiting software subscriptions into order, and the Subastian name lights up in gold"><source src="hero.mp4" type="video/mp4"><img src="hero.jpg" alt="A conductor directing a ring of orbiting software subscription icons, illustrating Subastian's subscription management" width="1400" height="787" fetchpriority="high" decoding="async"></video>
     </div>
   </section>
@@ -682,7 +694,7 @@
           <li>Direct line to the founder on what gets built</li>
           <li>Free to join. No credit card. No spam.</li>
         </ul>
-        <p class="roster-status" id="rosterStatus">No live signup database yet — this form emails the founder directly at <a href="mailto:daniel@subastian.us">daniel@subastian.us</a>.</p>
+        <p class="roster-status" id="rosterStatus">Signups are saved automatically. We only email you about Subastian, and you can unsubscribe anytime.</p>
       </div>
       <div>
         <form id="rosterForm" novalidate>
@@ -711,7 +723,7 @@
           <p class="plan-pick" id="planPick" hidden>Plan you're interested in: <b id="planName"></b> <button type="button" id="planClear" aria-label="Clear plan choice">Clear</button></p>
           <div class="submit-row">
             <button type="submit" class="btn-submit">Reserve My Spot — Free</button>
-            <span class="submit-hint">Opens a pre-filled email — hit send to confirm. No card, no spam.</span>
+            <span class="submit-hint">No card, no spam. Unsubscribe anytime.</span>
           </div>
           <p class="confirm-msg" id="confirmMsg" role="status" aria-live="polite"></p>
         </form>
@@ -893,6 +905,10 @@
   });
   var planClear = document.getElementById('planClear');
   if(planClear) planClear.addEventListener('click', function(){ setPlan(''); });
+
+  document.querySelectorAll('a[data-film]').forEach(function(a){
+    a.addEventListener('click', function(){ if(window.subTrack) subTrack('home_film_click', { position: a.getAttribute('data-film') }); });
+  });
 
   document.querySelectorAll('a[data-kit]').forEach(function(a){
     a.addEventListener('click', function(){ if(window.subTrack) subTrack('home_kit_click', { position: a.getAttribute('data-kit') }); });

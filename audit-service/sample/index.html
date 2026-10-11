@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample Audit Report | Subastian</title>
+<meta name="description" content="An example of the savings report from the Subastian done-for-you subscription audit. Made-up business, tools and prices.">
+<meta name="robots" content="noindex, follow">
+
+<link rel="canonical" href="https://subastian.us/audit-service/sample/">
+<meta name="author" content="Subastian, LLC">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Subastian">
+<meta property="og:title" content="Sample subscription audit report"><meta property="og:description" content="An example of the savings report: made-up business, tools and prices.">
+<meta property="og:image" content="https://subastian.us/hero.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://subastian.us/audit-service/sample/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/emblem.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --bg:#F8F7FC; --bg-band:#F1EDFA; --surface:#FFFFFF; --ink:#15132A;
+    --ink-soft:#5C5678; --ink-faint:#8B84A8; --line:#E2DCF2;
+    --accent:#6D28D9; --accent-strong:#54169E; --accent-tint:#ECE3FB;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+      --ink-soft:#B4ADCF; --ink-faint:#7C7599; --line:#2B2745;
+      --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+    --ink-soft:#B4ADCF; --ink-faint:#7C7599; --line:#2B2745;
+    --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E;
+  }
+  *{box-sizing:border-box;}
+  html{color-scheme:light dark;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
+    line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);}
+  h1,h2{font-family:'Plus Jakarta Sans','Inter',sans-serif; color:var(--ink); line-height:1.2;}
+  .wrap{max-width:760px; margin:0 auto; padding:0 28px;}
+  header.topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 28px; max-width:1040px; margin:0 auto; gap:16px;
+  }
+  .brand{font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:18px; text-decoration:none; color:var(--ink); display:flex; align-items:center; gap:8px;}
+  .brand-mark{width:24px; height:24px; object-fit:contain;}
+  .brand span{color:var(--accent);}
+  .btn-ghost{
+    background:transparent; color:var(--ink-soft); border:1px solid var(--line);
+    border-radius:8px; padding:9px 16px; font-weight:600; font-size:13.5px;
+    text-decoration:none;
+  }
+  main{padding:24px 0 80px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:10px;
+  }
+  h1{font-size:clamp(28px,4vw,38px); font-weight:800; letter-spacing:-.02em;}
+  .updated{color:var(--ink-faint); font-size:13.5px; margin-top:10px;}
+  .pre-launch-note{
+    margin-top:24px; padding:16px 18px; border-left:2px solid var(--accent);
+    background:var(--accent-tint); border-radius:0 8px 8px 0; font-size:14px; color:var(--ink-soft);
+  }
+  section{margin-top:40px;}
+  h2{font-size:19px; font-weight:700; margin:0 0 12px;}
+  p{margin:0 0 14px; font-size:15px; color:var(--ink-soft);}
+  ul{margin:0 0 14px; padding-left:20px; color:var(--ink-soft); font-size:15px;}
+  li{margin-bottom:8px;}
+  strong{color:var(--ink);}
+  footer{border-top:1px solid var(--line); margin-top:60px; padding:28px 0 40px;}
+  .foot-row{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    font-size:12.5px; color:var(--ink-faint);
+  }
+  table{width:100%; border-collapse:collapse; margin:4px 0 16px; font-size:14.5px;}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top;}
+  th{color:var(--ink); font-weight:600; font-size:13px;}
+  .legal-nav{display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:14px; font-size:13.5px;}
+  .legal-nav a[aria-current]{color:var(--ink); font-weight:600; text-decoration:none;}
+  @media (max-width:560px){ .wrap{padding:0 16px;} header.topbar{padding:18px 16px;} }
+  .brand .wm{color:var(--ink);} .brand .wm span{color:var(--accent);}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:18px 0 8px;}
+  .card{border:1px solid var(--line); border-radius:12px; padding:18px; background:var(--surface);}
+  .card h3{font-family:'Plus Jakarta Sans','Inter',sans-serif; font-size:16px; margin:0 0 6px; color:var(--ink);}
+  .card p{font-size:14px; margin-bottom:12px;}
+  .btn-cta{display:inline-block; background:var(--accent-fill,#6D28D9); color:#fff; text-decoration:none; font-weight:600; font-size:14px; border-radius:8px; padding:10px 16px; border:0; cursor:pointer; font-family:inherit;}
+  .btn-cta:hover{filter:brightness(1.08);}
+  .btn-copy{background:transparent; color:var(--accent); border:1px solid var(--line); border-radius:6px; font:600 12.5px Inter,sans-serif; padding:6px 10px; cursor:pointer; float:right;}
+  .swipe{position:relative; border:1px solid var(--line); background:var(--surface); border-radius:10px; padding:16px 18px; margin:0 0 16px;}
+  .swipe .label{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint);}
+  .swipe pre{white-space:pre-wrap; font-family:Inter,system-ui,sans-serif; font-size:14.5px; color:var(--ink-soft); margin:10px 0 0; line-height:1.6;}
+  .banners{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px;}
+  .banners figure{margin:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface);}
+  .banners img{display:block; width:100%; height:auto;}
+  .banners figcaption{display:flex; justify-content:space-between; align-items:center; padding:10px 12px; font-size:13px; color:var(--ink-soft);}
+  form.pform{border:1px solid var(--line); background:var(--surface); border-radius:12px; padding:20px; margin-top:8px;}
+  .field{margin-bottom:14px;} .field label{display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:6px;}
+  .field input,.field select{width:100%; font:15px Inter,sans-serif; padding:10px 12px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink);}
+  .field input:focus,.field select:focus{outline:2px solid var(--accent); outline-offset:1px;}
+  .hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+  .hint{font-size:12.5px; color:var(--ink-faint); margin-top:10px;}
+  .confirm{font-size:14.5px; color:var(--ink); margin-top:12px; font-weight:500;}
+  .perks{list-style:none; padding:0;} .perks li{padding-left:26px; position:relative;} .perks li:before{content:"✓"; position:absolute; left:0; color:var(--accent); font-weight:700;}
+
+  /* example output */
+  .preview{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--surface); margin:6px 0 10px;}
+  .preview .ph{background:#6D28D9; color:#fff; font:600 11.5px 'IBM Plex Mono',monospace; letter-spacing:.1em; text-transform:uppercase; padding:11px 16px;}
+  .preview table{margin:0;}
+  .preview tr:last-child td{border-bottom:0;}
+  .preview td:nth-child(2){white-space:nowrap; font-family:'IBM Plex Mono',monospace; font-size:13.5px;}
+  .preview .total td{background:var(--accent-tint); color:var(--accent-strong); font-weight:700;}
+  .flag{white-space:nowrap; display:inline-block; font:600 11.5px 'IBM Plex Mono',monospace; letter-spacing:.04em; text-transform:uppercase; padding:3px 10px; border-radius:999px; background:#DDF5E6; color:#1B6B3A;}
+  .flag.dup{background:#FDE7E7; color:#B42318;} .flag.warn{background:#FFF1D6; color:#9A5B00;}
+
+  /* how it works */
+  .steps{list-style:none; padding:0; margin:0; display:grid; gap:12px;}
+  .steps li{margin:0; padding:14px 16px 14px 56px; position:relative; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  .steps li:before{content:attr(data-n); position:absolute; left:16px; top:14px; width:26px; height:26px; border-radius:50%; border:1px solid var(--accent); color:var(--accent); font:600 12px 'IBM Plex Mono',monospace; display:flex; align-items:center; justify-content:center;}
+
+  /* closing offer + mobile sticky bar */
+  .final{border:1px solid var(--accent); border-radius:16px; padding:26px 24px; background:var(--surface); text-align:center;}
+  .final h2{margin-bottom:8px;}
+  .final .btn-cta{padding:13px 22px; font-size:15px;}
+  .final .hint{margin-top:14px;}
+  .sticky-buy{display:none; position:fixed; left:0; right:0; bottom:0; z-index:60; padding:10px 16px calc(10px + env(safe-area-inset-bottom)); background:var(--surface); border-top:1px solid var(--line); box-shadow:0 -8px 24px -16px rgba(0,0,0,.5); transition:transform .2s ease;}
+  .sticky-buy.hidden{transform:translateY(110%);}
+  .sticky-buy .btn-cta{display:block; width:100%; text-align:center; padding:13px 18px; font-size:15px;}
+  
+.copy-addr{background:none;border:0;padding:0;color:var(--accent);font:inherit;text-decoration:underline;cursor:pointer}
+  .scroll{overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  .scroll table{margin:0; min-width:640px;} .scroll tr:last-child td{border-bottom:0;}
+  td.num,th.num{text-align:right; font-family:'IBM Plex Mono',monospace; font-size:13.5px; white-space:nowrap;}
+  .banner{border:1px dashed var(--accent); border-radius:12px; padding:12px 16px; background:var(--accent-tint); color:var(--accent-strong); font-size:14px; margin:18px 0 0;}
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-top:6px;}
+  .stat{border:1px solid var(--line); border-radius:12px; padding:14px 16px; background:var(--surface);}
+  .stat b{display:block; font:700 24px 'Plus Jakarta Sans','Inter',sans-serif; color:var(--ink);}
+  .stat span{font-size:12.5px; color:var(--ink-faint);}
+  .stat.save b{color:var(--accent);}
+  ol.actions{padding-left:20px;} ol.actions li{margin-bottom:10px;}
+</style>
+<script src="/ph.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Subastian home"><img class="brand-mark" src="/emblem.png" alt="" width="24" height="24"><span class="wm">SUBA<span>STIAN</span></span></a>
+  <a href="/audit-service/" class="btn-ghost">&larr; Back to the audit</a>
+</header>
+
+<main>
+  <div class="wrap">
+    <p class="eyebrow">Sample report</p>
+    <h1>What your audit report looks like.</h1>
+    <p class="banner"><strong>This is an example.</strong> The business, tools and prices are made up to show the format. It is not a real client or a real result. Your report uses only the list you send me.</p>
+
+    <section>
+      <h2>Summary</h2>
+      <p>Example client: a 3-person marketing agency paying for 11 tools.</p>
+      <div class="stats">
+        <div class="stat"><b>$321/mo</b><span>Current spend ($3,852/yr)</span></div>
+        <div class="stat save"><b>$109/mo</b><span>Possible savings ($1,308/yr)</span></div>
+        <div class="stat"><b>$59/mo</b><span>New charge avoided (free trial ending)</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Top actions, ranked by money saved</h2>
+      <ol class="actions"><li><strong>Project tracker B: save $30/mo ($360/yr).</strong> Does the same job as Project tracker A. Cancel.</li><li><strong>Stock photo site: save $29/mo ($348/yr).</strong> Renews in 18 days. Decide before then; per-image buying may be cheaper.</li><li><strong>Video editor: save $25/mo ($300/yr).</strong> Not opened in 2 months. Pause or cancel; resubscribe when needed.</li><li><strong>Social scheduler: save $13/mo ($156/yr).</strong> Only 2 of 3 seats in use. Drop one seat.</li><li><strong>Cloud storage B: save $12/mo ($144/yr).</strong> Old files only. Move them to Cloud storage A, then cancel.</li>
+        <li><strong>Analytics tool free trial: avoid a new $59/mo charge.</strong> The trial turns paid in 5 days and nobody on the team has logged in. Cancel before it converts.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Audit spreadsheet</h2>
+      <p class="hint" style="margin-top:0">Monthly cost for annual plans is the yearly price divided by 12.</p>
+      <div class="scroll"><table>
+        <thead><tr><th>Tool</th><th>Billing</th><th class="num">Per month</th><th class="num">Per year</th><th>Last used</th><th>Flag</th><th class="num">Save/mo</th></tr></thead>
+        <tbody>
+<tr><td><strong>Project tracker A</strong><br><span class="hint" style="margin:0">Project management</span></td><td>Monthly</td><td class="num">$49</td><td class="num">$588</td><td>Today</td><td><span class="flag">Keep</span></td><td class="num">—</td></tr>
+<tr><td><strong>Project tracker B</strong><br><span class="hint" style="margin:0">Project management</span></td><td>Monthly</td><td class="num">$30</td><td class="num">$360</td><td>47 days ago</td><td><span class="flag dup">Overlap</span></td><td class="num">$30</td></tr>
+<tr><td><strong>Email marketing tool</strong><br><span class="hint" style="margin:0">Email</span></td><td>Monthly</td><td class="num">$79</td><td class="num">$948</td><td>Today</td><td><span class="flag">Keep</span></td><td class="num">—</td></tr>
+<tr><td><strong>Design app</strong><br><span class="hint" style="margin:0">Design</span></td><td>Annual ($120)</td><td class="num">$10</td><td class="num">$120</td><td>This week</td><td><span class="flag">Keep</span></td><td class="num">—</td></tr>
+<tr><td><strong>Video editor</strong><br><span class="hint" style="margin:0">Video</span></td><td>Monthly</td><td class="num">$25</td><td class="num">$300</td><td>63 days ago</td><td><span class="flag warn">Idle</span></td><td class="num">$25</td></tr>
+<tr><td><strong>Cloud storage A</strong><br><span class="hint" style="margin:0">Storage</span></td><td>Monthly</td><td class="num">$20</td><td class="num">$240</td><td>Today</td><td><span class="flag">Keep</span></td><td class="num">—</td></tr>
+<tr><td><strong>Cloud storage B</strong><br><span class="hint" style="margin:0">Storage</span></td><td>Monthly</td><td class="num">$12</td><td class="num">$144</td><td>90 days ago</td><td><span class="flag dup">Overlap</span></td><td class="num">$12</td></tr>
+<tr><td><strong>Social scheduler</strong><br><span class="hint" style="margin:0">Social media</span></td><td>Monthly (3 seats)</td><td class="num">$39</td><td class="num">$468</td><td>This week</td><td><span class="flag warn">Unused seat</span></td><td class="num">$13</td></tr>
+<tr><td><strong>Stock photo site</strong><br><span class="hint" style="margin:0">Images</span></td><td>Annual ($348)</td><td class="num">$29</td><td class="num">$348</td><td>4 months ago</td><td><span class="flag warn">Renews soon</span></td><td class="num">$29</td></tr>
+<tr><td><strong>Writing assistant</strong><br><span class="hint" style="margin:0">Writing</span></td><td>Monthly</td><td class="num">$20</td><td class="num">$240</td><td>Today</td><td><span class="flag">Keep</span></td><td class="num">—</td></tr>
+<tr><td><strong>Password manager</strong><br><span class="hint" style="margin:0">Security</span></td><td>Annual ($96)</td><td class="num">$8</td><td class="num">$96</td><td>Today</td><td><span class="flag">Keep</span></td><td class="num">—</td></tr>
+<tr><td><strong>Total</strong></td><td></td><td class="num"><strong>$321</strong></td><td class="num"><strong>$3,852</strong></td><td></td><td></td><td class="num"><strong>$109</strong></td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section>
+      <h2>Renewal calendar, next 30 days</h2>
+      <div class="scroll"><table style="min-width:480px">
+        <thead><tr><th>When</th><th>What</th><th class="num">Charge</th><th>Do this</th></tr></thead>
+        <tbody>
+<tr><td>In 5 days</td><td>Analytics tool (trial ends)</td><td class="num">$59</td><td><span class="flag dup">Cancel first</span></td></tr>
+<tr><td>In 9 days</td><td>Video editor</td><td class="num">$25</td><td><span class="flag warn">Pause</span></td></tr>
+<tr><td>In 14 days</td><td>Project tracker B</td><td class="num">$30</td><td><span class="flag dup">Cancel</span></td></tr>
+<tr><td>In 18 days</td><td>Stock photo site (annual)</td><td class="num">$348</td><td><span class="flag warn">Decide</span></td></tr>
+<tr><td>In 22 days</td><td>Social scheduler</td><td class="num">$39</td><td><span class="flag warn">Drop a seat</span></td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section>
+      <h2>Overlaps found</h2>
+      <ul class="perks">
+        <li><strong>Project tracker A and B</strong> both handle tasks and boards. The team works in A daily; B hasn't been opened in 47 days.</li>
+        <li><strong>Cloud storage A and B</strong> both store files. B only holds an old archive that fits in A's existing space.</li>
+      </ul>
+    </section>
+
+    <section class="final">
+      <h2>Want this for your own subscriptions?</h2>
+      <p>$49, one time. If I can't find any savings, you get a full refund.</p>
+      <a class="btn-cta" href="/audit-service/#price">Request my audit</a>
+      <p class="hint">Prefer to do it yourself? The <a href="/audit-kit/">Subscription Audit Kit ($9)</a> does the same math on your own list.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div>Subastian, LLC &middot; Denver, CO</div>
+      <div><a href="mailto:daniel@subastian.us">daniel@subastian.us</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/refund-policy/">Refunds</a></div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -105,6 +105,15 @@
   .hint{font-size:12.5px; color:var(--ink-faint); margin-top:10px;}
   .confirm{font-size:14.5px; color:var(--ink); margin-top:12px; font-weight:500;}
   .perks{list-style:none; padding:0;} .perks li{padding-left:26px; position:relative;} .perks li:before{content:"✓"; position:absolute; left:0; color:var(--accent); font-weight:700;}
+  .toc{display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:20px; font-size:13.5px;}
+  .toc a{color:var(--accent); text-decoration:none; font-weight:600;}
+  .toc a:hover{text-decoration:underline;}
+  h2[id]{scroll-margin-top:16px;}
+  h3.group{font-family:'Plus Jakarta Sans','Inter',sans-serif; font-size:15.5px; font-weight:700; color:var(--ink); margin:28px 0 10px;}
+  .note{margin:0 0 16px; padding:14px 16px; border-left:2px solid var(--accent); background:var(--accent-tint); border-radius:0 8px 8px 0; font-size:14px; color:var(--ink-soft);}
+  .note p{font-size:14px; margin:0 0 8px;} .note p:last-child{margin:0;}
+  .twocol{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin:0 0 16px;}
+  .twocol .card ul{margin:0; padding-left:18px; font-size:14px;}
 </style>
 <script src="/ph.js" defer></script>
 </head>
@@ -121,9 +130,12 @@
     <h1>Partner Launch Kit</h1>
     <p class="updated">Everything you need to introduce Subastian to your audience.</p>
     <div class="pre-launch-note">Please keep this link to yourself. It's for Subastian partners only.</div>
+    <nav class="toc" aria-label="Kit contents">
+      <a href="#rules">Rules</a><a href="#link">Your link</a><a href="#emails">Emails</a><a href="#social">Social</a><a href="#video">Video</a><a href="#banners">Banners</a><a href="#bonus">Sign-up bonus</a><a href="#founder">Founder access</a>
+    </nav>
 
     <section>
-      <h2>1. Before you post: the rules</h2>
+      <h2 id="rules">1. Before you post: the rules</h2>
       <ul>
         <li><strong>Say it's in development.</strong> Subastian isn't live yet. Point people to the free founding roster, never to "buy now" or "sign up for your subscription."</li>
         <li><strong>Always disclose.</strong> Every post and email needs a clear line like "I'm a Subastian partner and may earn a commission." On social, #ad also works. This is required by the FTC, not optional.</li>
@@ -133,14 +145,14 @@
     </section>
 
     <section>
-      <h2>2. Your link</h2>
+      <h2 id="link">2. Your link</h2>
       <p><strong>Before launch:</strong> share <code>https://subastian.us/?ref=YOURNAME</code> (replace YOURNAME with your name or brand, no spaces). Anyone who joins the founding roster through it is noted as coming from you, and gets the free bonus pack (Free Trial Tracker and Cancel &amp; Refund Scripts).</p>
       <p><strong>Easiest yes:</strong> the free 60-second Subscription Leak Test. Share <code>https://subastian.us/leak-test/?ref=YOURNAME</code> and people get a personal score and a printable plan, and join the roster when they unlock it. The same referral code is recorded.</p>
       <p><strong>At launch:</strong> we'll email you your personal affiliate link. That link is what tracks commissions on paid plans, so swap it in everywhere once you have it.</p>
     </section>
 
     <section>
-      <h2>3. Swipe emails</h2>
+      <h2 id="emails">3. Swipe emails</h2>
       <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Email 1 · Introduction</div><pre>Subject: A 15-minute way to find forgotten subscriptions
 
 Hi [First name],
@@ -176,10 +188,99 @@ It comes free when you join the Subastian founding roster (no card needed): [YOU
 [Your name]
 
 (I&#x27;m a Subastian partner and may earn a commission on paid plans after launch.)</pre></div>
+
+      <h3 class="group">Personal recommendation (one-to-one)</h3>
+      <div class="note"><p>For a DM, a reply, or a short email to one person. Edit the first line so it&#x27;s really about them. Only say you took the Leak Test if you did.</p></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Email 3 · Personal recommendation</div><pre>Subject: Thought of you (subscriptions)
+
+Hi [First name],
+
+You mentioned [juggling a lot of tools / software costs adding up / a renewal that surprised you], so this made me think of you.
+
+There&#x27;s a free 60-second quiz called the Subscription Leak Test. You answer 8 questions and it gives you a score out of 100, a rough estimate of what your subscriptions may be wasting, and a printable 14-day plan. It doesn&#x27;t connect to your bank or email, it only counts what you tell it.
+
+Here it is: https://subastian.us/leak-test/?ref=YOURNAME
+
+It&#x27;s from Subastian, a subscription management tool that&#x27;s still in development. When you unlock the plan you also join their free founding roster and get a Free Trial Tracker and Cancel &amp; Refund Scripts. No card needed.
+
+[Optional, only if true: I took it myself and it was worth the minute.]
+
+Let me know what score you get.
+
+[Your name]
+
+P.S. I&#x27;m a Subastian partner and may earn a commission if you become a paying customer after launch.</pre></div>
+
+      <h3 class="group">Launch sequence (send after Subastian goes live)</h3>
+      <div class="note">
+        <p><strong>Don&#x27;t send these early.</strong> Wait until Subastian emails you that it&#x27;s live and sends your personal affiliate link. Swap that link in for <code>[AFFILIATE LINK]</code> (not the <code>?ref=</code> link).</p>
+        <p>Before you send, check every line against the live site. Features and prices below match the plan today and may change. Don&#x27;t invent deadlines or discounts unless Subastian gives you one.</p>
+        <p>Suggested timing: Day 0, Day 2, Day 4, Day 7. Stop emailing anyone who joins or replies &quot;no.&quot;</p>
+      </div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Launch 1 · Day 0 · It&#x27;s open</div><pre>Subject: Subastian is open
+
+Hi [First name],
+
+A while back I mentioned a tool called Subastian that was being built to help track software subscriptions. It&#x27;s open now: [AFFILIATE LINK]
+
+Here&#x27;s what it&#x27;s built to do:
+- Niche Stacks: tell it what kind of work you do and it suggests the cheapest set of tools that work together
+- Purchase Guard: checks for overlap before you pay for a tool you already have a version of
+- Neglect Radar: flags subscriptions you haven&#x27;t used in two weeks
+- Escalating Alerts: renewal reminders 30, 7, 3 and 1 days out, and on the day, by email and push
+
+Plans start at [STARTING PRICE, confirm on the live pricing page]. If you joined the founding roster earlier, your launch pricing is waiting for you.
+
+Take a look: [AFFILIATE LINK]
+
+[Your name]
+
+P.S. I&#x27;m a Subastian partner and earn a commission if you become a paying customer through my link.</pre></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Launch 2 · Day 2 · Purchase Guard</div><pre>Subject: Paying twice for the same job?
+
+Hi [First name],
+
+It&#x27;s an easy mistake to make: you sign up for a new tool, and a few weeks later you realize you already pay for something that does most of the same thing.
+
+That&#x27;s what Purchase Guard in Subastian is for. Before you buy a new tool, it checks your existing stack for heavy feature overlap and flags it, so you find out before you pay, not on next month&#x27;s statement.
+
+If you run a lot of tools, that one check is worth a look: [AFFILIATE LINK]
+
+[Your name]
+
+(I&#x27;m a Subastian partner and earn a commission on paid plans.)</pre></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Launch 3 · Day 4 · Neglect Radar and alerts</div><pre>Subject: The tool nobody has opened in a month
+
+Hi [First name],
+
+Unused subscriptions don&#x27;t announce themselves. They just show up on the card every month until somebody goes looking.
+
+Subastian&#x27;s Neglect Radar tracks which tools have gone quiet. Anything unused for two weeks gets flagged with a one-click &quot;pause and save&quot; suggestion. And for anything set to auto-renew, you get warnings 30, 7, 3 and 1 days out, plus the day it renews.
+
+If you&#x27;d like to see it on your own stack: [AFFILIATE LINK]
+
+[Your name]
+
+(I&#x27;m a Subastian partner and earn a commission on paid plans.)</pre></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Launch 4 · Day 7 · Last note</div><pre>Subject: Last note from me on Subastian
+
+Hi [First name],
+
+This is my last email about Subastian, so here&#x27;s the short version.
+
+It&#x27;s subscription management software for people whose work runs on a lot of tools. It builds a cost-efficient stack for your niche, flags duplicate purchases, finds the tools you&#x27;ve stopped using, and warns you before every renewal.
+
+If that sounds like your problem, here&#x27;s the link: [AFFILIATE LINK]
+
+If it doesn&#x27;t, no worries at all. And if you haven&#x27;t tried it yet, the free Subscription Leak Test is still a quick way to see how much your own stack might be leaking: https://subastian.us/leak-test/?ref=YOURNAME
+
+[Your name]
+
+(I&#x27;m a Subastian partner and earn a commission on paid plans.)</pre></div>
     </section>
 
     <section>
-      <h2>4. Social posts</h2>
+      <h2 id="social">4. Social posts</h2>
       <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Leak Test hook (any platform)</div><pre>There's a free 60-second "Subscription Leak Test" that gives you a score out of 100, a rough monthly estimate of what your subscriptions may be wasting, and a printable 14-day plan to fix it. Takes about a minute: [YOUR LEAK TEST LINK: https://subastian.us/leak-test/?ref=YOURNAME]
 
 (Disclosure: I'm a Subastian partner and may earn a commission on paid plans after launch.) #ad</pre></div>
@@ -205,10 +306,156 @@ Found a free Trial Tracker and Cancel &amp; Refund Scripts from Subastian, a sub
 Subastian is subscription management software in development. Join the free founding roster (link in bio) and get a free Free Trial Tracker and Cancel &amp; Refund Scripts.
 
 #subscriptionmanagement #saas #agencyowner #ad</pre></div>
+
+      <h3 class="group">Instagram Stories</h3>
+      <div class="note"><p>Three frames. Use the square graphic or a plain brand-colored background. Put &quot;#ad&quot; or &quot;Subastian partner&quot; in the first frame, and add the link sticker on frame 3.</p></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Stories · 3-frame sequence</div><pre>FRAME 1 (add a poll sticker)
+Text: How many subscriptions are you paying for right now?
+Poll: Exactly / Rough guess / No idea
+Small text: #ad · Subastian partner
+
+FRAME 2
+Text: Free trials turn into paid plans. Annual plans renew quietly. Two tools end up doing the same job.
+Text: There&#x27;s a free 60-second test that scores your subscriptions out of 100.
+
+FRAME 3 (add a link sticker)
+Text: Take the free Subscription Leak Test. No card.
+Link sticker: https://subastian.us/leak-test/?ref=YOURNAME
+Small text: I&#x27;m a Subastian partner and may earn a commission on paid plans after launch.
+
+OPTIONAL FRAME 4 (a day later)
+Text: A few of you took it. Send me your score. (Only post this if people actually replied.)</pre></div>
+
+      <h3 class="group">TikTok captions</h3>
+      <div class="note"><p>Turn on TikTok&#x27;s branded content / disclosure toggle if it applies, and keep <code>#ad</code> near the front of the caption so it isn&#x27;t cut off. Link goes in your bio.</p></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">TikTok caption 1 · Trial trap</div><pre>#ad Ever find out a free trial turned into a paid plan after the charge? 😬 There&#x27;s a free 60-second Leak Test that scores your subscriptions out of 100. Link in bio. I&#x27;m a Subastian partner and may earn a commission on paid plans after launch. #subscriptions #saas #smallbusiness #softwarestack</pre></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">TikTok caption 2 · Two tools, one job</div><pre>#ad Two tools. Same job. Both on auto-renew. Subastian is a subscription manager in development that&#x27;s built to flag overlap before you buy. Join the free founding roster, link in bio. Subastian partner, may earn a commission after launch. #agencyowner #saastools #freelancer #subscriptionmanagement</pre></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">TikTok caption 3 · Free bonus</div><pre>#ad Free Trial Tracker + Cancel &amp; Refund Scripts, free when you join the Subastian founding roster (the tool is still in development). No card. Link in bio. Subastian partner, may earn a commission on paid plans after launch. #freetrial #subscriptions #moneytips #creator</pre></div>
+
+      <h3 class="group">Pinterest</h3>
+      <div class="note"><p>Use the vertical comparison graphic (1080 × 1350) as the pin image and point the pin at your link. Good boards: Small Business Tips, Software &amp; Productivity, Money Saving Tips, Agency Life. Keep the disclosure line in the description.</p></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Pin 1 · Leak Test</div><pre>Title: How to find the subscriptions you forgot you&#x27;re paying for
+
+Description: A free 60-second Subscription Leak Test gives you a score out of 100, a rough estimate of what your subscriptions may be wasting each month, and a printable 14-day plan. No card needed. #ad I&#x27;m a Subastian partner and may earn a commission on paid plans after launch.
+
+Destination link: https://subastian.us/leak-test/?ref=YOURNAME</pre></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Pin 2 · Trial tracker and scripts</div><pre>Title: Free trial tracker + cancel and refund scripts
+
+Description: Keep track of every free trial before it charges you, and use copy-and-paste messages to cancel or ask for a refund. Both are free when you join the Subastian founding roster (subscription management software in development). #ad I&#x27;m a Subastian partner and may earn a commission on paid plans after launch.
+
+Destination link: [YOUR LINK]</pre></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Pin 3 · Agencies and freelancers</div><pre>Title: Software subscriptions eating your margin? Start here
+
+Description: Free trials, annual renewals and overlapping tools quietly add up for agencies and freelancers. Take the free 60-second Subscription Leak Test, then join the Subastian founding roster for early access and launch pricing. #ad I&#x27;m a Subastian partner and may earn a commission on paid plans after launch.
+
+Destination link: https://subastian.us/leak-test/?ref=YOURNAME</pre></div>
     </section>
 
     <section>
-      <h2>5. Banners and graphics</h2>
+      <h2 id="video">5. Video scripts</h2>
+      <div class="note">
+        <p><strong>Disclose out loud and in writing.</strong> Say the disclosure in the first 10 seconds or at the CTA, show it as on-screen text, and repeat it in the description. Use the platform&#x27;s paid-promotion or branded-content toggle wherever it applies to you.</p>
+        <p><strong>Stay true.</strong> Say Subastian is in development, say &quot;built to&quot; not &quot;does,&quot; and only say you took the Leak Test if you did. Show your real score if you screen-record it.</p>
+      </div>
+
+      <h3 class="group">30-second intro (about 80 words)</h3>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Video · 30-second intro</div><pre>HOOK (0:00-0:05) · on camera
+&quot;Do you know how many software subscriptions you&#x27;re paying for right now?&quot;
+
+PROBLEM (0:05-0:12)
+&quot;Most people don&#x27;t. Trials turn into paid plans, annual plans renew quietly, and two tools end up doing the same job.&quot;
+
+SOLUTION (0:12-0:22) · show subastian.us on screen
+&quot;Subastian is being built to catch that: duplicate tools, ones you&#x27;ve stopped using, and renewals before they hit.&quot;
+
+CTA (0:22-0:30) · on-screen text: #ad · Subastian partner
+&quot;It&#x27;s in development, but the founding roster is free and comes with a trial tracker. Link below. I&#x27;m a Subastian partner and may earn a commission.&quot;</pre></div>
+
+      <h3 class="group">60-second explainer (about 150 words)</h3>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Video · 60-second explainer</div><pre>HOOK (0:00-0:08) · on camera
+&quot;Quick test: without opening your bank app, how many software subscriptions are you paying for?&quot;
+
+PROBLEM (0:08-0:20) · b-roll of renewal emails or a card statement (blur the details)
+&quot;If you hesitated, you&#x27;re normal. Free trials quietly turn into paid plans. Annual renewals sneak up on you. And two tools in your stack are doing the same job.&quot;
+
+WHAT IT IS (0:20-0:42) · screen-record the Subastian homepage, one feature per beat
+&quot;Subastian is subscription management software that&#x27;s in development. Tell it your niche and it suggests the cheapest set of tools that work together. It checks for overlap before you buy something new, flags tools you&#x27;ve stopped using, and warns you before every renewal.&quot;
+
+BE STRAIGHT (0:42-0:52) · back on camera
+&quot;It isn&#x27;t live yet, so I won&#x27;t promise you savings. But the founding roster is free, no card, and you get a Free Trial Tracker and Cancel and Refund Scripts right away.&quot;
+
+CTA (0:52-1:00) · on-screen text: #ad · Subastian partner
+&quot;Link&#x27;s below. There&#x27;s also a free 60-second Leak Test that scores your subscriptions out of 100. I&#x27;m a Subastian partner and may earn a commission after launch.&quot;</pre></div>
+
+      <h3 class="group">Short-form scripts (TikTok, Reels, Shorts · 15-25 seconds)</h3>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Short 1 · The trial that turned paid</div><pre>ON-SCREEN TEXT (0:00): Free trial → paid plan. Did anything warn you?
+VOICE (0:00-0:05): &quot;Ever find out a free trial turned into a paid plan after the charge?&quot;
+VOICE (0:05-0:15): &quot;That happens because nothing warns you. Subastian, a tool in development, is being built to flag renewals before they hit.&quot;
+VOICE (0:15-0:22): &quot;The founding roster is free and comes with a trial tracker. Link in bio. #ad, I&#x27;m a Subastian partner.&quot;</pre></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Short 2 · Two tools, one job</div><pre>ON-SCREEN TEXT (0:00): Paying for two tools that do the same thing?
+VOICE (0:00-0:04): &quot;You&#x27;re probably paying for two tools that do the same job.&quot;
+VOICE (0:04-0:14): &quot;It&#x27;s easy to do. You sign up for something new and forget you already had a version of it. Subastian is being built to check for that overlap before you buy.&quot;
+VOICE (0:14-0:22): &quot;It&#x27;s still in development, and joining the founding roster is free. Link in bio. #ad, I&#x27;m a Subastian partner.&quot;</pre></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Short 3 · Leak Test screen recording</div><pre>Record your own real attempt. Don&#x27;t pick a score for effect.
+
+ON-SCREEN TEXT (0:00): 8 questions. 60 seconds. What&#x27;s my subscription leak score?
+SCREEN RECORDING (0:02-0:15): take the test at https://subastian.us/leak-test/?ref=YOURNAME
+VOICE (0:15-0:20): &quot;I got [YOUR REAL SCORE] out of 100. It also gave me a printable 14-day plan.&quot;
+VOICE (0:20-0:25): &quot;It&#x27;s free and there&#x27;s no card. Link in bio. #ad, I&#x27;m a Subastian partner and may earn a commission after launch.&quot;</pre></div>
+
+      <h3 class="group">YouTube talking points</h3>
+      <p>For a 5-8 minute video, a segment in a longer one, or a community post. Talk through it in your own words.</p>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">YouTube · Outline and talking points</div><pre>TITLE IDEAS (pick one, never promise savings)
+- How many subscriptions are you actually paying for? (free 60-second test)
+- The free trial trap: how trials turn into paid plans
+- Are you paying for two tools that do the same job?
+- A subscription manager I&#x27;m watching (still in development)
+- What your software stack really costs (agency edition)
+
+OUTLINE
+0:00 Hook: ask viewers to guess their number before you reveal anything
+0:30 Disclosure: &quot;I&#x27;m a Subastian partner and may earn a commission.&quot; Say it plainly.
+1:00 Why subscriptions leak: free trials, annual renewals, overlapping tools, tools nobody uses
+2:30 Take the Leak Test live: real answers, real score, show the printable 14-day plan
+4:30 What Subastian is being built to do (below), and that it&#x27;s in development
+6:00 The free bonus pack: show the Trial Tracker and the Cancel &amp; Refund Scripts
+7:00 What to do this week, then the link
+
+THE FOUR FEATURES (describe as built to do)
+- Niche Stacks: tell it your niche and it suggests the cheapest set of tools that work together
+- Purchase Guard: flags heavy feature overlap before you buy a tool you already have a version of
+- Neglect Radar: flags any subscription unused for two weeks, with a one-click &quot;pause and save&quot; suggestion
+- Escalating Alerts: renewal reminders 30, 7, 3 and 1 days out, and on the day, by email and push
+
+WHO IT&#x27;S FOR
+Affiliate marketers, agencies and freelancers, and IT and ops teams: anyone whose tools outnumber their teammates.
+
+PLANNED PRICING (say &quot;planned&quot;)
+$49, $99 or $299 per month, none of it on sale before launch. Roster members who sign up before launch keep their rate.</pre></div>
+      <div class="twocol">
+        <div class="card"><h3>Say</h3><ul><li>&quot;In development&quot; and &quot;built to&quot;</li><li>&quot;The founding roster is free&quot;</li><li>&quot;Planned pricing&quot;</li><li>&quot;I&#x27;m a partner and may earn a commission&quot;</li><li>&quot;I took the test and got [real score]&quot; (only if true)</li></ul></div>
+        <div class="card"><h3>Don&#x27;t say</h3><ul><li>&quot;It saved me $X&quot; or any savings figure</li><li>User counts or testimonials</li><li>A launch date</li><li>&quot;Buy now&quot; or &quot;sign up for your subscription&quot;</li><li>&quot;I use it every day&quot; (it isn&#x27;t live)</li></ul></div>
+      </div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">YouTube · Description template</div><pre>Disclosure: I&#x27;m a Subastian partner and may earn a commission if you become a paying customer after launch.
+
+Free 60-second Subscription Leak Test: https://subastian.us/leak-test/?ref=YOURNAME
+Join the free founding roster (includes a Free Trial Tracker and Cancel &amp; Refund Scripts): [YOUR LINK]
+
+Subastian is in development. Features, plans and pricing may change.
+
+CHAPTERS
+0:00 Intro
+0:30 Disclosure
+1:00 Why subscriptions leak
+2:30 The Leak Test, live
+4:30 What Subastian is being built to do
+6:00 Free bonus pack
+7:00 What to do this week</pre></div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">YouTube · Pinned comment</div><pre>What score did you get on the Leak Test? Drop it below. Free test here: https://subastian.us/leak-test/?ref=YOURNAME (I&#x27;m a Subastian partner and may earn a commission on paid plans after launch.)</pre></div>
+    </section>
+
+    <section>
+      <h2 id="banners">6. Banners and graphics</h2>
       <p>Right-click or tap Download to save each file. Link every banner to your referral link.</p>
       <div class="banners">
         <figure><img src="subastian-banner-1200x628.png" alt="Subastian social / blog banner" loading="lazy"><figcaption><span>Social / blog banner &middot; 1200 × 628</span><a href="subastian-banner-1200x628.png" download>Download</a></figcaption></figure>
@@ -220,8 +467,28 @@ Subastian is subscription management software in development. Join the free foun
     </section>
 
     <section>
-      <h2>6. Your audience's sign-up bonus</h2>
+      <h2 id="bonus">7. Your audience's sign-up bonus</h2>
       <p>Everyone who joins the founding roster through your link gets a <strong>free bonus pack</strong>: a Free Trial Tracker spreadsheet and Cancel &amp; Refund Scripts PDF. Lead with it. "Get a free trial tracker" is an easier yes than "join a waitlist."</p>
+    </section>
+
+    <section>
+      <h2 id="founder">8. Founder access</h2>
+      <p>What Founding Partners get beyond the swipe copy.</p>
+      <div class="cards">
+        <div class="card"><h3>Early product access</h3><p>Founding Partners get early access to Subastian ahead of the public launch. Join the free founding roster with your own email too, so your launch pricing is reserved.</p></div>
+        <div class="card"><h3>Direct line to Daniel</h3><p>Email <a href="mailto:daniel@subastian.us?subject=Partner">daniel@subastian.us</a> with &quot;Partner&quot; in the subject line. Questions, copy you want checked, anything stuck.</p></div>
+        <div class="card"><h3>Partner campaigns</h3><p>Partner-only campaigns, such as launch pushes, promotions or co-marketing, will be announced to partners by email. None are scheduled yet. Have an idea for your audience, like a joint post, a newsletter feature or a webinar? Send it over.</p></div>
+        <div class="card"><h3>Roadmap input</h3><p>You know what your audience asks for. Tell Daniel the one thing they would want first and why. Partner suggestions are read by the founder and help shape what gets built, though there&#x27;s no guarantee any one request ships.</p></div>
+      </div>
+      <div class="swipe"><button class="btn-copy" type="button">Copy</button><div class="label">Roadmap feedback · Email template</div><pre>To: daniel@subastian.us
+Subject: Partner roadmap input
+
+Who my audience is: [e.g. agency owners, YouTubers who review software]
+Their biggest subscription headache: [e.g. trials that turn paid, client tool costs]
+The one feature they would ask for first: [feature]
+Why it matters to them: [one or two sentences]
+
+[Your name / brand]</pre></div>
     </section>
 
     <section>

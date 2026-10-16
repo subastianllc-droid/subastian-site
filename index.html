@@ -439,6 +439,12 @@
     .score-head{ flex-direction:column; align-items:flex-start; }
     .score-art{ width:88px; height:88px; }
   }
+  .founder-grid{ display:grid; grid-template-columns:minmax(220px,320px) 1fr; gap:44px; align-items:center; }
+  .founder-video{ width:100%; height:auto; aspect-ratio:9/16; object-fit:cover; display:block; border-radius:20px; background:#15102b; border:1px solid rgba(233,185,73,.35); box-shadow:0 30px 70px -30px rgba(109,40,217,.5); }
+  @media (max-width:760px){
+    .founder-grid{ grid-template-columns:1fr; gap:24px; }
+    .founder-video{ max-width:320px; margin:0 auto; }
+  }
 </style>
 <script src="/ph.js" defer></script>
 </head>
@@ -480,8 +486,24 @@
       </div>
     </div>
     <div class="hero-art">
-      <a href="/watch/?src=home-hero" class="hero-film" data-film="hero-video" aria-label="Watch the full 60-second Subastian film with sound"><span class="hero-film-pill" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>Watch with sound</span></a>
+      <a href="/watch/?src=home-hero" class="hero-film" data-film="hero-video" aria-label="Watch the full Subastian film with sound"><span class="hero-film-pill" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>Watch with sound</span></a>
       <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="hero-poster.jpg" width="1280" height="720" aria-label="The Subastian conductor waves his baton, orbiting software subscriptions into order, and the Subastian name lights up in gold"><source src="hero.mp4" type="video/mp4"><img src="hero.jpg" alt="A conductor directing a ring of orbiting software subscription icons, illustrating Subastian's subscription management" width="1400" height="787" fetchpriority="high" decoding="async"></video>
+    </div>
+  </section>
+</div>
+
+<div class="wrap" id="founder">
+  <section>
+    <div class="founder-grid">
+      <video class="founder-video" controls playsinline preload="metadata" poster="founder-poster.jpg" width="720" height="1280" aria-label="Daniel Padilla, founder of Subastian, explains how Subastian helps you keep track of your subscriptions">
+        <source src="founder.mp4" type="video/mp4">
+      </video>
+      <div>
+        <div class="movement-mark"><span class="num">&#9835;</span><span class="label">From the founder</span></div>
+        <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:22ch;">Your subscriptions, under your direction.</h2>
+        <p class="prose" style="margin-top:16px; color:var(--ink-soft);">I'm Daniel Padilla, founder of Subastian, LLC in Denver, Colorado. I'm building Subastian so you can see every subscription you pay for, catch renewals before they charge, and stop paying twice for tools that do the same job. Hit play for the 27-second version.</p>
+        <p style="margin-top:22px"><a href="#waitlist" class="btn-cta">Join the Founding Roster — Free</a></p>
+      </div>
     </div>
   </section>
 </div>

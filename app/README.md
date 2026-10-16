@@ -18,7 +18,7 @@ The signed-in product for Subastian, the Subscription Conductor. It lives in thi
 - **Neglect flag:** marks active tools not used in 30+ days. "Used today" records use with one click.
 - **Stacks:** group tools by client, project or workflow, with a per-stack monthly cost.
 - **Mark renewed:** moves a renewal date forward one month once the charge goes through. It only updates the tracker and doesn't check anything with the vendor.
-- **Purchase Guard:** before you add a tool, the form checks it against what you already track. It warns if you already have the same tool (ignoring plan words like "Pro") or another tool in the same category, shows what those cost, and asks you to choose **Add anyway** or **Don't add**. The server repeats the check, so a stale form can't slip a duplicate through.
+- **Purchase Guard:** before you add a tool, the form checks it against everything you track: the same tool (ignoring plan words like "Pro"), a name that looks like one you have, other tools in the same category, and tools you cancelled before. Same-tool matches show in red, category overlaps in amber. You must choose **Don't add** or **Add anyway**, and if you already have the tool paused you can **Resume it instead**. The server repeats the check, so a stale form can't slip a duplicate through.
 - **Export CSV:** downloads every tracked subscription (`/app/export`).
 - **Sample agency stack:** new users can load a clearly labeled sample with trials, overlaps and neglected tools, then remove it in one click. Its prices are sample budgets, not vendor quotes.
 

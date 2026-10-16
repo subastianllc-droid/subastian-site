@@ -91,7 +91,9 @@ export async function createSubscription(_prev: FormState, formData: FormData): 
       .select("id, tool_name, category, status, monthly_cost, renewal_date, trial_ends_at");
     const result = checkPurchase(parsed.row, existing ?? []);
     if (needsConfirmation(result)) {
-      const names = [...result.sameTool, ...result.sameCategory].map((s) => s.tool_name);
+      const names = [...result.sameTool, ...result.similarName, ...result.sameCategory, ...result.cancelledBefore].map(
+        (s) => s.tool_name,
+      );
       return {
         guard: true,
         guardFor: parsed.row.tool_name,
@@ -140,6 +142,15 @@ export async function deleteSubscription(formData: FormData) {
   if (!id) return;
   // alert_log rows cascade-delete with the subscription (FK ON DELETE CASCADE).
   await supabase.from("subscriptions").delete().eq("id", id);
+  revalidatePath("/app");
+}
+
+/** Purchase Guard's "Resume instead": marks a paused subscription active again. Tracker only. */
+export async function resumeSubscription(formData: FormData) {
+  const { supabase } = await requireUser();
+  const id = String(formData.get("id") ?? "");
+  if (!id) return;
+  await supabase.from("subscriptions").update({ status: "active" }).eq("id", id).eq("status", "paused");
   revalidatePath("/app");
 }
 

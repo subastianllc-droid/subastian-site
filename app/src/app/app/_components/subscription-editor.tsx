@@ -1,10 +1,10 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useRef, useState, useTransition } from "react";
 import type { Stack, Subscription } from "@/lib/database.types";
 import { CATEGORIES, STATUSES, STATUS_LABEL } from "@/lib/subscriptions";
 import { checkPurchase, needsConfirmation, type GuardTool } from "@/lib/purchase-guard";
-import { createSubscription, updateSubscription, type FormState } from "../actions";
+import { createSubscription, resumeSubscription, updateSubscription, type FormState } from "../actions";
 import { GuardNotice } from "./guard-notice";
 
 const field =
@@ -62,6 +62,17 @@ export function SubscriptionEditor({
   // The server can flag a match the live check missed (stale list). Then the next submit confirms it.
   // That flag only counts while the form still holds the tool the server checked.
   const mustConfirm = guardHit || (Boolean(state.guard) && state.guardFor === toolName.trim());
+
+  const [resuming, startResume] = useTransition();
+  function resume(id: string) {
+    const fd = new FormData();
+    fd.set("id", id);
+    startResume(async () => {
+      await resumeSubscription(fd);
+      dialogRef.current?.close();
+      resetForm();
+    });
+  }
 
   function dontAdd() {
     dialogRef.current?.close();
@@ -202,7 +213,7 @@ export function SubscriptionEditor({
             </label>
           </div>
 
-          {guard && toolName.trim() !== "" && (guardHit || guard.trackedBefore.length > 0) && <GuardNotice result={guard} newName={toolName.trim()} category={category} today={today} />}
+          {guard && guardHit && <GuardNotice result={guard} newName={toolName.trim()} category={category} today={today} />}
           {mustConfirm && <input type="hidden" name="guard_ack" value="1" />}
 
           {state.error && (
@@ -219,6 +230,16 @@ export function SubscriptionEditor({
                 >
                   {pending ? "Saving…" : "Add anyway"}
                 </button>
+                {guard?.resumable && (
+                  <button
+                    type="button"
+                    disabled={resuming}
+                    onClick={() => resume(guard.resumable!.id)}
+                    className="rounded-lg border border-accent px-4 py-2.5 font-semibold text-accent hover:bg-band disabled:opacity-60"
+                  >
+                    {resuming ? "Resuming…" : `Resume ${guard.resumable.tool_name} instead`}
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={dontAdd}

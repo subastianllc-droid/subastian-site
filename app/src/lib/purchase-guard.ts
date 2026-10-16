@@ -142,3 +142,66 @@ export function checkPurchase(
 
   return { sameTool, similarName, sameCategory, cancelledBefore, resumable, activeMonthlyAtStake };
 }
+
+/**
+ * Purchase Guard on edit. Only the changes that could create a duplicate are checked:
+ * - the name changed so it now matches (or nearly matches) another tracked tool, or
+ * - a cancelled row is being reopened while another open copy of that tool exists.
+ * Category overlap isn't raised again on edit; the dashboard's "Possible overlap" already lists it.
+ * Returns null when there's nothing to confirm.
+ */
+export function checkEdit(
+  before: { id: string; tool_name: string; status: string },
+  after: { tool_name: string; category: string; status: string },
+  existing: GuardTool[],
+): GuardResult | null {
+  if (after.status === "cancelled") return null;
+  const renamed = normalizeToolName(before.tool_name) !== normalizeToolName(after.tool_name);
+  const reopened = before.status === "cancelled";
+  if (!renamed && !reopened) return null;
+
+  const r = checkPurchase(after, existing, { excludeId: before.id });
+  const result: GuardResult = {
+    sameTool: r.sameTool,
+    similarName: r.similarName,
+    sameCategory: [],
+    cancelledBefore: [],
+    resumable: null,
+    activeMonthlyAtStake: [...r.sameTool, ...r.similarName]
+      .filter((s) => s.status === "active")
+      .reduce((sum, s) => sum + Number(s.monthly_cost), 0),
+  };
+  return needsConfirmation(result) ? result : null;
+}
+
+export type GuardMatch = "same_tool" | "similar_name" | "same_category" | "cancelled_before";
+
+/** The strongest reason Purchase Guard stopped a tool, as stored in `guard_skips.matched`. */
+export function strongestMatch(r: GuardResult): GuardMatch | null {
+  if (r.sameTool.length) return "same_tool";
+  if (r.similarName.length) return "similar_name";
+  if (r.sameCategory.length) return "same_category";
+  if (r.cancelledBefore.length) return "cancelled_before";
+  return null;
+}
+
+/**
+ * What the user chose not to add after a Purchase Guard match. Counted once per tool (the latest
+ * skip), and not at all if that tool is tracked again (trial, active or paused), since then it
+ * wasn't really skipped. Costs are what the user typed into the form, not vendor prices.
+ */
+export function guardSavings(
+  skips: { tool_name: string; monthly_cost: number | null; created_at: string }[],
+  subs: { tool_name: string; status: string }[],
+): { count: number; monthly: number } {
+  const tracked = new Set(subs.filter((s) => s.status !== "cancelled").map((s) => normalizeToolName(s.tool_name)));
+  const latest = new Map<string, number>();
+  for (const s of [...skips].sort((a, b) => a.created_at.localeCompare(b.created_at))) {
+    const key = normalizeToolName(s.tool_name);
+    if (!key || tracked.has(key)) continue;
+    latest.set(key, Number(s.monthly_cost ?? 0));
+  }
+  let monthly = 0;
+  for (const v of latest.values()) monthly += v;
+  return { count: latest.size, monthly: Math.round(monthly * 100) / 100 };
+}

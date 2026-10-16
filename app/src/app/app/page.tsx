@@ -44,11 +44,13 @@ async function Dashboard() {
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) redirect("/login");
 
-  const [{ data: profile }, { data: subsData, error: subsError }, { data: stacksData }] = await Promise.all([
-    supabase.from("profiles").select("email, full_name, plan_tier").eq("id", auth.user.id).maybeSingle(),
-    supabase.from("subscriptions").select("*").order("created_at"),
-    supabase.from("stacks").select("*").order("name"),
-  ]);
+  const [{ data: profile }, { data: subsData, error: subsError }, { data: stacksData }, { data: skipsData }] =
+    await Promise.all([
+      supabase.from("profiles").select("email, full_name, plan_tier").eq("id", auth.user.id).maybeSingle(),
+      supabase.from("subscriptions").select("*").order("created_at"),
+      supabase.from("stacks").select("*").order("name"),
+      supabase.from("guard_skips").select("*").order("created_at"),
+    ]);
 
   const tzCookie = (await cookies()).get("tz")?.value ?? null;
 
@@ -57,6 +59,10 @@ async function Dashboard() {
       email={profile?.email ?? auth.user.email ?? ""}
       planTier={profile?.plan_tier ?? null}
       subs={(subsData ?? []).map((s) => ({ ...s, monthly_cost: Number(s.monthly_cost) }))}
+      guardSkips={(skipsData ?? []).map((g) => ({
+        ...g,
+        monthly_cost: g.monthly_cost === null ? null : Number(g.monthly_cost),
+      }))}
       stacks={stacksData ?? []}
       today={todayIn(tzCookie ?? "America/Denver")}
       tzCookie={tzCookie}

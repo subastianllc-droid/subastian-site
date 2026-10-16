@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Stack, Subscription } from "@/lib/database.types";
+import type { GuardSkip, Stack, Subscription } from "@/lib/database.types";
 import {
   NEGLECT_DAYS,
   STATUS_LABEL,
@@ -12,6 +12,7 @@ import {
   summarize,
   type Status,
 } from "@/lib/subscriptions";
+import { guardSavings } from "@/lib/purchase-guard";
 import { signOut } from "../../login/actions";
 import { SAMPLE_STACK_NAME } from "@/lib/sample-stack";
 import {
@@ -34,6 +35,7 @@ export function DashboardView({
   email,
   planTier,
   subs,
+  guardSkips,
   stacks,
   today,
   tzCookie,
@@ -42,12 +44,15 @@ export function DashboardView({
   email: string;
   planTier: string | null;
   subs: Subscription[];
+  guardSkips: GuardSkip[];
   stacks: Stack[];
   today: string;
   tzCookie: string | null;
   loadError: boolean;
 }) {
   const summary = summarize(subs, today);
+  const guarded = guardSavings(guardSkips, subs);
+  const notPaying = summary.savedMonthly + guarded.monthly;
   const trials = sortForList(subs.filter((s) => s.status === "trial"));
   const others = sortForList(subs.filter((s) => s.status !== "trial"));
   const stackName = new Map(stacks.map((s) => [s.id, s.name]));
@@ -168,8 +173,14 @@ export function DashboardView({
           />
           <Tile
             label="Not paying for"
-            value={`${money(summary.savedMonthly)}/mo`}
-            sub="Trials you cancelled before being charged"
+            value={`${money(notPaying)}/mo`}
+            sub={
+              guarded.count > 0
+                ? `${money(summary.savedMonthly)} from cancelled trials · ${money(guarded.monthly)} from ${guarded.count} ${
+                    guarded.count === 1 ? "tool" : "tools"
+                  } Purchase Guard stopped`
+                : "Trials you cancelled before being charged"
+            }
             tone="money"
           />
         </section>
@@ -212,7 +223,7 @@ export function DashboardView({
               ) : (
                 <ul className="space-y-3">
                   {trials.map((t) => (
-                    <TrialCard key={t.id} sub={t} today={today} stacks={stacks} stackName={stackName.get(t.stack_id ?? "")} />
+                    <TrialCard key={t.id} sub={t} existing={subs} today={today} stacks={stacks} stackName={stackName.get(t.stack_id ?? "")} />
                   ))}
                 </ul>
               )}
@@ -229,7 +240,7 @@ export function DashboardView({
               ) : (
                 <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface">
                   {others.map((s) => (
-                    <SubscriptionRow key={s.id} sub={s} today={today} stacks={stacks} stackName={stackName.get(s.stack_id ?? "")} />
+                    <SubscriptionRow key={s.id} sub={s} existing={subs} today={today} stacks={stacks} stackName={stackName.get(s.stack_id ?? "")} />
                   ))}
                 </ul>
               )}
@@ -295,7 +306,19 @@ function Empty({ children }: { children: React.ReactNode }) {
   );
 }
 
-function TrialCard({ sub, today, stacks, stackName }: { sub: Subscription; today: string; stacks: Stack[]; stackName?: string }) {
+function TrialCard({
+  sub,
+  existing,
+  today,
+  stacks,
+  stackName,
+}: {
+  sub: Subscription;
+  existing: Subscription[];
+  today: string;
+  stacks: Stack[];
+  stackName?: string;
+}) {
   const days = sub.trial_ends_at ? daysBetween(today, sub.trial_ends_at) : null;
   const urgent = days !== null && days <= 3;
   const ended = days !== null && days < 0;
@@ -352,6 +375,7 @@ function TrialCard({ sub, today, stacks, stackName }: { sub: Subscription; today
           stacks={stacks}
           today={today}
           sub={sub}
+          existing={existing}
           trigger="Edit"
           triggerLabel={`Edit ${sub.tool_name}`}
           triggerClassName="rounded-lg px-3 py-1.5 text-sm font-medium text-ink-soft hover:text-ink"
@@ -371,7 +395,19 @@ function TrialCard({ sub, today, stacks, stackName }: { sub: Subscription; today
   );
 }
 
-function SubscriptionRow({ sub, today, stacks, stackName }: { sub: Subscription; today: string; stacks: Stack[]; stackName?: string }) {
+function SubscriptionRow({
+  sub,
+  existing,
+  today,
+  stacks,
+  stackName,
+}: {
+  sub: Subscription;
+  existing: Subscription[];
+  today: string;
+  stacks: Stack[];
+  stackName?: string;
+}) {
   const status = sub.status as Status;
   const inactive = status === "paused" || status === "cancelled";
   const neglected = isNeglected(sub, today);
@@ -440,6 +476,7 @@ function SubscriptionRow({ sub, today, stacks, stackName }: { sub: Subscription;
           stacks={stacks}
           today={today}
           sub={sub}
+          existing={existing}
           trigger="Edit"
           triggerLabel={`Edit ${sub.tool_name}`}
           triggerClassName="rounded-lg px-2.5 py-1.5 text-sm font-medium text-ink-soft hover:text-ink"

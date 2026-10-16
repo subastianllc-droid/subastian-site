@@ -7,11 +7,14 @@ export function GuardNotice({
   newName,
   category,
   today,
+  editing = false,
 }: {
   result: GuardResult;
   newName: string;
   category: string;
   today: string;
+  /** Editing an existing row: the warning is about the change, not a new purchase. */
+  editing?: boolean;
 }) {
   const { sameTool, similarName, sameCategory, cancelledBefore, resumable, activeMonthlyAtStake } = result;
   const level = guardLevel(result);
@@ -48,7 +51,9 @@ export function GuardNotice({
           {sameTool.length > 1 ? ` You have ${sameTool.length} entries for it.` : ""}{" "}
           {resumable
             ? "It's marked paused, so you may still have that account. Resuming it avoids paying for a second one."
-            : "Adding it again could mean paying twice."}
+            : editing
+              ? "Keeping both could mean paying twice."
+              : "Adding it again could mean paying twice."}
         </p>
       )}
 

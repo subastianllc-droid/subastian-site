@@ -5,8 +5,10 @@ import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/lib/database.types";
 import { CATEGORIES, STATUSES, addMonths, isIsoDate, type Status } from "@/lib/subscriptions";
 import { SAMPLE_STACK_NAME, sampleRows } from "@/lib/sample-stack";
+import { checkPurchase, needsConfirmation } from "@/lib/purchase-guard";
 
-export type FormState = { error?: string; ok?: boolean };
+/** `guard` is set when Purchase Guard found a match the user hasn't confirmed yet. */
+export type FormState = { error?: string; ok?: boolean; guard?: boolean; guardFor?: string };
 
 type SubInsert = Database["public"]["Tables"]["subscriptions"]["Insert"];
 type SubUpdate = Database["public"]["Tables"]["subscriptions"]["Update"];
@@ -81,6 +83,25 @@ export async function createSubscription(_prev: FormState, formData: FormData): 
   const parsed = await parseSubscription(formData, supabase);
   if ("error" in parsed) return parsed;
 
+  // Purchase Guard, server side. The form shows the same check live; this catches a stale form
+  // (e.g. a tool added in another tab) so nothing slips past without the user seeing it.
+  if (formData.get("guard_ack") !== "1") {
+    const { data: existing } = await supabase
+      .from("subscriptions")
+      .select("id, tool_name, category, status, monthly_cost, renewal_date, trial_ends_at");
+    const result = checkPurchase(parsed.row, existing ?? []);
+    if (needsConfirmation(result)) {
+      const names = [...result.sameTool, ...result.similarName, ...result.sameCategory, ...result.cancelledBefore].map(
+        (s) => s.tool_name,
+      );
+      return {
+        guard: true,
+        guardFor: parsed.row.tool_name,
+        error: `Purchase Guard: you already track ${names.join(", ")}. Choose Add anyway or Don't add.`,
+      };
+    }
+  }
+
   const { error } = await supabase.from("subscriptions").insert({ ...parsed.row, user_id: user.id });
   if (error) return { error: "Couldn't save that subscription. Try again." };
   revalidatePath("/app");
@@ -121,6 +142,15 @@ export async function deleteSubscription(formData: FormData) {
   if (!id) return;
   // alert_log rows cascade-delete with the subscription (FK ON DELETE CASCADE).
   await supabase.from("subscriptions").delete().eq("id", id);
+  revalidatePath("/app");
+}
+
+/** Purchase Guard's "Resume instead": marks a paused subscription active again. Tracker only. */
+export async function resumeSubscription(formData: FormData) {
+  const { supabase } = await requireUser();
+  const id = String(formData.get("id") ?? "");
+  if (!id) return;
+  await supabase.from("subscriptions").update({ status: "active" }).eq("id", id).eq("status", "paused");
   revalidatePath("/app");
 }
 

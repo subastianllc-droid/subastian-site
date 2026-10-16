@@ -96,6 +96,7 @@ export function DashboardView({
             <SubscriptionEditor
               stacks={stacks}
               today={today}
+              existing={subs}
               trigger="+ Add subscription"
               triggerClassName="rounded-lg bg-accent-fill px-4 py-2.5 font-semibold text-white hover:opacity-90"
             />
@@ -111,6 +112,7 @@ export function DashboardView({
             <form action={removeSampleStack}>
               <ConfirmButton
                 message="Remove all sample tools? Anything you added yourself stays."
+                confirmLabel="Remove sample"
                 className="rounded-lg bg-surface px-3 py-1.5 text-sm font-semibold text-accent-strong hover:opacity-90"
               >
                 Remove sample
@@ -131,6 +133,7 @@ export function DashboardView({
               <SubscriptionEditor
                 stacks={stacks}
                 today={today}
+                existing={subs}
                 trigger="Add my first subscription"
                 triggerClassName="rounded-lg bg-accent-fill px-4 py-2.5 font-semibold text-white hover:opacity-90"
               />
@@ -195,7 +198,8 @@ export function DashboardView({
                   stacks={stacks}
                   today={today}
                   startAsTrial
-                  trigger="+ Track a trial"
+                  existing={subs}
+              trigger="+ Track a trial"
                   triggerClassName="text-sm font-medium text-accent hover:underline"
                 />
               </div>
@@ -254,6 +258,7 @@ export function DashboardView({
                         <ConfirmButton
                           message={`Delete the "${st.name}" stack? Its tools stay tracked, just ungrouped.`}
                           label={`Delete stack ${st.name}`}
+                          confirmLabel="Delete"
                           className="rounded-md px-1.5 py-1 text-ink-faint hover:text-danger"
                         >
                           ✕
@@ -355,6 +360,7 @@ function TrialCard({ sub, today, stacks, stackName }: { sub: Subscription; today
           <input type="hidden" name="id" value={sub.id} />
           <ConfirmButton
             message={`Remove ${sub.tool_name}? This can't be undone.`}
+            confirmLabel="Remove"
             className="rounded-lg px-3 py-1.5 text-sm text-ink-faint hover:text-danger"
           >
             Remove
@@ -410,6 +416,8 @@ function SubscriptionRow({ sub, today, stacks, stackName }: { sub: Subscription;
             <input type="hidden" name="id" value={sub.id} />
             <ConfirmButton
               message={`Move ${sub.tool_name}'s renewal date forward one month? This only updates your tracker. It doesn't check or change anything with the vendor.`}
+              confirmLabel="Mark renewed"
+              tone="accent"
               className="rounded-lg px-2.5 py-1.5 text-sm font-medium text-accent hover:underline"
             >
               Mark renewed
@@ -440,6 +448,7 @@ function SubscriptionRow({ sub, today, stacks, stackName }: { sub: Subscription;
           <input type="hidden" name="id" value={sub.id} />
           <ConfirmButton
             message={`Remove ${sub.tool_name}? This can't be undone.`}
+            confirmLabel="Remove"
             label={`Remove ${sub.tool_name}`}
             className="rounded-lg px-2.5 py-1.5 text-sm text-ink-faint hover:text-danger"
           >

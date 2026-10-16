@@ -1,9 +1,11 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useRef, useState, useTransition } from "react";
 import type { Stack, Subscription } from "@/lib/database.types";
 import { CATEGORIES, STATUSES, STATUS_LABEL } from "@/lib/subscriptions";
-import { createSubscription, updateSubscription, type FormState } from "../actions";
+import { checkPurchase, needsConfirmation, type GuardTool } from "@/lib/purchase-guard";
+import { createSubscription, resumeSubscription, updateSubscription, type FormState } from "../actions";
+import { GuardNotice } from "./guard-notice";
 
 const field =
   "w-full rounded-lg border border-line bg-surface px-3 py-2.5 text-base outline-none focus:border-accent";
@@ -12,6 +14,8 @@ type Props = {
   stacks: Stack[];
   today: string;
   sub?: Subscription;
+  /** Everything already tracked, for Purchase Guard. Only used when adding. */
+  existing?: GuardTool[];
   /** Pre-select "free trial" when opening from the trials section. */
   startAsTrial?: boolean;
   trigger: React.ReactNode;
@@ -19,21 +23,61 @@ type Props = {
   triggerLabel?: string;
 };
 
-export function SubscriptionEditor({ stacks, today, sub, startAsTrial, trigger, triggerClassName, triggerLabel }: Props) {
+export function SubscriptionEditor({
+  stacks,
+  today,
+  sub,
+  existing = [],
+  startAsTrial,
+  trigger,
+  triggerClassName,
+  triggerLabel,
+}: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [isTrial, setIsTrial] = useState(sub ? sub.status === "trial" : Boolean(startAsTrial));
+  const [toolName, setToolName] = useState(sub?.tool_name ?? "");
+  const [category, setCategory] = useState(sub?.category ?? "");
+
+  // Purchase Guard runs only when adding. Editing an existing row shouldn't warn about itself.
+  const guard = sub ? null : checkPurchase({ tool_name: toolName, category }, existing);
+  const guardHit = guard !== null && toolName.trim() !== "" && needsConfirmation(guard);
+
+  function resetForm() {
+    formRef.current?.reset();
+    setIsTrial(Boolean(startAsTrial));
+    setToolName("");
+    setCategory("");
+  }
+
   const [state, action, pending] = useActionState<FormState, FormData>(async (prev, formData) => {
     const result = await (sub ? updateSubscription : createSubscription)(prev, formData);
     if (result.ok) {
       dialogRef.current?.close();
-      if (!sub) {
-        formRef.current?.reset();
-        setIsTrial(Boolean(startAsTrial));
-      }
+      if (!sub) resetForm();
     }
     return result;
   }, {});
+
+  // The server can flag a match the live check missed (stale list). Then the next submit confirms it.
+  // That flag only counts while the form still holds the tool the server checked.
+  const mustConfirm = guardHit || (Boolean(state.guard) && state.guardFor === toolName.trim());
+
+  const [resuming, startResume] = useTransition();
+  function resume(id: string) {
+    const fd = new FormData();
+    fd.set("id", id);
+    startResume(async () => {
+      await resumeSubscription(fd);
+      dialogRef.current?.close();
+      resetForm();
+    });
+  }
+
+  function dontAdd() {
+    dialogRef.current?.close();
+    resetForm();
+  }
 
   return (
     <>
@@ -70,7 +114,16 @@ export function SubscriptionEditor({ stacks, today, sub, startAsTrial, trigger, 
 
           <label className="block">
             <span className="mb-1 block text-sm font-medium">Tool name</span>
-            <input name="tool_name" required maxLength={80} defaultValue={sub?.tool_name} placeholder="e.g. ClickFunnels" className={field} />
+            <input
+              name="tool_name"
+              required
+              maxLength={80}
+              value={toolName}
+              onChange={(e) => setToolName(e.target.value)}
+              placeholder="e.g. ClickFunnels"
+              autoComplete="off"
+              className={field}
+            />
           </label>
 
           <label className="flex items-center gap-3 rounded-lg bg-band px-3 py-2.5">
@@ -87,7 +140,7 @@ export function SubscriptionEditor({ stacks, today, sub, startAsTrial, trigger, 
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
               <span className="mb-1 block text-sm font-medium">Category</span>
-              <select name="category" required defaultValue={sub?.category ?? ""} className={field}>
+              <select name="category" required value={category} onChange={(e) => setCategory(e.target.value)} className={field}>
                 <option value="" disabled>Choose…</option>
                 {CATEGORIES.map((c) => (
                   <option key={c} value={c}>{c}</option>
@@ -160,25 +213,59 @@ export function SubscriptionEditor({ stacks, today, sub, startAsTrial, trigger, 
             </label>
           </div>
 
+          {guard && guardHit && <GuardNotice result={guard} newName={toolName.trim()} category={category} today={today} />}
+          {mustConfirm && <input type="hidden" name="guard_ack" value="1" />}
+
           {state.error && (
             <p role="alert" className="rounded-lg bg-danger-tint px-3 py-2 text-sm text-danger">{state.error}</p>
           )}
 
           <div className="flex justify-end gap-3 pt-2">
-            <button
-              type="button"
-              onClick={() => dialogRef.current?.close()}
-              className="rounded-lg px-4 py-2.5 font-medium text-ink-soft hover:text-ink"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={pending}
-              className="rounded-lg bg-accent-fill px-5 py-2.5 font-semibold text-white hover:opacity-90 disabled:opacity-60"
-            >
-              {pending ? "Saving…" : sub ? "Save changes" : "Add"}
-            </button>
+            {mustConfirm ? (
+              <>
+                <button
+                  type="submit"
+                  disabled={pending}
+                  className="rounded-lg border border-line px-4 py-2.5 font-medium text-ink-soft hover:border-ink-faint hover:text-ink disabled:opacity-60"
+                >
+                  {pending ? "Saving…" : "Add anyway"}
+                </button>
+                {guard?.resumable && (
+                  <button
+                    type="button"
+                    disabled={resuming}
+                    onClick={() => resume(guard.resumable!.id)}
+                    className="rounded-lg border border-accent px-4 py-2.5 font-semibold text-accent hover:bg-band disabled:opacity-60"
+                  >
+                    {resuming ? "Resuming…" : `Resume ${guard.resumable.tool_name} instead`}
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={dontAdd}
+                  className="rounded-lg bg-accent-fill px-5 py-2.5 font-semibold text-white hover:opacity-90"
+                >
+                  Don&apos;t add
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => dialogRef.current?.close()}
+                  className="rounded-lg px-4 py-2.5 font-medium text-ink-soft hover:text-ink"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={pending}
+                  className="rounded-lg bg-accent-fill px-5 py-2.5 font-semibold text-white hover:opacity-90 disabled:opacity-60"
+                >
+                  {pending ? "Saving…" : sub ? "Save changes" : "Add"}
+                </button>
+              </>
+            )}
           </div>
         </form>
       </dialog>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
@@ -26,7 +27,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${inter.variable} ${jakarta.variable} ${plexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        {children}
+        {/* Partner-link referrals only; see public/aff.js. */}
+        <Script src="/aff.js" strategy="afterInteractive" />
+      </body>
     </html>
   );
 }

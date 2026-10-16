@@ -82,6 +82,7 @@
   .brand .wm{color:var(--ink);} .brand .wm span{color:var(--accent);}
 </style>
 <script src="/ph.js" defer></script>
+<script src="/aff.js" defer></script>
 <script src="/roster.js" defer></script>
 </head>
 <body>
@@ -138,6 +139,7 @@
           <tr><td><strong>Vercel</strong></td><td>Hosts the Subastian app</td></tr>
           <tr><td><strong>Gumroad</strong></td><td>Sells and delivers the Subscription Audit Kit, processes payments, refunds and sales tax, and shares order details with us</td></tr>
           <tr><td><strong>Email service provider</strong></td><td>Sends roster, receipt, and product emails. We will name the provider here once it is in use</td></tr>
+          <tr><td><strong>Lemon Squeezy</strong></td><td>Runs our affiliate program: tracks visits from partner links, credits partners for referred purchases, and pays commissions</td></tr>
           <tr><td><strong>PostHog</strong></td><td>Website analytics (page views, clicks, signup counts, and anonymous Leak Test answers; no names or emails)</td></tr>
         </tbody>
       </table>
@@ -159,7 +161,8 @@
 
     <section>
       <h2>6. Cookies and analytics</h2>
-      <p>This website does not use advertising cookies or analytics cookies. We use <strong>PostHog</strong> (US-hosted) to count page views, button clicks, and completed signups so we can see which pages and partner links are working. PostHog stores a random visit ID in your browser&rsquo;s session storage, which is cleared when you close the tab. We do not send your name or email address to PostHog, form contents are not recorded, and we do not record your screen. The Subastian app uses essential cookies only, such as keeping you logged in. You can control cookies and site storage through your browser settings; disabling essential cookies may break login.</p>
+      <p>This website does not use advertising cookies or analytics cookies, with one exception for partner links, described at the end of this section. We use <strong>PostHog</strong> (US-hosted) to count page views, button clicks, and completed signups so we can see which pages and partner links are working. PostHog stores a random visit ID in your browser&rsquo;s session storage, which is cleared when you close the tab. We do not send your name or email address to PostHog, form contents are not recorded, and we do not record your screen. The Subastian app uses essential cookies only, such as keeping you logged in. You can control cookies and site storage through your browser settings; disabling essential cookies may break login.</p>
+      <p><strong>Partner links:</strong> if you arrive through an affiliate partner&rsquo;s link (a link with <code>?aff=</code>), we load <strong>Lemon Squeezy</strong>&rsquo;s affiliate tracking script so a later purchase can be credited to that partner. It sets a cookie named <code>ls_aff_ref</code>, creates a device identifier from your browser&rsquo;s characteristics, and sends the page address, the referring page and that identifier to Lemon Squeezy. Lemon Squeezy sets how long the cookie lasts. If you didn&rsquo;t arrive through a partner link and don&rsquo;t already have that cookie, the script is not loaded. You can clear the cookie in your browser settings at any time.</p>
       <p>Our free Trial Tracker saves your entries in your browser&rsquo;s local storage so they are still there when you come back. You can clear them anytime in your browser settings. Clearing your site data deletes them.</p>
     </section>
 

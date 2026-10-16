@@ -446,6 +446,7 @@
   }
 </style>
 <script src="/ph.js" defer></script>
+<script src="/roster.js" defer></script>
 </head>
 <body>
 
@@ -1054,6 +1055,8 @@
       var label = btn ? btn.textContent : '';
       submitting = true;
       if(btn){ btn.disabled = true; btn.textContent = 'Reserving…'; }
+
+      if(window.subRoster) subRoster({ name: name, email: email, role: niche, form: 'home' });
 
       postToGHL({
         name: name,

@@ -3,8 +3,14 @@
 import { useActionState, useRef, useState, useTransition } from "react";
 import type { Stack, Subscription } from "@/lib/database.types";
 import { CATEGORIES, STATUSES, STATUS_LABEL } from "@/lib/subscriptions";
-import { checkPurchase, needsConfirmation, type GuardTool } from "@/lib/purchase-guard";
-import { createSubscription, resumeSubscription, updateSubscription, type FormState } from "../actions";
+import { checkEdit, checkPurchase, needsConfirmation, type GuardTool } from "@/lib/purchase-guard";
+import {
+  createSubscription,
+  recordGuardSkip,
+  resumeSubscription,
+  updateSubscription,
+  type FormState,
+} from "../actions";
 import { GuardNotice } from "./guard-notice";
 
 const field =
@@ -14,7 +20,7 @@ type Props = {
   stacks: Stack[];
   today: string;
   sub?: Subscription;
-  /** Everything already tracked, for Purchase Guard. Only used when adding. */
+  /** Everything already tracked, for Purchase Guard (adding and editing). */
   existing?: GuardTool[];
   /** Pre-select "free trial" when opening from the trials section. */
   startAsTrial?: boolean;
@@ -38,16 +44,22 @@ export function SubscriptionEditor({
   const [isTrial, setIsTrial] = useState(sub ? sub.status === "trial" : Boolean(startAsTrial));
   const [toolName, setToolName] = useState(sub?.tool_name ?? "");
   const [category, setCategory] = useState(sub?.category ?? "");
+  const [status, setStatus] = useState(sub && sub.status !== "trial" ? sub.status : "active");
+  const effectiveStatus = isTrial ? "trial" : status;
 
-  // Purchase Guard runs only when adding. Editing an existing row shouldn't warn about itself.
-  const guard = sub ? null : checkPurchase({ tool_name: toolName, category }, existing);
+  // Purchase Guard. Adding: every match. Editing: only a rename into another tool, or reopening a
+  // cancelled tool you already have open (checkEdit skips the row itself).
+  const guard = sub
+    ? checkEdit(sub, { tool_name: toolName, category, status: effectiveStatus }, existing)
+    : checkPurchase({ tool_name: toolName, category }, existing);
   const guardHit = guard !== null && toolName.trim() !== "" && needsConfirmation(guard);
 
   function resetForm() {
     formRef.current?.reset();
-    setIsTrial(Boolean(startAsTrial));
-    setToolName("");
-    setCategory("");
+    setIsTrial(sub ? sub.status === "trial" : Boolean(startAsTrial));
+    setToolName(sub?.tool_name ?? "");
+    setCategory(sub?.category ?? "");
+    setStatus(sub && sub.status !== "trial" ? sub.status : "active");
   }
 
   const [state, action, pending] = useActionState<FormState, FormData>(async (prev, formData) => {
@@ -74,7 +86,16 @@ export function SubscriptionEditor({
     });
   }
 
+  const [skipping, startSkip] = useTransition();
   function dontAdd() {
+    // Adding: record what Purchase Guard kept off the bill (the server re-checks the match).
+    // Editing: just drop the changes.
+    if (!sub && formRef.current) {
+      const fd = new FormData(formRef.current);
+      startSkip(async () => {
+        await recordGuardSkip(fd);
+      });
+    }
     dialogRef.current?.close();
     resetForm();
   }
@@ -184,7 +205,7 @@ export function SubscriptionEditor({
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
                 <span className="mb-1 block text-sm font-medium">Status</span>
-                <select name="status" defaultValue={sub && sub.status !== "trial" ? sub.status : "active"} className={field}>
+                <select name="status" value={status} onChange={(e) => setStatus(e.target.value)} className={field}>
                   {STATUSES.filter((s) => s !== "trial").map((s) => (
                     <option key={s} value={s}>{STATUS_LABEL[s]}</option>
                   ))}
@@ -213,7 +234,9 @@ export function SubscriptionEditor({
             </label>
           </div>
 
-          {guard && guardHit && <GuardNotice result={guard} newName={toolName.trim()} category={category} today={today} />}
+          {guard && guardHit && (
+            <GuardNotice result={guard} newName={toolName.trim()} category={category} today={today} editing={Boolean(sub)} />
+          )}
           {mustConfirm && <input type="hidden" name="guard_ack" value="1" />}
 
           {state.error && (
@@ -228,7 +251,7 @@ export function SubscriptionEditor({
                   disabled={pending}
                   className="rounded-lg border border-line px-4 py-2.5 font-medium text-ink-soft hover:border-ink-faint hover:text-ink disabled:opacity-60"
                 >
-                  {pending ? "Saving…" : "Add anyway"}
+                  {pending ? "Saving…" : sub ? "Save anyway" : "Add anyway"}
                 </button>
                 {guard?.resumable && (
                   <button
@@ -243,9 +266,10 @@ export function SubscriptionEditor({
                 <button
                   type="button"
                   onClick={dontAdd}
-                  className="rounded-lg bg-accent-fill px-5 py-2.5 font-semibold text-white hover:opacity-90"
+                  disabled={skipping}
+                  className="rounded-lg bg-accent-fill px-5 py-2.5 font-semibold text-white hover:opacity-90 disabled:opacity-60"
                 >
-                  Don&apos;t add
+                  {sub ? "Don't save" : "Don't add"}
                 </button>
               </>
             ) : (

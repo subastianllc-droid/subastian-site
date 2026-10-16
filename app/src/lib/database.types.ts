@@ -6,6 +6,30 @@ export type Database = {
   __InternalSupabase: { PostgrestVersion: "14.5" };
   public: {
     Tables: {
+      guard_skips: {
+        Row: {
+          category: string;
+          created_at: string;
+          id: string;
+          matched: string;
+          monthly_cost: number | null;
+          tool_name: string;
+          user_id: string;
+          was_trial: boolean;
+        };
+        Insert: {
+          category: string;
+          created_at?: string;
+          id?: string;
+          matched: string;
+          monthly_cost?: number | null;
+          tool_name: string;
+          user_id?: string;
+          was_trial?: boolean;
+        };
+        Update: never;
+        Relationships: [];
+      };
       profiles: {
         Row: {
           created_at: string;
@@ -91,3 +115,4 @@ export type Database = {
 export type Subscription = Database["public"]["Tables"]["subscriptions"]["Row"];
 export type Stack = Database["public"]["Tables"]["stacks"]["Row"];
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+export type GuardSkip = Database["public"]["Tables"]["guard_skips"]["Row"];

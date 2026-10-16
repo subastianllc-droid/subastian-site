@@ -5,13 +5,22 @@ import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/lib/database.types";
 import { CATEGORIES, STATUSES, addMonths, isIsoDate, type Status } from "@/lib/subscriptions";
 import { SAMPLE_STACK_NAME, sampleRows } from "@/lib/sample-stack";
-import { checkPurchase, needsConfirmation } from "@/lib/purchase-guard";
+import { checkEdit, checkPurchase, needsConfirmation, strongestMatch, type GuardResult } from "@/lib/purchase-guard";
 
 /** `guard` is set when Purchase Guard found a match the user hasn't confirmed yet. */
 export type FormState = { error?: string; ok?: boolean; guard?: boolean; guardFor?: string };
 
 type SubInsert = Database["public"]["Tables"]["subscriptions"]["Insert"];
 type SubUpdate = Database["public"]["Tables"]["subscriptions"]["Update"];
+
+const GUARD_COLUMNS = "id, tool_name, category, status, monthly_cost, renewal_date, trial_ends_at";
+
+function guardMessage(result: GuardResult, verb: string): string {
+  const names = [...result.sameTool, ...result.similarName, ...result.sameCategory, ...result.cancelledBefore].map(
+    (s) => s.tool_name,
+  );
+  return `Purchase Guard: you already track ${[...new Set(names)].join(", ")}. Choose ${verb}.`;
+}
 
 async function requireUser() {
   const supabase = await createClient();
@@ -86,19 +95,10 @@ export async function createSubscription(_prev: FormState, formData: FormData): 
   // Purchase Guard, server side. The form shows the same check live; this catches a stale form
   // (e.g. a tool added in another tab) so nothing slips past without the user seeing it.
   if (formData.get("guard_ack") !== "1") {
-    const { data: existing } = await supabase
-      .from("subscriptions")
-      .select("id, tool_name, category, status, monthly_cost, renewal_date, trial_ends_at");
+    const { data: existing } = await supabase.from("subscriptions").select(GUARD_COLUMNS);
     const result = checkPurchase(parsed.row, existing ?? []);
     if (needsConfirmation(result)) {
-      const names = [...result.sameTool, ...result.similarName, ...result.sameCategory, ...result.cancelledBefore].map(
-        (s) => s.tool_name,
-      );
-      return {
-        guard: true,
-        guardFor: parsed.row.tool_name,
-        error: `Purchase Guard: you already track ${names.join(", ")}. Choose Add anyway or Don't add.`,
-      };
+      return { guard: true, guardFor: parsed.row.tool_name, error: guardMessage(result, "Add anyway or Don't add") };
     }
   }
 
@@ -116,8 +116,21 @@ export async function updateSubscription(_prev: FormState, formData: FormData): 
   const parsed = await parseSubscription(formData, supabase);
   if ("error" in parsed) return parsed;
 
-  // Keep a recorded trial decision unless the user turned it back into a trial.
   const { row } = parsed;
+
+  // Purchase Guard on edit: a rename into another tool's name, or reopening a cancelled tool you
+  // already have open elsewhere, needs the same confirmation as adding it.
+  if (formData.get("guard_ack") !== "1") {
+    const { data: all } = await supabase.from("subscriptions").select(GUARD_COLUMNS);
+    const before = (all ?? []).find((s) => s.id === id);
+    if (!before) return { error: "Couldn't find that subscription. Refresh and try again." };
+    const result = checkEdit(before, row as { tool_name: string; category: string; status: string }, all ?? []);
+    if (result) {
+      return { guard: true, guardFor: row.tool_name, error: guardMessage(result, "Save anyway or Don't save") };
+    }
+  }
+
+  // Keep a recorded trial decision unless the user turned it back into a trial.
   const patch: SubUpdate = {
     tool_name: row.tool_name,
     category: row.category,
@@ -142,6 +155,36 @@ export async function deleteSubscription(formData: FormData) {
   if (!id) return;
   // alert_log rows cascade-delete with the subscription (FK ON DELETE CASCADE).
   await supabase.from("subscriptions").delete().eq("id", id);
+  revalidatePath("/app");
+}
+
+/**
+ * Purchase Guard's "Don't add": records the tool the user chose not to add, so the dashboard can
+ * show what Purchase Guard kept off their bill. The match is re-checked here against the user's own
+ * rows, so only a real match is recorded. A missing or invalid cost is stored as unknown.
+ */
+export async function recordGuardSkip(formData: FormData) {
+  const { supabase, user } = await requireUser();
+  const toolName = String(formData.get("tool_name") ?? "").trim();
+  const category = String(formData.get("category") ?? "");
+  if (!toolName || toolName.length > 80 || !(CATEGORIES as readonly string[]).includes(category)) return;
+
+  const { data: existing } = await supabase.from("subscriptions").select(GUARD_COLUMNS);
+  const matched = strongestMatch(checkPurchase({ tool_name: toolName, category }, existing ?? []));
+  if (!matched) return;
+
+  const costRaw = String(formData.get("monthly_cost") ?? "").replace(/[$,\s]/g, "");
+  const cost = costRaw === "" ? NaN : Number(costRaw);
+  const monthly = Number.isFinite(cost) && cost >= 0 && cost <= 100_000 ? Math.round(cost * 100) / 100 : null;
+
+  await supabase.from("guard_skips").insert({
+    user_id: user.id,
+    tool_name: toolName,
+    category,
+    monthly_cost: monthly,
+    was_trial: formData.get("is_trial") === "on",
+    matched,
+  });
   revalidatePath("/app");
 }
 

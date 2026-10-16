@@ -96,6 +96,7 @@ export function DashboardView({
             <SubscriptionEditor
               stacks={stacks}
               today={today}
+              existing={subs}
               trigger="+ Add subscription"
               triggerClassName="rounded-lg bg-accent-fill px-4 py-2.5 font-semibold text-white hover:opacity-90"
             />
@@ -131,6 +132,7 @@ export function DashboardView({
               <SubscriptionEditor
                 stacks={stacks}
                 today={today}
+                existing={subs}
                 trigger="Add my first subscription"
                 triggerClassName="rounded-lg bg-accent-fill px-4 py-2.5 font-semibold text-white hover:opacity-90"
               />
@@ -195,7 +197,8 @@ export function DashboardView({
                   stacks={stacks}
                   today={today}
                   startAsTrial
-                  trigger="+ Track a trial"
+                  existing={subs}
+              trigger="+ Track a trial"
                   triggerClassName="text-sm font-medium text-accent hover:underline"
                 />
               </div>

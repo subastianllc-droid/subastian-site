@@ -33,4 +33,4 @@ This repo is the source of truth for the Subastian app. Read this before changin
 2. **Next.** Lemon Squeezy checkout and webhook (Supabase Edge Function) that sets `plan_tier` / `subscription_status`; plan limits.
 3. **Alerts.** 5-stage renewal and trial emails (30/7/3/1/0 days) logged in `alert_log`, run by a scheduled job.
 4. **Niche Stacks.** Pick a niche and get a recommended tool stack, with chained free trials of same-type tools.
-5. **Purchase Guard.** Warn before adding a tool that duplicates one already tracked.
+5. **Done (built ahead of 2–4).** Purchase Guard: `src/lib/purchase-guard.ts` checks a new tool against active and trial rows (same name, ignoring plan words like "Pro", or same category except "Other"). The add form shows the match live, and `createSubscription` re-checks on the server and asks for "Add anyway" (`guard_ack`).

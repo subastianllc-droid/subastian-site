@@ -136,6 +136,7 @@
   }
 </style>
 <script src="/ph.js" defer></script>
+<script src="/roster.js" defer></script>
 </head>
 <body>
 
@@ -496,6 +497,7 @@
     var btn = $('gateBtn'), label = btn.textContent, r = result;
     busy = true; btn.disabled = true; btn.textContent = 'Unlocking…';
 
+    if(!trap && window.subRoster) subRoster({ name:name, email:email, role:NICHE[answers.who], form:'leak_test' });
     (trap ? Promise.reject(new Error('trap')) : send({
       name:name, firstName:name.split(' ')[0], lastName:name.split(' ').slice(1).join(' '), email:email,
       niche:NICHE[answers.who], segment:labels.who,

@@ -136,6 +136,7 @@
   @media (prefers-reduced-motion: reduce){*{transition:none !important;}}
 </style>
 <script src="/ph.js" defer></script>
+<script src="/roster.js" defer></script>
 </head>
 <body>
 
@@ -302,6 +303,7 @@
     var r = calc(), btn = form.querySelector('button'), label = btn.textContent;
     busy = true; btn.disabled = true; btn.textContent = 'Reserving…';
 
+    if(!trap && window.subRoster) subRoster({ name: name, email: email, role: $('niche').value, form: 'stack_audit' });
     (trap ? Promise.reject(new Error('trap')) : send({
       name: name, firstName: name.split(' ')[0], lastName: name.split(' ').slice(1).join(' '),
       email: email, niche: $('niche').value,

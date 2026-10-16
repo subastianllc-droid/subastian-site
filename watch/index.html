@@ -198,6 +198,7 @@
   }
 </style>
 <script src="/ph.js" defer></script>
+<script src="/roster.js" defer></script>
 </head>
 <body>
 
@@ -367,6 +368,7 @@
     if(!email||email.indexOf('@')<1||email.indexOf('.')<0){ msg.textContent='Add a valid email address.'; emailEl.focus(); return; }
     if(document.getElementById('wf-hp').value){ msg.innerHTML='Something went wrong. Email <a href="mailto:'+FOUNDER+'">'+FOUNDER+'</a> and we’ll send the tools by hand.'; return; }
     var b=form.querySelector('.btn-submit'); busy=true; b.disabled=true; b.textContent='Sending…';
+    if(window.subRoster) subRoster({name:name,email:email,role:niche,form:'watch'});
     post({
       name:name, firstName:name.split(' ')[0], lastName:name.split(' ').slice(1).join(' '),
       email:email, niche:niche, planInterest:'', type:'roster', ref:REF,

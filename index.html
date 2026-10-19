@@ -33,7 +33,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="hero-poster.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="purchase-guard-light.webp" media="(prefers-color-scheme: light)" fetchpriority="high">
+<link rel="preload" as="image" href="purchase-guard-dark.webp" media="(prefers-color-scheme: dark)" fetchpriority="high">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <style>
   :root{
@@ -439,6 +440,39 @@
     .score-head{ flex-direction:column; align-items:flex-start; }
     .score-art{ width:88px; height:88px; }
   }
+  .btn-lg{ padding:15px 24px; font-size:15.5px; border-radius:10px; }
+  .hero-shot{ margin:0; justify-self:center; max-width:360px; width:100%; }
+  .hero-shot img{ width:100%; height:auto; border-radius:18px; border:1px solid var(--line); box-shadow:0 30px 70px -30px rgba(109,40,217,.45); }
+  .hero-shot figcaption{ margin-top:12px; font-size:12.5px; color:var(--ink-faint); line-height:1.5; }
+  .build-tag{ display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--accent); border-radius:999px; padding:2px 8px; margin-right:6px; }
+
+  /* launch promise */
+  .promise{ margin-top:0; display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--f-line,rgba(255,255,255,.18)); border:1px solid var(--f-line,rgba(255,255,255,.18)); border-radius:14px; overflow:hidden; }
+  .promise div{ background:var(--ink); padding:16px 16px 18px; }
+  .promise dt{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--f-muted,#9C93C4); margin-bottom:6px; }
+  .promise dd{ margin:0; font-size:13.5px; line-height:1.55; color:var(--f-body,#C9C3E0); }
+  .promise dd b{ color:var(--f-h,#fff); }
+  .roster-count{ margin-top:16px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--f-muted,#9C93C4); }
+
+  /* audit kit */
+  .kit-grid{ display:grid; grid-template-columns:1fr 1.05fr; gap:44px; align-items:center; margin-top:8px; }
+  .kit-grid img{ width:100%; max-width:484px; justify-self:center; height:auto; border-radius:16px; box-shadow:0 24px 50px -24px rgba(109,40,217,.35); }
+  .kit-list{ margin:18px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px; }
+  .kit-list li{ font-size:14px; color:var(--ink-soft); padding-left:22px; position:relative; }
+  .kit-list li::before{ content:"✓"; position:absolute; left:0; color:var(--money); font-weight:700; }
+  .kit-buy{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:24px; }
+  .kit-fine{ font-size:12.5px; color:var(--ink-faint); margin:12px 0 0; }
+  .ref-box{ margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+  .ref-box input{ flex:1; min-width:200px; font:500 13px 'IBM Plex Mono',monospace; padding:9px 10px; border-radius:8px; border:1px solid currentColor; background:transparent; color:inherit; }
+  .ref-box button{ font:600 13px Inter,sans-serif; padding:9px 14px; border-radius:8px; border:1px solid currentColor; background:transparent; color:inherit; cursor:pointer; }
+  @media (max-width:760px){
+    .promise{ grid-template-columns:1fr 1fr; }
+    .kit-grid{ grid-template-columns:1fr; gap:24px; }
+    .hero-shot{ max-width:320px; }
+    .btn-lg{ width:100%; }
+  }
+  @media (max-width:420px){ .promise{ grid-template-columns:1fr; } }
+
   .founder-grid{ display:grid; grid-template-columns:1.25fr 1fr; gap:44px; align-items:center; }
   .founder-video{ width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; display:block; border-radius:20px; background:#15102b; border:1px solid rgba(233,185,73,.35); box-shadow:0 30px 70px -30px rgba(109,40,217,.5); }
   @media (max-width:760px){
@@ -460,9 +494,8 @@
     <a href="#how-it-works" class="hide-sm">How it works</a>
     <a href="#pricing">Pricing</a>
     <a href="#faq" class="hide-sm">FAQ</a>
-    <a href="/audit-kit/" class="hide-sm">Audit Kit</a>
-    <a href="/partners/">Partners</a>
-    <a href="#waitlist" class="btn-cta">Join the Roster</a>
+    <a href="#audit-kit" class="hide-sm">Audit Kit</a>
+    <a href="/leak-test/?src=home-nav" class="btn-cta" data-leak="nav">Take the Leak Test</a>
   </nav>
 </header>
 
@@ -473,23 +506,24 @@
     <div>
       <p class="eyebrow">Subscription Management Software · Pre-launch</p>
       <h1>Stop paying for software subscriptions you forgot you had.</h1>
-      <p class="sub">Subastian is a subscription tracker for people who run on software. It groups your tools into cost-efficient stacks, blocks duplicate purchases before you make them, and sends renewal alerts so no subscription auto-renews behind your back. We're in active development — join the founding roster to help shape it and lock in launch pricing.</p>
+      <p class="sub">Subastian is a subscription tracker for people who run on software. It groups your tools into cost-efficient stacks, warns you before you buy a tool you already pay for, and sends renewal alerts so nothing auto-renews behind your back. It's in active development. Start by finding out what your subscriptions may be leaking.</p>
       <div class="hero-actions">
-        <a href="#waitlist" class="btn-cta">Join the Founding Roster — Free</a>
-        <a href="#pricing" class="btn-ghost">See launch pricing</a>
+        <a href="/leak-test/?src=home-hero" class="btn-cta btn-lg" data-leak="hero">Take the free 60-second Leak Test</a>
       </div>
-      <a href="/watch/?src=home-hero" class="film-link" data-film="hero-text"><span class="film-disc" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></span>Watch the short film <span class="film-len">1:04</span></a>
-      <p class="hero-note">Built for <b>affiliate marketers, agencies and IT teams</b> juggling a lot of tools.</p>
+      <p class="hero-note">Your score shows up instantly, no signup. Built for <b>affiliate marketers, agencies and IT teams</b> juggling a lot of tools.</p>
       <div class="trust-strip">
-        <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Roster is free — no credit card</span>
-        <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Launch pricing locked for roster members</span>
+        <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>8 questions, about a minute</span>
+        <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Doesn't read your bank or email</span>
         <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Founder-run in Denver, Colorado</span>
       </div>
     </div>
-    <div class="hero-art">
-      <a href="/watch/?src=home-hero" class="hero-film" data-film="hero-video" aria-label="Watch the full Subastian film with sound"><span class="hero-film-pill" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>Watch with sound</span></a>
-      <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="hero-poster.jpg" width="1280" height="720" aria-label="The Subastian conductor waves his baton, orbiting software subscriptions into order, and the Subastian name lights up in gold"><source src="hero.mp4" type="video/mp4"><img src="hero.jpg" alt="A conductor directing a ring of orbiting software subscription icons, illustrating Subastian's subscription management" width="1400" height="787" fetchpriority="high" decoding="async"></video>
-    </div>
+    <figure class="hero-shot">
+      <picture>
+        <source srcset="purchase-guard-dark.webp" media="(prefers-color-scheme: dark)">
+        <img src="purchase-guard-light.webp" alt="Subastian's Purchase Guard warning while adding Ahrefs Pro: you already track Ahrefs at $129 a month, and Semrush is also in your SEO tools, so you already pay $269 a month. Buttons: Add anyway, Don't add." width="768" height="1176" fetchpriority="high" decoding="async">
+      </picture>
+      <figcaption><span class="build-tag">Early build</span> Purchase Guard catching a duplicate before you pay for it. Sample data.</figcaption>
+    </figure>
   </section>
 </div>
 
@@ -502,8 +536,8 @@
       <div>
         <div class="movement-mark"><span class="num">&#9835;</span><span class="label">From the founder</span></div>
         <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:22ch;">Your subscriptions, under your direction.</h2>
-        <p class="prose" style="margin-top:16px; color:var(--ink-soft);">I'm Daniel Padilla, founder of Subastian, LLC in Denver, Colorado. I'm building Subastian so you can see every subscription you pay for, catch renewals before they charge, and stop paying twice for tools that do the same job. Hit play for the 50-second walkthrough.</p>
-        <p style="margin-top:22px"><a href="#waitlist" class="btn-cta">Join the Founding Roster — Free</a></p>
+        <p class="prose" style="margin-top:16px; color:var(--ink-soft);">I'm Daniel Padilla, founder of Subastian, LLC in Denver, Colorado. I'm building Subastian so you can see every subscription you pay for, catch renewals before they charge, and stop paying twice for tools that do the same job. Hit play for my 50-second intro.</p>
+        <p style="margin-top:22px"><a href="/leak-test/?src=home-founder" class="btn-cta" data-leak="founder">Take the free Leak Test</a></p>
       </div>
     </div>
   </section>
@@ -516,7 +550,7 @@
         <div class="movement-mark"><span class="num">I.</span><span class="label">The Leak</span></div>
         <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:24ch;">How many subscriptions are you paying for right now? And how many did you use this month?</h2>
         <p class="prose" style="margin-top:16px; color:var(--ink-soft);">Free trials turn into paid plans, annual plans renew quietly, and two tools end up doing the same job. Unused subscriptions don't announce themselves; they just show up on the card each month until somebody goes looking.</p>
-        <p style="margin-top:22px"><a href="/leak-test/?src=home" class="btn-cta">Take the free 60-second Leak Test</a></p>
+        <p style="margin-top:22px"><a href="/leak-test/?src=home-leak" class="btn-cta" data-leak="leak-section">Take the free 60-second Leak Test</a></p>
         <p class="cite">Your own score and estimate, built from your answers. We don't quote industry statistics, and as a pre-launch company we don't have customer data yet.</p>
       </div>
       <div class="leak-art"><img src="vase.jpg" alt="A cracked vessel spilling app icons and coins, illustrating wasted spend on unused software subscriptions" width="900" height="1125" loading="lazy" decoding="async"></div>
@@ -558,8 +592,8 @@
     </div>
 
     <div class="cta-inline">
-      <p><b>Want these four working on your stack first?</b> Founding roster members get early access and keep launch pricing when Subastian goes live.</p>
-      <a href="#waitlist" class="btn-cta">Join the Founding Roster</a>
+      <p><b>Not sure which of these you need most?</b> The Leak Test shows where your subscriptions are leaking in about a minute.</p>
+      <a href="/leak-test/?src=home-features" class="btn-cta" data-leak="features">Take the Leak Test</a>
     </div>
   </section>
 </div>
@@ -583,10 +617,6 @@
         <p>SaaS spend management without the enterprise procurement suite. See the renewals coming, catch the shadow-IT overlap, and cut the licenses nobody has opened in a month.</p>
       </div>
     </div>
-    <div class="cta-inline partner-cta">
-      <p><span class="partner-kicker">Founding Partner program</span><b>Your audience looks like this?</b> Creators, affiliate marketers, agencies and newsletter writers can apply now for a 40% recurring commission once Subastian launches.</p>
-      <a href="/partners/" class="btn-ghost">Become a Founding Partner</a>
-    </div>
   </div>
 </div>
 
@@ -600,18 +630,38 @@
       <div class="flow-step"><div class="n mono" aria-hidden="true">3</div><h3>Purchase Guard activates</h3><p>Duplicate-subscription checks turn on automatically.</p></div>
       <div class="flow-step"><div class="n mono" aria-hidden="true">4</div><h3>Renewal alerts on</h3><p>Renewal and neglect warnings start tracking your stack.</p></div>
     </div>
-    <div class="cta-inline">
-      <p><b>Don't want to wait for launch?</b> The Subscription Audit Kit is a spreadsheet and one-page guide that helps you find the subscriptions you forgot, spot overlapping tools and see upcoming renewals in about 15 minutes. $9 one time, instant download, 30-day refund.</p>
-      <a href="/audit-kit/" class="btn-cta" data-kit="how-it-works">See the Audit Kit — $9</a>
-    </div>
   </section>
+</div>
+
+<div class="band">
+  <div class="wrap band-inner" id="audit-kit">
+    <div class="movement-mark"><span class="num">&#9833;</span><span class="label">Available today</span></div>
+    <div class="kit-grid">
+      <div>
+        <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:20ch;">Find your unused subscriptions in 15 minutes.</h2>
+        <p class="prose" style="margin-top:14px; color:var(--ink-soft);">Subastian isn't live yet. The Subscription Audit Kit is: a spreadsheet and a one-page guide that does the first job by hand, today.</p>
+        <ul class="kit-list">
+          <li>A spreadsheet for Excel or Google Sheets. List what you pay for once.</li>
+          <li>It totals your monthly and yearly spend as you go.</li>
+          <li>Built-in flags for overlapping tools, subscriptions idle for 14+ days, unused seats and renewals in the next 30 days.</li>
+          <li>A one-page guide: where subscriptions hide, a keep / cancel / review test, and when to set renewal reminders.</li>
+        </ul>
+        <div class="kit-buy">
+          <a href="/audit-kit/?src=home-kit" class="btn-cta btn-lg" data-kit="section">Get the Audit Kit — $9</a>
+          <a href="/audit-kit/?src=home-kit-details" class="text-link" data-kit="section-details">See what's inside</a>
+        </div>
+        <p class="kit-fine">One-time payment. Instant download. Full refund within 30 days. (The 30-day Kit refund is separate from the 60-day guarantee on Subastian subscriptions.)</p>
+      </div>
+      <img src="audit-kit/example-table.webp" alt="A made-up example from the Subscription Audit Kit: five subscriptions marked keep, overlap, idle or renews in 3 days, and a total of $37 a month saved by cancelling the 3 flagged" width="484" height="344" loading="lazy" decoding="async">
+    </div>
+  </div>
 </div>
 
 <div class="band">
   <div class="wrap band-inner" id="pricing">
     <div class="movement-mark"><span class="num">V.</span><span class="label">Choose Your Baton</span></div>
     <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:20ch;">Planned subscription management pricing.</h2>
-    <p class="price-note">Monthly plans aren't live or billing yet. Roster members who sign up before launch keep these rates locked in.</p>
+    <p class="price-note">Monthly plans aren't live or billing yet. Roster members keep these rates for as long as they stay subscribed. Every plan starts with a 14-day free trial and comes with a 60-day money-back guarantee.</p>
     <div class="price-grid">
       <div class="price-card">
         <div class="price-tier">Starter</div>
@@ -649,8 +699,7 @@
         <a href="#waitlist" class="btn-ghost" data-plan="Agency Maestro ($299/mo)">Lock in $299/mo</a>
       </div>
     </div>
-    <p class="price-note" style="margin-top:20px;">Joining the roster costs nothing and doesn't ask for a card — you're reserving the monthly rate, not buying it today. None of these monthly plans is on sale before launch. If you'd rather start now, the one-time $9 <a href="/audit-kit/" class="text-link" data-kit="pricing">Subscription Audit Kit</a> is available today.</p>
-    <p class="price-note">Recommend software to your audience? Founding Partners are planned to earn 40% of these plans every month a referral stays subscribed. <a href="/partners/" class="text-link">See the partner program →</a></p>
+    <p class="price-note" style="margin-top:20px;">Joining the roster costs nothing and doesn't ask for a card. You're reserving the rate, not buying a plan. None of these plans is on sale before launch. <a href="#launch-promise" class="text-link">What roster members get at launch</a>. If you'd rather start now, the one-time $9 <a href="#audit-kit" class="text-link" data-kit="pricing">Subscription Audit Kit</a> is available today.</p>
   </div>
 </div>
 
@@ -665,7 +714,7 @@
       </details>
       <details>
         <summary>Is Subastian available yet?</summary>
-        <p class="answer">Not yet — it's in active development and this is a pre-launch page. Joining the founding roster gets you early access when it opens, a say in what gets built next, and today's launch pricing locked in.</p>
+        <p class="answer">Not yet — it's in active development and this is a pre-launch page. Joining the founding roster gets you early access when it opens, a say in what gets built next, and the launch rate on any plan for as long as you stay subscribed.</p>
       </details>
       <details>
         <summary>Who is Subastian for?</summary>
@@ -685,15 +734,15 @@
       </details>
       <details>
         <summary>What will Subastian cost?</summary>
-        <p class="answer">Planned launch pricing is $49/month for Starter, $99/month for Conductor Pro, and $299/month for Agency Maestro. Monthly plans aren't billing yet — roster members who sign up before launch keep these rates when it goes live.</p>
+        <p class="answer">Planned launch pricing is $49/month for Starter, $99/month for Conductor Pro, and $299/month for Agency Maestro. Every plan starts with a 14-day free trial (a card is required to start it, and you're not charged if you cancel before day 14) and has a 60-day money-back guarantee on your first payment. Monthly plans aren't billing yet. Roster members keep the launch rate for as long as they stay subscribed.</p>
       </details>
       <details>
         <summary>Does it cost anything to join the founding roster?</summary>
         <p class="answer">No. There's no charge and no credit card — fill in the form at the bottom of this page and you're on the list. You'll hear directly from Daniel, and you can ask him anything before launch.</p>
       </details>
       <details>
-        <summary>Does Subastian have an affiliate or partner program?</summary>
-        <p class="answer">Yes — the Founding Partner program is open for applications now. Approved partners get early access, ready-made promotional material and a planned 40% recurring commission on referred customers once Subastian is live and the affiliate system is running. Nothing is paid out before launch. <a href="/partners/" class="text-link">Apply on the partners page.</a></p>
+        <summary>What exactly do roster members get at launch?</summary>
+        <p class="answer">On launch day you get a private checkout link by email. Through it, any plan (Starter $49, Conductor Pro $99 or Agency Maestro $299 a month) stays at that rate for as long as you stay subscribed, even if public prices go up later. Each plan starts with a 14-day free trial, card required, and has a 60-day money-back guarantee. You're never charged for being on the roster.</p>
       </details>
       <details>
         <summary>Where do the numbers in your calculator and Leak Test come from?</summary>
@@ -708,15 +757,15 @@
     <div class="movement-mark"><span class="num">VII.</span><span class="label">Finale</span></div>
     <div class="finale-inner">
       <div>
-        <h2>Be one of the first to conduct your stack.</h2>
-        <p class="sub">We're finishing development on Subastian now. Founding roster members get early access, a say in what gets built next, and today's pricing locked in before public launch.</p>
+        <h2>Skipped the test? Join the founding roster.</h2>
+        <p class="sub">We're finishing development on Subastian now. Founding roster members get early access, a say in what gets built next, and the launch rate kept for as long as they stay subscribed.</p>
         <ul class="finale-list">
           <li>Early access before public launch</li>
           <li>Free bonus: Free Trial Tracker and Cancel &amp; Refund Scripts</li>
-          <li>Launch pricing locked in — $49, $99 or $299</li>
           <li>Direct line to the founder on what gets built</li>
           <li>Free to join. No credit card. No spam.</li>
         </ul>
+        <p class="roster-count" id="rosterCount" hidden></p>
         <p class="roster-status" id="rosterStatus">Signups are saved automatically. We only email you about Subastian, and you can unsubscribe anytime.</p>
       </div>
       <div>
@@ -751,6 +800,12 @@
           <p class="confirm-msg" id="confirmMsg" role="status" aria-live="polite"></p>
         </form>
       </div>
+      <dl class="promise" id="launch-promise" style="grid-column:1 / -1">
+        <div><dt>What price is locked</dt><dd><b>Any plan</b> at its launch rate: Starter $49, Conductor Pro $99 or Agency Maestro $299 a month.</dd></div>
+        <div><dt>For how long</dt><dd><b>As long as you stay subscribed,</b> even if public prices go up later.</dd></div>
+        <div><dt>How you claim it</dt><dd><b>A private checkout link</b> by email on launch day.</dd></div>
+        <div><dt>Your risk</dt><dd><b>14-day free trial</b> (card required, cancel before day 14 and you pay nothing) and a <b>60-day money-back guarantee.</b></dd></div>
+      </dl>
     </div>
   </section>
 </div>
@@ -764,10 +819,9 @@
       <div>Founded by Daniel Padilla · <a href="mailto:daniel@subastian.us">daniel@subastian.us</a></div>
     </div>
     <nav class="foot-links" aria-label="Footer">
-      <a href="#waitlist">Join the founding roster</a>
       <a href="/leak-test/">Free Subscription Leak Test</a>
+      <a href="#waitlist">Join the founding roster</a>
       <a href="/stack-audit/">Subscription waste calculator</a>
-      <a href="/audit-service/">Done-for-you subscription audit — $49</a>
       <a href="/audit-kit/">Subscription Audit Kit — $9</a>
       <a href="/guides/">Guides</a>
       <a href="/partners/">Founding Partner program</a>
@@ -778,7 +832,7 @@
 </footer>
 
 <div class="sticky-cta" id="stickyCta">
-  <a href="#waitlist" class="btn-cta">Join the Founding Roster — Free</a>
+  <a href="/leak-test/?src=home-sticky" class="btn-cta" data-leak="sticky">Take the free Leak Test</a>
 </div>
 
 <script type="application/ld+json">
@@ -847,7 +901,7 @@
         {
           "@type": "Question",
           "name": "Is Subastian available yet?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Not yet — it's in active development and this is a pre-launch page. Joining the founding roster gets you early access when it opens, a say in what gets built next, and today's launch pricing locked in." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Not yet — it's in active development and this is a pre-launch page. Joining the founding roster gets you early access when it opens, a say in what gets built next, and the launch rate on any plan for as long as you stay subscribed." }
         },
         {
           "@type": "Question",
@@ -872,7 +926,7 @@
         {
           "@type": "Question",
           "name": "What will Subastian cost?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Planned launch pricing is $49/month for Starter, $99/month for Conductor Pro, and $299/month for Agency Maestro. Monthly plans aren't billing yet — roster members who sign up before launch keep these rates when it goes live." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Planned launch pricing is $49/month for Starter, $99/month for Conductor Pro, and $299/month for Agency Maestro. Every plan starts with a 14-day free trial (card required) and has a 60-day money-back guarantee on the first payment. Monthly plans aren't billing yet. Roster members keep the launch rate for as long as they stay subscribed." }
         },
         {
           "@type": "Question",
@@ -881,8 +935,8 @@
         },
         {
           "@type": "Question",
-          "name": "Does Subastian have an affiliate or partner program?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The Founding Partner program is open for applications at subastian.us/partners. Approved partners get early access, promotional material and a planned 40% recurring commission on referred customers once Subastian is live. Nothing is paid out before launch." }
+          "name": "What exactly do roster members get at launch?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A private checkout link by email on launch day. Through it, any plan (Starter $49, Conductor Pro $99 or Agency Maestro $299 a month) stays at that rate for as long as you stay subscribed. Each plan starts with a 14-day free trial, card required, and has a 60-day money-back guarantee." }
         },
         {
           "@type": "Question",
@@ -936,6 +990,23 @@
   document.querySelectorAll('a[data-kit]').forEach(function(a){
     a.addEventListener('click', function(){ if(window.subTrack) subTrack('home_kit_click', { position: a.getAttribute('data-kit') }); });
   });
+
+  document.querySelectorAll('a[data-leak]').forEach(function(a){
+    a.addEventListener('click', function(){ if(window.subTrack) subTrack('home_leaktest_click', { position: a.getAttribute('data-leak') }); });
+  });
+
+  // Roster size only once it's real and worth showing (the database returns nothing under 100).
+  var countEl = document.getElementById('rosterCount');
+  if(countEl && window.subRosterCount){
+    subRosterCount().then(function(n){
+      if(!n) return;
+      countEl.textContent = n.toLocaleString('en-US') + ' people are on the founding roster.';
+      countEl.hidden = false;
+    });
+  }
+
+  // The roster form's "What best describes you?" maps onto the Leak Test's work types.
+  var WORK = { 'Affiliate marketer':'affiliate', 'Agency owner':'agency', 'IT / ops team':'it', 'Content creator':'creator' };
 
   /* ------------------------------------------------------------------
      GoHighLevel integration
@@ -1057,9 +1128,9 @@
       submitting = true;
       if(btn){ btn.disabled = true; btn.textContent = 'Reserving…'; }
 
-      if(window.subRoster) subRoster({ name: name, email: email, role: niche, form: 'home' });
+      var saved = window.subRoster ? subRoster({ name: name, email: email, role: niche, form: 'home', work_type: WORK[niche] || null }) : Promise.resolve(null);
 
-      postToGHL({
+      var sheet = postToGHL({
         name: name,
         firstName: name.split(' ')[0],
         lastName: name.split(' ').slice(1).join(' '),
@@ -1070,14 +1141,35 @@
         ref: REF,
         source: 'subastian.us founding roster',
         submittedAt: new Date().toISOString()
-      }).then(function(){
+      }).then(function(){ return true; }, function(){ return false; });
+
+      Promise.all([saved, sheet]).then(function(res){
+        var code = res[0];
+        if(!code && !res[1]){
+          // Neither Supabase nor the Sheet answered: hand the lead to email rather than lose it.
+          mailtoFallback(name, email, niche);
+          return;
+        }
         show(confirmHtml.sent);
-        if(window.subTrack) subTrack('roster_signup', { form: 'home', niche: niche, plan: PLAN || null, referral_code: REF || null });
+        if(code){
+          var box = document.createElement('div');
+          box.innerHTML = '<p style="margin:12px 0 0"><b>Get the $9 Audit Kit free:</b> when 3 people join through your link, we email it to you.</p>'
+            + '<div class="ref-box"><input readonly aria-label="Your personal share link"><button type="button">Copy link</button></div>';
+          var input = box.querySelector('input'), copy = box.querySelector('button');
+          // Set the default too: this box sits inside the form, and form.reset() below would blank it.
+          input.setAttribute('value', window.subShareLink(code));
+          input.value = window.subShareLink(code);
+          copy.addEventListener('click', function(){
+            if(window.subTrack) subTrack('referral_link_copy', { form: 'home' });
+            var ok = function(){ copy.textContent = 'Copied'; };
+            if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(input.value).then(ok, function(){ input.select(); }); }
+            else { input.select(); }
+          });
+          confirmMsg.appendChild(box);
+        }
+        if(window.subTrack) subTrack('roster_signup', { form: 'home', niche: niche, work_type: WORK[niche] || null, plan: PLAN || null, referral_code: REF || null, has_share_code: !!code });
         form.reset();
         setPlan('');
-      }).catch(function(){
-        // GHL unreachable — hand the lead to email rather than lose it.
-        mailtoFallback(name, email, niche);
       }).then(function(){
         submitting = false;
         if(btn){ btn.disabled = false; btn.textContent = label; }
@@ -1088,10 +1180,17 @@
   // Hide the sticky mobile CTA once the signup form is on screen.
   var sticky = document.getElementById('stickyCta');
   var waitlist = document.getElementById('waitlist');
-  if(sticky && waitlist && 'IntersectionObserver' in window){
-    new IntersectionObserver(function(entries){
-      sticky.classList.toggle('hidden', entries[0].isIntersecting);
-    }, {threshold: 0.15}).observe(waitlist);
+  // Also hidden while the hero's own Leak Test button is on screen, so the two never show together.
+  var heroBtn = document.querySelector('.hero-actions');
+  if(sticky && waitlist && heroBtn && 'IntersectionObserver' in window){
+    var seen = { hero: true, form: false };
+    sticky.classList.add('hidden');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ seen[en.target === heroBtn ? 'hero' : 'form'] = en.isIntersecting; });
+      sticky.classList.toggle('hidden', seen.hero || seen.form);
+    }, {threshold: 0.15});
+    io.observe(heroBtn);
+    io.observe(waitlist);
   }
 })();
 </script>

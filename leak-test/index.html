@@ -138,6 +138,7 @@
 <script src="/ph.js" defer></script>
 <script src="/aff.js" defer></script>
 <script src="/roster.js" defer></script>
+<script src="/kit-checkout.js" defer></script>
 </head>
 <body>
 
@@ -241,7 +242,7 @@
           <p class="tip-label">Don't want to wait for launch?</p>
           <h3>Fix it today in 15 minutes</h3>
           <p>The Subscription Audit Kit is a spreadsheet and a one-page guide. List what you pay for once and it flags overlapping tools, subscriptions idle for 14+ days and renewals in the next 30 days, then totals what you could save. Your report is an estimate. The Kit gives you the exact number.</p>
-          <a class="btn-cta js-kit" data-pos="thank-you" href="/audit-kit/?src=leaktest">Get the Audit Kit &mdash; $9</a>
+          <a class="btn-cta js-kit" data-pos="thank-you" data-kit-buy="leaktest-thank-you" href="https://subastian.gumroad.com/l/subscription-audit-kit?wanted=true">Get the Audit Kit &mdash; $9</a>
           <p class="hint">One-time payment. Instant download. Full refund within 30 days.</p>
         </div>
 
@@ -633,7 +634,6 @@
   });
 
   Array.prototype.forEach.call(document.querySelectorAll('.js-kit'), function(a){
-    if (ref) a.href += '&ref=' + encodeURIComponent(ref);
     a.addEventListener('click', function(){
       track('leaktest_kit_click', { position:a.getAttribute('data-pos'), score:result ? result.score : null, src:src || null, referral_code:ref || null });
     });

@@ -2,6 +2,8 @@
 // Rules: no invented numbers, no countdown pressure, nothing we can't deliver.
 
 export const SITE = "https://subastian.us";
+/** $9 Audit Kit: straight to Gumroad checkout (?wanted=true skips the product page). */
+export const KIT_CHECKOUT = "https://subastian.gumroad.com/l/subscription-audit-kit?wanted=true";
 
 export type Kind =
   | "roster_welcome"
@@ -220,7 +222,7 @@ export function buildEmail(kind: Kind, c: Ctx): Mail {
           "",
           "The Subscription Audit Kit is a spreadsheet and a one-page guide. You list what you pay for once, and it flags overlapping tools, subscriptions idle for 14+ days and renewals in the next 30 days, and totals your monthly and yearly spend. It takes about 15 minutes.",
           "",
-          `It's $9, one time, works in Excel and Google Sheets, with a full refund within 30 days: ${SITE}/audit-kit/?src=day5email`,
+          `It's $9, one time, works in Excel and Google Sheets, with a full refund within 30 days: ${KIT_CHECKOUT}`,
           "",
           "Totally optional. You'll keep getting the Friday build updates either way.",
           ...(c.referralCode && /^[a-z0-9]{8}$/.test(c.referralCode)

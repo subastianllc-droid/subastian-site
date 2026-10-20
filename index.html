@@ -473,6 +473,14 @@
   }
   @media (max-width:420px){ .promise{ grid-template-columns:1fr; } }
 
+  .alt-note{ margin:22px 0 0; font-size:14px; color:var(--ink-soft); max-width:80ch; }
+  .alt-note b{ color:var(--ink); }
+  .built{ margin-top:22px; padding:14px 16px; border:1px solid var(--f-line,rgba(255,255,255,.18)); border-radius:12px; }
+  .built-h{ margin:0 0 8px; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--f-muted,#9C93C4); }
+  .built ul{ margin:0; padding:0 0 0 18px; display:grid; gap:4px; }
+  .built li{ font-size:13.5px; color:var(--f-body,#C9C3E0); }
+  .built-next{ margin:10px 0 0; font-size:12.5px; color:var(--f-muted,#9C93C4); }
+
   .founder-grid{ display:grid; grid-template-columns:1.25fr 1fr; gap:44px; align-items:center; }
   .founder-video{ width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; display:block; border-radius:20px; background:#15102b; border:1px solid rgba(233,185,73,.35); box-shadow:0 30px 70px -30px rgba(109,40,217,.5); }
   @media (max-width:760px){
@@ -550,7 +558,8 @@
       <div>
         <div class="movement-mark"><span class="num">I.</span><span class="label">The Leak</span></div>
         <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:24ch;">How many subscriptions are you paying for right now? And how many did you use this month?</h2>
-        <p class="prose" style="margin-top:16px; color:var(--ink-soft);">Free trials turn into paid plans, annual plans renew quietly, and two tools end up doing the same job. Unused subscriptions don't announce themselves; they just show up on the card each month until somebody goes looking.</p>
+        <p class="prose" style="margin-top:16px; color:var(--ink-soft);">Free trials turn into paid plans, annual plans renew quietly, and two tools end up doing the same job. For agencies it's sharper: a client project ends, but the seat or workspace you bought for it keeps billing, because nobody owns cancelling it. Unused subscriptions don't announce themselves; they just show up on the card each month until somebody goes looking.</p>
+        <p class="prose" style="margin-top:12px; color:var(--ink-soft);">Today that check is usually a spreadsheet, a bank statement or your memory, whenever you get around to it.</p>
         <p style="margin-top:22px"><a href="/leak-test/?src=home-leak" class="btn-cta" data-leak="leak-section">Take the free 60-second Leak Test</a></p>
         <p class="cite">Your own score and estimate, built from your answers. We don't quote industry statistics, and as a pre-launch company we don't have customer data yet.</p>
       </div>
@@ -596,6 +605,7 @@
       <p><b>Not sure which of these you need most?</b> The Leak Test shows where your subscriptions are leaking in about a minute.</p>
       <a href="/leak-test/?src=home-features" class="btn-cta" data-leak="features">Take the Leak Test</a>
     </div>
+    <p class="alt-note"><b>Looked at SpendHound, Cledara, Zylo or Torii?</b> They're built for companies with a finance team, an accounting system and company cards. Subastian is for solo operators and small agencies who don't have those. <a href="/compare/" class="text-link">See the comparison, sourced from each company's own site</a>.</p>
   </section>
 </div>
 
@@ -766,6 +776,16 @@
           <li>Direct line to the founder on what gets built</li>
           <li>Free to join. No credit card. No spam.</li>
         </ul>
+        <div class="built">
+          <p class="built-h">Built so far, in the early build</p>
+          <ul>
+            <li>Free-trial tracker</li>
+            <li>Subscriptions, stacks and a spend summary</li>
+            <li>Overlap and unused-tool flags</li>
+            <li>Purchase Guard (the screenshot at the top)</li>
+          </ul>
+          <p class="built-next">Next: payments, 5-stage renewal alerts, then Niche Stacks.</p>
+        </div>
         <p class="roster-count" id="rosterCount" hidden></p>
         <p class="roster-status" id="rosterStatus">Signups are saved automatically. We only email you about Subastian, and you can unsubscribe anytime.</p>
       </div>
@@ -826,6 +846,7 @@
       <a href="https://subastian.gumroad.com/l/subscription-audit-kit?wanted=true" data-kit-buy="home-footer">Subscription Audit Kit — $9</a>
       <a href="/guides/">Guides</a>
       <a href="/stacks/">Tool stack costs by niche</a>
+      <a href="/compare/">Subastian vs SpendHound, Cledara, Zylo and Torii</a>
       <a href="/partners/">Founding Partner program</a>
       <a href="#faq">FAQ</a>
     </nav>

@@ -43,9 +43,19 @@ function escapeHtml(s: string) {
 
 function render(mail: Mail, unsubUrl: string, postal: string) {
   const footer = ["--", `You're getting this because ${mail.footerWhy}.`, `Unsubscribe: ${unsubUrl}`, postal];
-  const text = [...mail.lines, "", ...footer].join("\n");
+  const v = mail.video;
+  // The video goes right after the greeting (line 0) and its blank line.
+  const at = Math.min(2, mail.lines.length);
+  const textLines = v ? [...mail.lines.slice(0, at), v.caption, v.href, "", ...mail.lines.slice(at)] : mail.lines;
+  const text = [...textLines, "", ...footer].join("\n");
   const linkify = (s: string) => escapeHtml(s).replace(/https:\/\/[^\s<)]+/g, (u) => `<a href="${u}" style="color:#6D28D9">${u}</a>`);
-  const body = mail.lines.map((l) => (l === "" ? "<br>" : `<div>${linkify(l)}</div>`)).join("");
+  const toHtml = (ls: string[]) => ls.map((l) => (l === "" ? "<br>" : `<div>${linkify(l)}</div>`)).join("");
+  const videoHtml = v
+    ? `<div style="margin:4px 0 18px">` +
+      `<a href="${escapeHtml(v.href)}" style="display:block;text-decoration:none"><img src="${escapeHtml(v.img)}" alt="${escapeHtml(v.alt)}" width="560" style="display:block;width:100%;max-width:560px;height:auto;border:0;border-radius:12px"></a>` +
+      `<div style="margin-top:8px;font-size:13px;color:#6b6880"><a href="${escapeHtml(v.href)}" style="color:#6D28D9;font-weight:600">&#9654; Watch my welcome (0:37)</a> &middot; made with an AI-generated version of me</div></div>`
+    : "";
+  const body = v ? toHtml(mail.lines.slice(0, at)) + videoHtml + toHtml(mail.lines.slice(at)) : toHtml(mail.lines);
   const html = `<div style="font:15px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#1f1d2b;max-width:560px">${body}` +
     `<div style="margin-top:28px;padding-top:12px;border-top:1px solid #e5e3ee;font-size:12px;color:#6b6880">` +
     `You're getting this because ${escapeHtml(mail.footerWhy)}. <a href="${unsubUrl}" style="color:#6b6880">Unsubscribe</a>.<br>${escapeHtml(postal)}</div></div>`;

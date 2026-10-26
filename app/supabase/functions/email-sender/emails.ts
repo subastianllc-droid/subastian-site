@@ -14,7 +14,17 @@ export type Kind =
   | "referral_reward"
   | "broadcast";
 
-export type Mail = { subject: string; lines: string[]; footerWhy: string };
+/** Optional clickable video thumbnail shown right after the greeting (emails can't play video inline). */
+export type MailVideo = { href: string; img: string; alt: string; caption: string };
+export type Mail = { subject: string; lines: string[]; footerWhy: string; video?: MailVideo };
+
+/** Daniel's welcome video for new roster members, hosted at subastian.us/welcome/. */
+export const WELCOME_VIDEO: MailVideo = {
+  href: `${SITE}/welcome/?src=email`,
+  img: `${SITE}/welcome/email-thumb.jpg`,
+  alt: "Play Daniel's 37-second welcome video",
+  caption: "Watch my 37-second welcome (made with an AI-generated version of me):",
+};
 
 export type Fix = { title: string; step: string };
 export type LeakReport = {
@@ -175,11 +185,12 @@ export function buildEmail(kind: Kind, c: Ctx): Mail {
           "",
           ...SIGN,
         ].filter((l, i, a) => !(l === "" && a[i - 1] === ""));
-        return { subject: `Your Subscription Leak Report: ${r.score}/100`, footerWhy: ROSTER_WHY, lines };
+        return { subject: `Your Subscription Leak Report: ${r.score}/100`, footerWhy: ROSTER_WHY, lines, video: WELCOME_VIDEO };
       }
       return {
         subject: "You're on the Subastian founding roster",
         footerWhy: ROSTER_WHY,
+        video: WELCOME_VIDEO,
         lines: [
           hello(c.first),
           "",

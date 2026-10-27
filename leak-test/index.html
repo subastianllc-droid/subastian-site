@@ -63,6 +63,7 @@
   strong{color:var(--ink);}
   .lead{font-size:17px; margin-top:16px; max-width:56ch;}
   .hint{font-size:12.5px; color:var(--ink-faint); margin:10px 0 0;}
+  .q-hint{margin:-6px 0 16px;}
   .card{border:1px solid var(--line); border-radius:14px; padding:20px; background:var(--surface); margin-top:20px;}
   .card.accent{border-color:var(--accent);}
 
@@ -169,6 +170,7 @@
     <section id="quiz" class="noprint" hidden>
       <div class="progress"><span id="qNum">Question 1 of 8</span><div class="bar" aria-hidden="true"><i id="barFill"></i></div></div>
       <h2 id="qText" tabindex="-1"></h2>
+      <p class="hint q-hint" id="qHint" hidden></p>
       <div class="opts" id="qOpts" role="group" aria-labelledby="qText"></div>
       <button class="link-btn" type="button" id="backBtn">&larr; Back</button>
     </section>
@@ -191,21 +193,30 @@
         </div>
 
         <div class="card accent" id="gate">
-          <h2>Get your full leak report, free</h2>
+          <p class="tip-label">Optional</p>
+          <h2>Want the full leak report too?</h2>
           <ul class="perks" style="margin:6px 0 16px">
             <li><strong>What it may be costing you</strong> each month and each year, from your answers</li>
             <li><strong>Every leak</strong> your answers point to, in order of how much it matters</li>
             <li><strong>A printable 14-day Fix-It Plan</strong> built from those leaks</li>
           </ul>
-          <p>It opens right here, and we email you a copy. You'll also join the free Subastian Founding Roster: early access and launch pricing locked in. No card.</p>
+          <p>Your score and biggest fix are already above. If you add your email, the full report opens right here and we send you one copy of it. Sending it also adds you to the free Subastian Founding Roster: launch updates and early access information from Daniel. No card, and you can unsubscribe anytime.</p>
           <form id="gateForm" novalidate>
             <div class="field"><label for="lt-name">First name</label><input id="lt-name" name="name" type="text" autocomplete="given-name" placeholder="Jordan" required></div>
             <div class="field"><label for="lt-email">Email</label><input id="lt-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required></div>
             <div class="hp" aria-hidden="true"><label for="lt-hp">Leave this field empty</label><input id="lt-hp" name="hp_trap" type="text" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore></div>
             <button class="btn-cta" type="submit" id="gateBtn">Show my full report</button>
-            <p class="hint">No spam. Unsubscribe anytime. See the <a href="/privacy/">privacy policy</a>.</p>
+            <p class="hint">Your answers are saved with your email so the report can be sent. See the <a href="/privacy/">privacy policy</a>.</p>
             <p class="msg" id="gateMsg" role="status" aria-live="polite"></p>
           </form>
+        </div>
+
+        <div class="card kit-card" id="kitNow">
+          <p class="tip-label">Use this today</p>
+          <h3>Turn this estimate into an exact number</h3>
+          <p>The $9 Subscription Audit Kit is a spreadsheet and short guide. List what you pay for once, and it totals your spend and flags overlapping tools, idle subscriptions and renewals in the next 30 days.</p>
+          <a class="btn-cta js-kit" data-pos="result" data-kit-buy="leaktest-result" href="https://subastian.gumroad.com/l/subscription-audit-kit?wanted=true">Get the Audit Kit &mdash; $9</a>
+          <p class="hint">One-time payment. Instant download. 30-day refund policy.</p>
         </div>
 
         <p style="margin-top:22px" id="retakeEarly"><button class="link-btn" type="button" data-retake>Retake the test</button></p>
@@ -314,7 +325,7 @@
   } catch (e) {}
 
   var QUESTIONS = [
-    { id:'who', q:'What kind of work do you do?', opts:[
+    { id:'who', q:'What kind of work do you do?', hint:'Pick the one that fits best.', opts:[
       ['Affiliate marketing', 'affiliate'], ['Agency or freelance client work', 'agency'],
       ['Content creation (YouTube, podcast, social)', 'creator'], ['Solo business or consulting', 'solo'],
       ['IT or operations', 'it'], ['I’m only tracking my own subscriptions', 'personal'] ] },
@@ -365,6 +376,8 @@
     $('qNum').textContent = 'Question ' + (step + 1) + ' of ' + QUESTIONS.length;
     $('barFill').style.width = (step / QUESTIONS.length * 100) + '%';
     $('qText').textContent = item.q;
+    $('qHint').textContent = item.hint || '';
+    $('qHint').hidden = !item.hint;
     var box = $('qOpts');
     box.innerHTML = '';
     item.opts.forEach(function(o){
@@ -380,6 +393,7 @@
   }
 
   function choose(item, o){
+    track('leaktest_answer', { question: step + 1, question_id: item.id, of: QUESTIONS.length });
     answers[item.id] = o[1];
     labels[item.id] = o[0];
     if (step < QUESTIONS.length - 1) {
@@ -476,6 +490,7 @@
 
     $('gate').hidden = false;
     $('retakeEarly').hidden = false;
+    $('kitNow').hidden = false;
     ['report', 'plan', 'after'].forEach(function(id){ $(id).hidden = true; });
     show('result', 'resHead');
     track('leaktest_complete', {
@@ -566,6 +581,7 @@
       buildPlan(name.split(' ')[0]);
       $('gate').hidden = true;
       $('retakeEarly').hidden = true;
+      $('kitNow').hidden = true;
       ['report', 'plan', 'after'].forEach(function(id){ $(id).hidden = false; });
 
       if (code) {

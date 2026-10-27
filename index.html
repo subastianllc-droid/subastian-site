@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Subscription Management Software for Agencies | Subastian</title>
-<meta name="description" content="Subscription management software that builds your cheapest tool stack, blocks duplicate purchases, and warns you before every renewal. Join the roster free.">
+<title>Subscription Management Software for Small Teams | Subastian</title>
+<meta name="description" content="Find forgotten renewals, unused seats and overlapping software subscriptions. Take the free 60-second Leak Test: no signup, no bank access. Subastian is in development.">
 <link rel="canonical" href="https://subastian.us/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="author" content="Subastian, LLC">
@@ -15,8 +15,8 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Subastian">
 <meta property="og:url" content="https://subastian.us/">
-<meta property="og:title" content="Stop paying for software subscriptions you forgot you had">
-<meta property="og:description" content="Subscription management software that builds your cheapest tool stack, blocks duplicate purchases, and warns you before every renewal. Join the founding roster free.">
+<meta property="og:title" content="Find the software subscriptions costing you money for no reason">
+<meta property="og:description" content="Take the free 60-second Subscription Leak Test to spot forgotten renewals, unused seats and overlapping tools. No signup, no bank or email access.">
 <meta property="og:image" content="https://subastian.us/hero.jpg">
 <meta property="og:image:width" content="1400">
 <meta property="og:image:height" content="787">
@@ -24,8 +24,8 @@
 <meta property="og:locale" content="en_US">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Stop paying for software subscriptions you forgot you had">
-<meta name="twitter:description" content="Subscription management software that builds your cheapest tool stack, blocks duplicate purchases, and warns you before every renewal.">
+<meta name="twitter:title" content="Find the software subscriptions costing you money for no reason">
+<meta name="twitter:description" content="Take the free 60-second Subscription Leak Test to spot forgotten renewals, unused seats and overlapping tools. No signup.">
 <meta name="twitter:image" content="https://subastian.us/hero.jpg">
 
 <link rel="icon" href="emblem.png" type="image/png">
@@ -486,6 +486,43 @@
   @media (max-width:760px){
     .founder-grid{ grid-template-columns:1fr; gap:24px; }
   }
+
+  /* ---- conversion review (Oct 2026) ---- */
+  .h2{ font-size:clamp(24px,3.2vw,32px); max-width:24ch; }
+  .lede{ margin-top:14px; color:var(--ink-soft); }
+  .support-line{ margin:14px 0 0; font-size:13px; color:var(--ink-faint); }
+  .support-line span{ margin:0 4px; }
+  .quiet-link{ color:inherit; text-decoration:underline; text-underline-offset:2px; }
+  .quiet-link:hover{ color:var(--accent); }
+  .hero-secondary{ margin:22px 0 0; padding-top:18px; border-top:1px solid var(--line); font-size:14.5px; color:var(--ink-soft); max-width:52ch; }
+  .status-note{ margin:0 0 12px; font-size:12.5px; line-height:1.5; color:var(--ink-soft); }
+  .build-tag.planned{ color:var(--ink-soft); background:var(--surface); border-color:var(--line); }
+  .cap-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px; }
+  .cap{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:24px 22px; }
+  .cap .icon{ width:28px; height:28px; color:var(--accent); margin-bottom:14px; }
+  .cap h3{ font-size:16.5px; font-weight:700; }
+  .cap p{ margin:8px 0 0; font-size:14px; color:var(--ink-soft); }
+  .planned-label{ margin:16px 0 0; font-size:13px; color:var(--ink-soft); }
+  .built-row{ display:grid; grid-template-columns:1fr 1.1fr; gap:28px; margin-top:40px; align-items:center; }
+  .built-card{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px 22px 20px; }
+  .built-card .built-h{ margin:0 0 10px; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint); }
+  .built-card ul{ margin:0; padding:0 0 0 18px; display:grid; gap:5px; }
+  .built-card li{ font-size:14px; color:var(--ink-soft); }
+  .built-card .built-next{ margin:12px 0 0; font-size:13px; color:var(--ink-faint); }
+  .founder-cap{ margin:10px 0 0; font-size:12.5px; color:var(--ink-faint); }
+  .persona-grid{ margin-top:28px; }
+  .kit-figure{ margin:0; justify-self:center; max-width:484px; width:100%; }
+  .kit-figure img{ width:100%; height:auto; border-radius:16px; box-shadow:0 24px 50px -24px rgba(109,40,217,.35); }
+  .kit-figure figcaption{ margin-top:10px; font-size:12.5px; color:var(--ink-faint); }
+  .launch-note{ margin-top:22px; padding:18px 20px; border:1px dashed var(--line); border-radius:14px; background:var(--surface); }
+  .launch-note-h{ margin:0 0 6px; font-size:13px; font-weight:600; color:var(--ink); }
+  .launch-note p:last-child{ margin:0; font-size:13.5px; color:var(--ink-soft); max-width:80ch; }
+  .feature-status{ margin:0 0 12px; }
+  .finale .roster-status{ margin-top:16px; }
+  @media (max-width:760px){
+    .cap-grid{ grid-template-columns:1fr; }
+    .built-row{ grid-template-columns:1fr; }
+  }
 </style>
 <script src="/ph.js" defer></script>
 <script src="/aff.js" defer></script>
@@ -499,203 +536,151 @@
 <header class="topbar">
   <a class="brand" href="/" aria-label="Subastian home"><img class="brand-mark" src="emblem.png" alt="" width="24" height="24"><span class="brand-name">SUBA<span>STIAN</span></span></a>
   <nav class="topbar-links" aria-label="Primary">
-    <a href="#features" class="hide-sm">Features</a>
     <a href="#how-it-works" class="hide-sm">How it works</a>
     <a href="#pricing">Pricing</a>
-    <a href="#faq" class="hide-sm">FAQ</a>
-    <a href="#audit-kit" class="hide-sm">Audit Kit</a>
-    <a href="/leak-test/?src=home-nav" class="btn-cta" data-leak="nav">Take the Leak Test</a>
+    <a href="/leak-test/?src=home-nav" class="btn-cta" data-leak="nav">Take the free Leak Test</a>
   </nav>
 </header>
 
 <main id="main">
 
 <div class="wrap">
-  <section class="hero hero-grid">
+  <section class="hero hero-grid" data-section="hero">
     <div>
-      <p class="eyebrow">Subscription Management Software · Pre-launch</p>
-      <h1>Stop paying for software subscriptions you forgot you had.</h1>
-      <p class="sub">Subastian is a subscription tracker for people who run on software. It groups your tools into cost-efficient stacks, warns you before you buy a tool you already pay for, and sends renewal alerts so nothing auto-renews behind your back. It's in active development. Start by finding out what your subscriptions may be leaking.</p>
+      <p class="eyebrow">Software subscription tracking for small teams</p>
+      <h1>Find the software subscriptions costing you money for no reason.</h1>
+      <p class="sub">Forgotten renewals, unused seats, and overlapping tools add up. Take the free 60-second Leak Test to estimate where your software spend is leaking and see the first fix to make. No signup. No bank or email access.</p>
       <div class="hero-actions">
-        <a href="/leak-test/?src=home-hero" class="btn-cta btn-lg" data-leak="hero">Take the free 60-second Leak Test</a>
+        <a href="/leak-test/?src=home-hero" class="btn-cta btn-lg" data-leak="hero">Take the free Leak Test</a>
       </div>
-      <p class="hero-note">Your score shows up instantly, no signup. Built for <b>affiliate marketers, agencies and IT teams</b> juggling a lot of tools.</p>
-      <div class="trust-strip">
-        <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>8 questions, about a minute</span>
-        <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Doesn't read your bank or email</span>
-        <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Founder-run in Denver, Colorado</span>
-      </div>
+      <p class="support-line">8 quick questions <span aria-hidden="true">·</span> Instant result <span aria-hidden="true">·</span> Your answers stay anonymous</p>
+      <p class="hero-secondary">Need a spreadsheet you can use today? <a href="https://subastian.gumroad.com/l/subscription-audit-kit?wanted=true" class="text-link" data-kit="hero" data-kit-buy="home-hero">Get the $9 Subscription Audit Kit</a>.</p>
     </div>
     <figure class="hero-shot">
+      <p class="status-note"><span class="build-tag">In development</span> Subastian is in development. Product preview uses sample data.</p>
       <picture>
         <source srcset="purchase-guard-dark.webp" media="(prefers-color-scheme: dark)">
-        <img src="purchase-guard-light.webp" alt="Subastian's Purchase Guard warning while adding Ahrefs Pro: you already track Ahrefs at $129 a month, and Semrush is also in your SEO tools, so you already pay $269 a month. Buttons: Add anyway, Don't add." width="768" height="1176" fetchpriority="high" decoding="async">
+        <img src="purchase-guard-light.webp" alt="Sample data: an early build of Subastian's Purchase Guard warning while adding Ahrefs Pro. It says Ahrefs is already tracked at $129 a month and Semrush is also in the SEO tools, for $269 a month in total. Buttons: Add anyway, Don't add." width="768" height="1176" fetchpriority="high" decoding="async">
       </picture>
-      <figcaption><span class="build-tag">Early build</span> Purchase Guard catching a duplicate before you pay for it. Sample data.</figcaption>
+      <figcaption>Early build of Purchase Guard flagging a duplicate tool before it's added. Sample data, not a real account.</figcaption>
     </figure>
   </section>
 </div>
 
-<div class="wrap" id="founder">
-  <section>
-    <div class="founder-grid">
-      <video class="founder-video" controls playsinline preload="metadata" poster="founder-poster.jpg?v=3" width="1280" height="720" aria-label="Daniel Padilla, founder of Subastian, explains how Subastian helps you keep track of your subscriptions">
-        <source src="founder.mp4?v=3" type="video/mp4">
-      </video>
-      <div>
-        <div class="movement-mark"><span class="num">&#9835;</span><span class="label">From the founder</span></div>
-        <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:22ch;">Your subscriptions, under your direction.</h2>
-        <p class="prose" style="margin-top:16px; color:var(--ink-soft);">I'm Daniel Padilla, founder of Subastian, LLC in Denver, Colorado. I'm building Subastian so you can see every subscription you pay for, catch renewals before they charge, and stop paying twice for tools that do the same job. Hit play for my 50-second intro.</p>
-        <p style="margin-top:22px"><a href="/leak-test/?src=home-founder" class="btn-cta" data-leak="founder">Take the free Leak Test</a></p>
+<div class="band">
+  <div class="wrap band-inner" id="how-it-works" data-section="product">
+    <div class="movement-mark"><span class="label">What Subastian is building</span></div>
+    <h2 class="h2">Keep software costs visible before they renew.</h2>
+    <p class="prose lede">Subastian is being built for solo operators and small agencies with more tools than time to manage them. The goal: see what you pay for, catch overlapping tools, and know which renewals are coming.</p>
+    <div class="cap-grid">
+      <div class="cap">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h13"/></svg>
+        <h3>See your stack</h3>
+        <p>Organize subscriptions by business, client, or use.</p>
+      </div>
+      <div class="cap">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l7 3v6c0 4.4-3 8.2-7 9-4-.8-7-4.6-7-9V6l7-3z"/></svg>
+        <h3>Catch overlap</h3>
+        <p>Flag tools that may cover the same job before adding another.</p>
+      </div>
+      <div class="cap">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3a5 5 0 00-5 5v3.5L5 15h14l-2-3.5V8a5 5 0 00-5-5z"/><path d="M10 18a2 2 0 004 0"/></svg>
+        <h3>Stay ahead of renewals</h3>
+        <p>Get reminders before the dates that matter.</p>
       </div>
     </div>
-  </section>
-</div>
+    <p class="planned-label"><span class="build-tag planned">Planned features</span> Subastian is not yet available for paid use.</p>
 
-<div class="band">
-  <div class="wrap band-inner">
-    <div class="leak-grid">
-      <div>
-        <div class="movement-mark"><span class="num">I.</span><span class="label">The Leak</span></div>
-        <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:24ch;">How many subscriptions are you paying for right now? And how many did you use this month?</h2>
-        <p class="prose" style="margin-top:16px; color:var(--ink-soft);">Free trials turn into paid plans, annual plans renew quietly, and two tools end up doing the same job. For agencies it's sharper: a client project ends, but the seat or workspace you bought for it keeps billing, because nobody owns cancelling it. Unused subscriptions don't announce themselves; they just show up on the card each month until somebody goes looking.</p>
-        <p class="prose" style="margin-top:12px; color:var(--ink-soft);">Today that check is usually a spreadsheet, a bank statement or your memory, whenever you get around to it.</p>
-        <p style="margin-top:22px"><a href="/leak-test/?src=home-leak" class="btn-cta" data-leak="leak-section">Take the free 60-second Leak Test</a></p>
-        <p class="cite">Your own score and estimate, built from your answers. We don't quote industry statistics, and as a pre-launch company we don't have customer data yet.</p>
+    <div class="built-row">
+      <div class="built-card">
+        <p class="built-h">Built so far, in the private early build</p>
+        <ul>
+          <li>Free-trial tracker</li>
+          <li>Subscriptions, stacks and a spend summary</li>
+          <li>Overlap and unused-tool flags</li>
+          <li>Purchase Guard (the preview at the top, shown with sample data)</li>
+        </ul>
+        <p class="built-next">Next: payments, renewal reminders, then niche tool-stack suggestions. Progress is posted weekly as an open build.</p>
       </div>
-      <div class="leak-art"><img src="vase.jpg" alt="A cracked vessel spilling app icons and coins, illustrating wasted spend on unused software subscriptions" width="900" height="1125" loading="lazy" decoding="async"></div>
+      <div class="founder-mini">
+        <video class="founder-video" controls playsinline preload="metadata" poster="founder-poster.jpg?v=3" width="1280" height="720" aria-label="Daniel Padilla, founder of Subastian, explains what he is building">
+          <source src="founder.mp4?v=3" type="video/mp4">
+        </video>
+        <p class="founder-cap">Daniel Padilla, founder of Subastian, LLC in Denver, Colorado. 50-second intro.</p>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="wrap" id="features">
-  <section>
-    <div class="score-head">
-      <div>
-        <div class="movement-mark"><span class="num">II.</span><span class="label">The Score</span></div>
-        <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:20ch;">Four ways Subastian cuts your subscription costs.</h2>
-        <p class="prose" style="margin-top:14px; color:var(--ink-soft);">Here's what our subscription management software is built to do — the mechanics, not the marketing.</p>
-      </div>
-      <img class="score-art" src="orrery.jpg" alt="A brass and amethyst armillary sphere, echoing how Subastian orbits your software tools around one center" width="700" height="700" loading="lazy" decoding="async">
-    </div>
-    <div class="feature-grid">
-      <div class="feature">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h13"/></svg>
-        <h3>Niche Stacks — the cheapest tool stack for your work</h3>
-        <p>Tell it your niche — YouTube automation, SEO agency, podcast production — and it recommends the cheapest set of software tools that actually work together, instead of you researching and price-comparing each one yourself. <a href="/stacks/" class="text-link">See five stacks we priced by hand</a>.</p>
-      </div>
-      <div class="feature">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l7 3v6c0 4.4-3 8.2-7 9-4-.8-7-4.6-7-9V6l7-3z"/></svg>
-        <h3>Purchase Guard — duplicate subscription detection</h3>
-        <p>Before you buy a new tool, it checks your existing stack for heavy feature overlap and flags it if you're about to pay twice for the same job. Stop duplicate software purchases at the moment they'd happen, not on next month's statement.</p>
-      </div>
-      <div class="feature">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/></svg>
-        <h3>Neglect Radar — find unused subscriptions</h3>
-        <p>Tracks which tools have gone quiet. Any subscription unused for two weeks gets flagged with a one-click "pause and save" suggestion, so you cancel unused subscriptions before they renew again.</p>
-      </div>
-      <div class="feature">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3a5 5 0 00-5 5v3.5L5 15h14l-2-3.5V8a5 5 0 00-5-5z"/><path d="M10 18a2 2 0 004 0"/></svg>
-        <h3>Escalating Alerts — renewal reminders that land</h3>
-        <p>A tool set to auto-renew earns five warnings — at 30, 7, 3 and 1 days out, then the day it happens — by email and push, so no software renewal slips through because of one missed message.</p>
-      </div>
-    </div>
-
-    <div class="cta-inline">
-      <p><b>Not sure which of these you need most?</b> The Leak Test shows where your subscriptions are leaking in about a minute.</p>
-      <a href="/leak-test/?src=home-features" class="btn-cta" data-leak="features">Take the Leak Test</a>
-    </div>
-    <p class="alt-note"><b>Looked at SpendHound, Cledara, Zylo or Torii?</b> They're built for companies with a finance team, an accounting system and company cards. Subastian is for solo operators and small agencies who don't have those. <a href="/compare/" class="text-link">See the comparison, sourced from each company's own site</a>.</p>
-  </section>
-</div>
-
-<div class="band">
-  <div class="wrap band-inner" id="who-its-for">
-    <div class="movement-mark"><span class="num">III.</span><span class="label">The Players</span></div>
-    <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:22ch;">Built for the people with the messiest software stacks.</h2>
-    <p class="prose" style="margin-top:14px; color:var(--ink-soft);">If your tools outnumber your teammates, subscription management stops being a spreadsheet problem.</p>
+<div class="wrap" id="who-its-for">
+  <section data-section="audience">
+    <div class="movement-mark"><span class="label">Who it's for</span></div>
+    <h2 class="h2">For people whose tools outnumber their teammates.</h2>
     <div class="persona-grid">
       <div class="persona">
-        <h3>Affiliate marketers</h3>
-        <p>You trial a new tool most weeks and half of them auto-renew before you've decided. Subscription tracking for the people who buy the most software per head — with duplicate-purchase checks on every new tool you add.</p>
+        <h3>Solo operators &amp; affiliate marketers</h3>
+        <p>You try new tools often, and free trials turn into paid plans before you've decided.</p>
       </div>
       <div class="persona">
-        <h3>Agencies &amp; freelancers</h3>
-        <p>Per-client software costs are the quietest margin leak in the business. Group tools by client, watch what's actually used, and stop billing yourself for licenses a finished project left behind.</p>
+        <h3>Small agencies &amp; freelancers</h3>
+        <p>A client project ends, but the seat or workspace bought for it keeps billing because nobody owns cancelling it.</p>
       </div>
       <div class="persona">
-        <h3>IT &amp; ops teams</h3>
-        <p>SaaS spend management without the enterprise procurement suite. See the renewals coming, catch the shadow-IT overlap, and cut the licenses nobody has opened in a month.</p>
+        <h3>Small IT &amp; ops teams</h3>
+        <p>You need to see renewals and overlap without buying an enterprise procurement suite.</p>
       </div>
-    </div>
-  </div>
-</div>
-
-<div class="wrap" id="how-it-works">
-  <section>
-    <div class="movement-mark"><span class="num">IV.</span><span class="label">The Rehearsal</span></div>
-    <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:20ch;">How subscription tracking works in Subastian.</h2>
-    <div class="flow">
-      <div class="flow-step"><div class="n mono" aria-hidden="true">1</div><h3>Select your niche</h3><p>Tell Subastian what kind of work you do.</p></div>
-      <div class="flow-step"><div class="n mono" aria-hidden="true">2</div><h3>Get your tool stack</h3><p>It proposes the cheapest software set that covers it.</p></div>
-      <div class="flow-step"><div class="n mono" aria-hidden="true">3</div><h3>Purchase Guard activates</h3><p>Duplicate-subscription checks turn on automatically.</p></div>
-      <div class="flow-step"><div class="n mono" aria-hidden="true">4</div><h3>Renewal alerts on</h3><p>Renewal and neglect warnings start tracking your stack.</p></div>
     </div>
   </section>
 </div>
 
 <div class="band">
-  <div class="wrap band-inner" id="audit-kit">
-    <div class="movement-mark"><span class="num">&#9833;</span><span class="label">Available today</span></div>
+  <div class="wrap band-inner" id="audit-kit" data-section="kit">
+    <div class="movement-mark"><span class="label">Available now</span></div>
     <div class="kit-grid">
       <div>
-        <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:20ch;">Find your unused subscriptions in 15 minutes.</h2>
-        <p class="prose" style="margin-top:14px; color:var(--ink-soft);">Subastian isn't live yet. The Subscription Audit Kit is: a spreadsheet and a one-page guide that does the first job by hand, today.</p>
-        <ul class="kit-list">
-          <li>A spreadsheet for Excel or Google Sheets. List what you pay for once.</li>
-          <li>It totals your monthly and yearly spend as you go.</li>
-          <li>Built-in flags for overlapping tools, subscriptions idle for 14+ days, unused seats and renewals in the next 30 days.</li>
-          <li>A one-page guide: where subscriptions hide, a keep / cancel / review test, and when to set renewal reminders.</li>
-        </ul>
+        <h2 class="h2">Start your subscription audit today.</h2>
+        <p class="prose lede">The Subscription Audit Kit is a spreadsheet and short guide to help you list subscriptions, total monthly and annual spend, flag overlap and idle tools, and review upcoming renewals.</p>
         <div class="kit-buy">
           <a href="https://subastian.gumroad.com/l/subscription-audit-kit?wanted=true" class="btn-cta btn-lg" data-kit="section" data-kit-buy="home-section">Get the Audit Kit — $9</a>
           <a href="/audit-kit/?src=home-kit-details" class="text-link" data-kit="section-details">See what's inside</a>
         </div>
-        <p class="kit-fine">One-time payment. Instant download. Full refund within 30 days. (The 30-day Kit refund is separate from the 60-day guarantee on Subastian subscriptions.)</p>
+        <p class="support-line">One-time payment <span aria-hidden="true">·</span> Instant download <span aria-hidden="true">·</span> <a href="/refund-policy/" class="quiet-link">30-day refund policy</a></p>
       </div>
-      <img src="audit-kit/example-table.webp" alt="A made-up example from the Subscription Audit Kit: five subscriptions marked keep, overlap, idle or renews in 3 days, and a total of $37 a month saved by cancelling the 3 flagged" width="484" height="344" loading="lazy" decoding="async">
+      <figure class="kit-figure">
+        <img src="audit-kit/example-table.webp" alt="Made-up example data in the Subscription Audit Kit spreadsheet: five subscriptions marked keep, overlap, idle or renews in 3 days, with a total of $37 a month saved by cancelling the 3 flagged ones" width="484" height="344" loading="lazy" decoding="async">
+        <figcaption><span class="build-tag planned">Example</span> Made-up numbers to show how the spreadsheet works.</figcaption>
+      </figure>
     </div>
   </div>
 </div>
 
-<div class="band">
-  <div class="wrap band-inner" id="pricing">
-    <div class="movement-mark"><span class="num">V.</span><span class="label">Choose Your Baton</span></div>
-    <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:20ch;">Planned subscription management pricing.</h2>
-    <p class="price-note">Monthly plans aren't live or billing yet. Roster members keep these rates for as long as they stay subscribed. Every plan starts with a 14-day free trial and comes with a 60-day money-back guarantee.</p>
+<div class="wrap" id="pricing">
+  <section data-section="pricing">
+    <div class="movement-mark"><span class="label">Planned pricing</span></div>
+    <h2 class="h2">Planned launch pricing.</h2>
+    <p class="price-note">No plan is on sale yet and nothing bills today. Founding roster members can reserve the launch rate on any plan below, free, with no card.</p>
     <div class="price-grid">
       <div class="price-card">
         <div class="price-tier">Starter</div>
         <div class="price-amt">$49<small>/mo</small></div>
         <p class="price-for">For solo operators with one tool stack.</p>
         <ul>
-          <li>1 niche, 1 stack</li>
-          <li>Purchase Guard duplicate checks</li>
-          <li>Standard renewal alerts</li>
+          <li>1 stack</li>
+          <li>Duplicate-tool checks</li>
+          <li>Renewal reminders</li>
         </ul>
-        <a href="#waitlist" class="btn-ghost" data-plan="Starter ($49/mo)">Lock in $49/mo</a>
+        <a href="#waitlist" class="btn-ghost" data-plan="Starter ($49/mo)">Reserve the $49 rate</a>
       </div>
-      <div class="price-card featured">
-        <span class="badge">Most anticipated</span>
+      <div class="price-card">
         <div class="price-tier">Conductor Pro</div>
         <div class="price-amt">$99<small>/mo</small></div>
         <p class="price-for">For marketers and small teams running many tools.</p>
         <ul>
           <li>Unlimited stacks</li>
-          <li>Neglect Radar for unused subscriptions</li>
+          <li>Unused-subscription flags</li>
           <li>Team seats</li>
         </ul>
-        <a href="#waitlist" class="btn-cta" data-plan="Conductor Pro ($99/mo)">Lock in $99/mo</a>
+        <a href="#waitlist" class="btn-ghost" data-plan="Conductor Pro ($99/mo)">Reserve the $99 rate</a>
       </div>
       <div class="price-card">
         <div class="price-tier">Agency Maestro</div>
@@ -707,87 +692,30 @@
           <li>White-label reporting</li>
           <li>API access</li>
         </ul>
-        <a href="#waitlist" class="btn-ghost" data-plan="Agency Maestro ($299/mo)">Lock in $299/mo</a>
+        <a href="#waitlist" class="btn-ghost" data-plan="Agency Maestro ($299/mo)">Reserve the $299 rate</a>
       </div>
     </div>
-    <p class="price-note" style="margin-top:20px;">Joining the roster costs nothing and doesn't ask for a card. You're reserving the rate, not buying a plan. None of these plans is on sale before launch. <a href="#launch-promise" class="text-link">What roster members get at launch</a>. If you'd rather start now, the one-time $9 <a href="#audit-kit" class="text-link" data-kit="pricing">Subscription Audit Kit</a> is available today.</p>
-  </div>
-</div>
-
-<div class="wrap" id="faq">
-  <section>
-    <div class="movement-mark"><span class="num">VI.</span><span class="label">The Questions</span></div>
-    <h2 style="font-size:clamp(24px,3.2vw,32px); max-width:20ch;">Subscription management questions, answered.</h2>
-    <div class="faq">
-      <details>
-        <summary>What is Subastian?</summary>
-        <p class="answer">Subastian is subscription management software for people whose work runs on a pile of tools. It builds a cost-efficient tool stack for your niche, flags duplicate software purchases before you pay for the same job twice, spots subscriptions you've stopped using, and warns you ahead of every auto-renewal.</p>
-      </details>
-      <details>
-        <summary>Is Subastian available yet?</summary>
-        <p class="answer">Not yet — it's in active development and this is a pre-launch page. Joining the founding roster gets you early access when it opens, a say in what gets built next, and the launch rate on any plan for as long as you stay subscribed.</p>
-      </details>
-      <details>
-        <summary>Who is Subastian for?</summary>
-        <p class="answer">Affiliate marketers, agency owners, freelancers, IT and ops teams, and content creators — anyone carrying more software subscriptions than they can track in their head. If you're buying tools most months, that's the profile.</p>
-      </details>
-      <details>
-        <summary>How does it stop duplicate subscriptions?</summary>
-        <p class="answer">Purchase Guard checks a tool you're about to buy against the stack you already have. When the feature overlap is heavy, it flags it before you pay — so you find out you already own that capability at the moment of purchase, not on next month's statement.</p>
-      </details>
-      <details>
-        <summary>Will it remind me before a subscription renews?</summary>
-        <p class="answer">Yes. Anything set to auto-renew gets five escalating renewal reminders — 30 days out, then 7, 3 and 1 day before, then the day it charges — by email and push, so a single missed message doesn't cost you a year of a tool you meant to cancel.</p>
-      </details>
-      <details>
-        <summary>How does Subastian find unused subscriptions?</summary>
-        <p class="answer">Neglect Radar watches which tools have gone quiet. Anything unused for two weeks gets flagged with a one-click "pause and save" suggestion, so the decision to keep paying is one you actually make rather than one that happens to you.</p>
-      </details>
-      <details>
-        <summary>What will Subastian cost?</summary>
-        <p class="answer">Planned launch pricing is $49/month for Starter, $99/month for Conductor Pro, and $299/month for Agency Maestro. Every plan starts with a 14-day free trial (a card is required to start it, and you're not charged if you cancel before day 14) and has a 60-day money-back guarantee on your first payment. Monthly plans aren't billing yet. Roster members keep the launch rate for as long as they stay subscribed.</p>
-      </details>
-      <details>
-        <summary>Does it cost anything to join the founding roster?</summary>
-        <p class="answer">No. There's no charge and no credit card — fill in the form at the bottom of this page and you're on the list. You'll hear directly from Daniel, and you can ask him anything before launch.</p>
-      </details>
-      <details>
-        <summary>What exactly do roster members get at launch?</summary>
-        <p class="answer">On launch day you get a private checkout link by email. Through it, any plan (Starter $49, Conductor Pro $99 or Agency Maestro $299 a month) stays at that rate for as long as you stay subscribed, even if public prices go up later. Each plan starts with a 14-day free trial, card required, and has a 60-day money-back guarantee. You're never charged for being on the roster.</p>
-      </details>
-      <details>
-        <summary>Where do the numbers in your calculator and Leak Test come from?</summary>
-        <p class="answer">They're estimates built from the answers you give, plus a simple planning assumption. They are not measurements of your accounts and not industry statistics. We're pre-launch and have no customer data yet, so we don't quote any. The only exact number comes from listing what you actually pay for, which the Audit Kit helps you do.</p>
-      </details>
+    <div class="launch-note" id="launch-terms">
+      <p class="launch-note-h"><span class="build-tag planned">At launch</span> Planned terms, not active today</p>
+      <p>When checkout opens, each plan is planned to start with a 14-day free trial (card required to start it) and a 60-day money-back guarantee on the first payment. Roster members keep their reserved rate for as long as they stay subscribed. Joining the roster today collects no payment.</p>
     </div>
   </section>
 </div>
 
 <div class="wrap">
-  <section class="finale" id="waitlist">
-    <div class="movement-mark"><span class="num">VII.</span><span class="label">Finale</span></div>
+  <section class="finale" id="waitlist" data-section="roster">
     <div class="finale-inner">
       <div>
-        <h2>Skipped the test? Join the founding roster.</h2>
-        <p class="sub">We're finishing development on Subastian now. Founding roster members get early access, a say in what gets built next, and the launch rate kept for as long as they stay subscribed.</p>
+        <h2>Want early access when Subastian launches?</h2>
+        <p class="sub">Join the free founding roster for launch updates, early access information, and a chance to share what you need from the product. Joining does not buy a subscription or charge your card.</p>
         <ul class="finale-list">
-          <li>Early access before public launch</li>
+          <li>Launch updates and early access information</li>
           <li>Free bonus: Free Trial Tracker and Cancel &amp; Refund Scripts</li>
-          <li>Direct line to the founder on what gets built</li>
-          <li>Free to join. No credit card. No spam.</li>
+          <li>A direct line to the founder on what gets built</li>
+          <li>Free. No card. Unsubscribe anytime.</li>
         </ul>
-        <div class="built">
-          <p class="built-h">Built so far, in the early build</p>
-          <ul>
-            <li>Free-trial tracker</li>
-            <li>Subscriptions, stacks and a spend summary</li>
-            <li>Overlap and unused-tool flags</li>
-            <li>Purchase Guard (the screenshot at the top)</li>
-          </ul>
-          <p class="built-next">Next: payments, 5-stage renewal alerts, then Niche Stacks.</p>
-        </div>
+        <p class="roster-status">Roster members can choose from the listed launch plans when checkout opens. No plan is active and no payment is taken today.</p>
         <p class="roster-count" id="rosterCount" hidden></p>
-        <p class="roster-status" id="rosterStatus">Signups are saved automatically. We only email you about Subastian, and you can unsubscribe anytime.</p>
       </div>
       <div>
         <form id="rosterForm" novalidate>
@@ -815,18 +743,85 @@
           </div>
           <p class="plan-pick" id="planPick" hidden>Plan you're interested in: <b id="planName"></b> <button type="button" id="planClear" aria-label="Clear plan choice">Clear</button></p>
           <div class="submit-row">
-            <button type="submit" class="btn-submit">Reserve My Spot — Free</button>
+            <button type="submit" class="btn-submit">Join the free roster</button>
             <span class="submit-hint">No card, no spam. Unsubscribe anytime.</span>
           </div>
           <p class="confirm-msg" id="confirmMsg" role="status" aria-live="polite"></p>
         </form>
+        <p class="roster-status" id="rosterStatus">We only email you about Subastian. See the <a href="/privacy/">privacy policy</a>.</p>
       </div>
-      <dl class="promise" id="launch-promise" style="grid-column:1 / -1">
-        <div><dt>What price is locked</dt><dd><b>Any plan</b> at its launch rate: Starter $49, Conductor Pro $99 or Agency Maestro $299 a month.</dd></div>
-        <div><dt>For how long</dt><dd><b>As long as you stay subscribed,</b> even if public prices go up later.</dd></div>
-        <div><dt>How you claim it</dt><dd><b>A private checkout link</b> by email on launch day.</dd></div>
-        <div><dt>Your risk</dt><dd><b>14-day free trial</b> (card required, cancel before day 14 and you pay nothing) and a <b>60-day money-back guarantee.</b></dd></div>
-      </dl>
+    </div>
+  </section>
+</div>
+
+<div class="band">
+  <div class="wrap band-inner" id="details" data-section="details">
+    <div class="movement-mark"><span class="label">The details</span></div>
+    <h2 class="h2">Where software spend leaks, and how Subastian is meant to catch it.</h2>
+    <p class="prose lede">Free trials turn into paid plans, annual plans renew quietly, and two tools end up doing the same job. Unused subscriptions don't announce themselves; they show up on the card each month until somebody goes looking. Today that check is usually a spreadsheet, a bank statement or memory.</p>
+    <div class="feature-grid">
+      <div class="feature">
+        <p class="feature-status"><span class="build-tag">In early build</span></p>
+        <h3>Purchase Guard: duplicate subscription detection</h3>
+        <p>Before you add a new tool, it checks your existing stack for overlap and warns you if you may be paying twice for the same job.</p>
+      </div>
+      <div class="feature">
+        <p class="feature-status"><span class="build-tag">In early build</span></p>
+        <h3>Unused-tool flags</h3>
+        <p>Flags tools you've marked as unused or idle, so you can decide to keep, pause or cancel them before the next renewal.</p>
+      </div>
+      <div class="feature">
+        <p class="feature-status"><span class="build-tag planned">Planned</span></p>
+        <h3>Renewal reminders</h3>
+        <p>Planned: a series of reminders ahead of each auto-renewal (30, 7, 3 and 1 day before, then the day it charges), so one missed message doesn't cost you a year of a tool.</p>
+      </div>
+      <div class="feature">
+        <p class="feature-status"><span class="build-tag planned">Planned</span></p>
+        <h3>Niche tool stacks</h3>
+        <p>Planned: tell it your kind of work and get a suggested set of tools that covers it. <a href="/stacks/" class="text-link">See five stacks priced by hand today</a>.</p>
+      </div>
+    </div>
+    <p class="alt-note"><b>Looked at SpendHound, Cledara, Zylo or Torii?</b> They're built for companies with a finance team, an accounting system and company cards. Subastian is being built for solo operators and small agencies who don't have those. <a href="/compare/" class="text-link">See the comparison, sourced from each company's own site</a>.</p>
+    <div class="cta-inline">
+      <p><b>Not sure where your spend is leaking?</b> The Leak Test gives you a score and a first fix in about a minute.</p>
+      <a href="/leak-test/?src=home-details" class="btn-cta" data-leak="details">Take the free Leak Test</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="faq">
+  <section data-section="faq">
+    <div class="movement-mark"><span class="label">Questions</span></div>
+    <h2 class="h2">Subscription management questions, answered.</h2>
+    <div class="faq">
+      <details>
+        <summary>Is Subastian available now?</summary>
+        <p class="answer">Not yet. Subastian is in active development, and the early build is private. You can't sign in, start a trial or pay for a plan today.</p>
+      </details>
+      <details>
+        <summary>What can I use today?</summary>
+        <p class="answer">Two things. The free <a href="/leak-test/?src=home-faq" class="text-link">Subscription Leak Test</a> gives you a score and your first fix in about a minute. The $9 <a href="https://subastian.gumroad.com/l/subscription-audit-kit?wanted=true" class="text-link" data-kit="faq" data-kit-buy="home-faq">Subscription Audit Kit</a> is a spreadsheet and short guide for listing what you pay for, totalling your spend, and flagging overlap, idle tools and upcoming renewals.</p>
+      </details>
+      <details>
+        <summary>Does the Leak Test require an account or connect to my bank?</summary>
+        <p class="answer">No. It's 8 multiple-choice questions, and your score and first fix appear on screen without signup. It doesn't read your bank, email or any accounts. Answers are counted anonymously. If you choose to get the full report by email, your answers are saved with your email so the report can be sent.</p>
+      </details>
+      <details>
+        <summary>What does joining the roster do, and does it cost anything?</summary>
+        <p class="answer">It's free and asks for no card. You get launch updates and early access information from Daniel, the free Trial Tracker and Cancel &amp; Refund Scripts, and a chance to tell us what you need. You can also reserve the launch rate on any planned plan. Joining doesn't buy a subscription, and you can unsubscribe anytime.</p>
+      </details>
+      <details>
+        <summary>What are the planned prices, and when will billing begin?</summary>
+        <p class="answer">Planned launch pricing is $49 a month for Starter, $99 for Conductor Pro and $299 for Agency Maestro. Billing begins only when checkout opens at launch, and there's no launch date yet. At launch, each plan is planned to start with a 14-day free trial (card required) and a 60-day money-back guarantee on the first payment. Roster members keep their reserved rate for as long as they stay subscribed.</p>
+      </details>
+      <details>
+        <summary>Who is Subastian for?</summary>
+        <p class="answer">Solo operators, affiliate marketers, freelancers, small agencies and small IT or ops teams: anyone carrying more software subscriptions than they can track in their head.</p>
+      </details>
+      <details>
+        <summary>Where do the numbers in the Leak Test and calculator come from?</summary>
+        <p class="answer">They're estimates built from the answers you give, plus a simple planning assumption. They are not measurements of your accounts and not industry statistics. We're pre-launch and have no customer data yet, so we don't quote any. The only exact number comes from listing what you actually pay for, which the Audit Kit helps you do.</p>
+      </details>
     </div>
   </section>
 </div>
@@ -850,7 +845,7 @@
       <a href="/partners/">Founding Partner program</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <p class="foot-keywords">Subastian is subscription management software and a SaaS subscription tracker in development for affiliate marketers, agencies, freelancers and IT teams — covering software renewal reminders, duplicate subscription detection, unused subscription tracking and SaaS spend management. <a href="#waitlist">Join the founding roster</a> or try the free <a href="/stack-audit/">subscription waste calculator</a>. Prefer a spreadsheet you can use today? Get the $9 <a href="https://subastian.gumroad.com/l/subscription-audit-kit?wanted=true" data-kit-buy="home-footer-text">Subscription Audit Kit</a>.</p>
+    <p class="foot-keywords">Subastian is subscription management software in development for solo operators, small agencies, freelancers and small IT teams. It's being built to track software subscriptions, flag duplicate tools and unused subscriptions, and send renewal reminders. Available today: the free <a href="/leak-test/">Subscription Leak Test</a>, the free <a href="/stack-audit/">subscription waste calculator</a> and the $9 <a href="https://subastian.gumroad.com/l/subscription-audit-kit?wanted=true" data-kit-buy="home-footer-text">Subscription Audit Kit</a>.</p>
   </div>
 </footer>
 
@@ -869,7 +864,10 @@
       "url": "https://subastian.us/",
       "logo": "https://subastian.us/emblem.png",
       "email": "daniel@subastian.us",
-      "founder": { "@type": "Person", "name": "Daniel Padilla" },
+      "founder": {
+        "@type": "Person",
+        "name": "Daniel Padilla"
+      },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Denver",
@@ -882,34 +880,28 @@
       "@id": "https://subastian.us/#website",
       "url": "https://subastian.us/",
       "name": "Subastian",
-      "description": "Subscription management software that builds your cheapest tool stack, blocks duplicate purchases, and warns you before every renewal.",
-      "publisher": { "@id": "https://subastian.us/#organization" },
+      "description": "Subscription management software in development for solo operators and small agencies, plus a free Subscription Leak Test and a $9 Subscription Audit Kit available today.",
+      "publisher": {
+        "@id": "https://subastian.us/#organization"
+      },
       "inLanguage": "en-US"
     },
     {
-      "@type": "SoftwareApplication",
-      "@id": "https://subastian.us/#software",
-      "name": "Subastian",
-      "url": "https://subastian.us/",
-      "applicationCategory": "BusinessApplication",
-      "applicationSubCategory": "Subscription Management Software",
-      "operatingSystem": "Web",
-      "description": "Subastian is subscription management software for affiliate marketers, agencies and IT teams. It recommends the cheapest tool stack for your niche, flags duplicate software purchases, finds unused subscriptions, and sends escalating renewal reminders before anything auto-renews.",
-      "image": "https://subastian.us/hero.jpg",
-      "publisher": { "@id": "https://subastian.us/#organization" },
-      "featureList": [
-        "Niche tool stack recommendations",
-        "Duplicate subscription detection",
-        "Unused subscription tracking",
-        "Escalating renewal reminders by email and push"
-      ],
+      "@type": "Product",
+      "@id": "https://subastian.us/#audit-kit",
+      "name": "Subscription Audit Kit",
+      "description": "A spreadsheet and short guide to list your subscriptions, total monthly and annual spend, flag overlapping and idle tools, and review upcoming renewals.",
+      "image": "https://subastian.us/audit-kit/cover-wide.png",
+      "brand": {
+        "@id": "https://subastian.us/#organization"
+      },
+      "url": "https://subastian.us/audit-kit/",
       "offers": {
-        "@type": "AggregateOffer",
+        "@type": "Offer",
+        "price": "9.00",
         "priceCurrency": "USD",
-        "lowPrice": "49",
-        "highPrice": "299",
-        "offerCount": "3",
-        "availability": "https://schema.org/PreOrder"
+        "availability": "https://schema.org/InStock",
+        "url": "https://subastian.gumroad.com/l/subscription-audit-kit"
       }
     },
     {
@@ -918,53 +910,59 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What is Subastian?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Subastian is subscription management software for people whose work runs on a pile of tools. It builds a cost-efficient tool stack for your niche, flags duplicate software purchases before you pay for the same job twice, spots subscriptions you've stopped using, and warns you ahead of every auto-renewal." }
+          "name": "Is Subastian available now?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not yet. Subastian is in active development, and the early build is private. You can't sign in, start a trial or pay for a plan today."
+          }
         },
         {
           "@type": "Question",
-          "name": "Is Subastian available yet?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Not yet — it's in active development and this is a pre-launch page. Joining the founding roster gets you early access when it opens, a say in what gets built next, and the launch rate on any plan for as long as you stay subscribed." }
+          "name": "What can I use today?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Two things. The free Subscription Leak Test gives you a score and your first fix in about a minute. The $9 Subscription Audit Kit is a spreadsheet and short guide for listing what you pay for, totalling your spend, and flagging overlap, idle tools and upcoming renewals."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the Leak Test require an account or connect to my bank?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It's 8 multiple-choice questions, and your score and first fix appear on screen without signup. It doesn't read your bank, email or any accounts. Answers are counted anonymously. If you choose to get the full report by email, your answers are saved with your email so the report can be sent."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does joining the roster do, and does it cost anything?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It's free and asks for no card. You get launch updates and early access information from Daniel, the free Trial Tracker and Cancel & Refund Scripts, and a chance to tell us what you need. You can also reserve the launch rate on any planned plan. Joining doesn't buy a subscription, and you can unsubscribe anytime."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are the planned prices, and when will billing begin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Planned launch pricing is $49 a month for Starter, $99 for Conductor Pro and $299 for Agency Maestro. Billing begins only when checkout opens at launch, and there's no launch date yet. At launch, each plan is planned to start with a 14-day free trial (card required) and a 60-day money-back guarantee on the first payment. Roster members keep their reserved rate for as long as they stay subscribed."
+          }
         },
         {
           "@type": "Question",
           "name": "Who is Subastian for?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Affiliate marketers, agency owners, freelancers, IT and ops teams, and content creators — anyone carrying more software subscriptions than they can track in their head." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Solo operators, affiliate marketers, freelancers, small agencies and small IT or ops teams: anyone carrying more software subscriptions than they can track in their head."
+          }
         },
         {
           "@type": "Question",
-          "name": "How does it stop duplicate subscriptions?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Purchase Guard checks a tool you're about to buy against the stack you already have. When the feature overlap is heavy, it flags it before you pay, so you find out you already own that capability at the moment of purchase rather than on next month's statement." }
-        },
-        {
-          "@type": "Question",
-          "name": "Will it remind me before a subscription renews?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Anything set to auto-renew gets five escalating renewal reminders — 30 days out, then 7, 3 and 1 day before, then the day it charges — by email and push." }
-        },
-        {
-          "@type": "Question",
-          "name": "How does Subastian find unused subscriptions?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Neglect Radar watches which tools have gone quiet. Anything unused for two weeks gets flagged with a one-click pause-and-save suggestion." }
-        },
-        {
-          "@type": "Question",
-          "name": "What will Subastian cost?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Planned launch pricing is $49/month for Starter, $99/month for Conductor Pro, and $299/month for Agency Maestro. Every plan starts with a 14-day free trial (card required) and has a 60-day money-back guarantee on the first payment. Monthly plans aren't billing yet. Roster members keep the launch rate for as long as they stay subscribed." }
-        },
-        {
-          "@type": "Question",
-          "name": "Does it cost anything to join the founding roster?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. There's no charge and no credit card — fill in the form at the bottom of the page and you're on the list." }
-        },
-        {
-          "@type": "Question",
-          "name": "What exactly do roster members get at launch?",
-          "acceptedAnswer": { "@type": "Answer", "text": "A private checkout link by email on launch day. Through it, any plan (Starter $49, Conductor Pro $99 or Agency Maestro $299 a month) stays at that rate for as long as you stay subscribed. Each plan starts with a 14-day free trial, card required, and has a 60-day money-back guarantee." }
-        },
-        {
-          "@type": "Question",
-          "name": "Where do the numbers in your calculator and Leak Test come from?",
-          "acceptedAnswer": { "@type": "Answer", "text": "They are estimates built from the answers you give, plus a simple planning assumption. They are not measurements of your accounts and not industry statistics. Subastian is pre-launch and has no customer data yet, so it does not quote any." }
+          "name": "Where do the numbers in the Leak Test and calculator come from?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They're estimates built from the answers you give, plus a simple planning assumption. They are not measurements of your accounts and not industry statistics. We're pre-launch and have no customer data yet, so we don't quote any. The only exact number comes from listing what you actually pay for, which the Audit Kit helps you do."
+          }
         }
       ]
     }
@@ -1117,9 +1115,7 @@
 
   // With GHL wired up the form no longer just opens an email — say so.
   if(GHL.webhookUrl){
-    var status = document.getElementById('rosterStatus');
     var hint = document.querySelector('.submit-hint');
-    if(status) status.textContent = 'Signups are saved automatically. We only email you about Subastian, and you can unsubscribe anytime.';
     if(hint) hint.textContent = 'No card, no spam. Unsubscribe anytime.';
   }
 
@@ -1197,6 +1193,25 @@
         submitting = false;
         if(btn){ btn.disabled = false; btn.textContent = label; }
       });
+    });
+  }
+
+  // Measurement: which homepage sections are seen (once each per page view), and when the roster form is started.
+  if('IntersectionObserver' in window && window.subTrack){
+    var seenSec = {};
+    var secIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        var k = en.target.getAttribute('data-section');
+        if(en.isIntersecting && !seenSec[k]){ seenSec[k] = true; subTrack('home_section_view', { section: k }); secIO.unobserve(en.target); }
+      });
+    }, {threshold: 0.4});
+    document.querySelectorAll('[data-section]').forEach(function(el){ secIO.observe(el); });
+  }
+  if(form){
+    var startedForm = false;
+    form.addEventListener('focusin', function(){
+      if(startedForm) return; startedForm = true;
+      if(window.subTrack) subTrack('roster_form_start', { form: 'home', plan: PLAN || null });
     });
   }
 

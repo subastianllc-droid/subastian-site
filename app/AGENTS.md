@@ -25,6 +25,7 @@ This repo is the source of truth for the Subastian app. Read this before changin
   - Never let a user write `plan_tier`, `ls_*` or `subscription_status` on `profiles`.
 - **Dates:** `trial_ends_at`, `renewal_date` and `last_used_at` are calendar dates. "Today" comes from the viewer's time zone (the `tz` cookie, see `TzSync`).
 - **Schema rules:** category and status values must match the CHECK constraints listed in `src/lib/subscriptions.ts`.
+- **New tables need explicit grants (Supabase change, Oct 30 2026):** tables created in `public` no longer get Data API access automatically, so the API returns "permission denied" until granted. In the same migration that creates a table: enable RLS, add policies, then `grant` only what the app needs: `authenticated` for per-user data, `service_role` (select/insert/update/delete) for Edge Functions, and `anon` only for deliberately public actions (most public writes go through a `security definer` RPC like `join_roster` instead). Add `revoke all on <table> from anon;` when logged-out visitors should have no access. See `supabase/migrations/20261016_purchase_guard_skips.sql` for the pattern.
 - **Copy:** plain and truthful. No invented stats, no "AI magic" claims, no countdown pressure.
 
 ## Build phases

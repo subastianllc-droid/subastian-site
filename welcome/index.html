@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome to the Founding Roster | Subastian</title>
+<meta name="description" content="A short welcome from Daniel, founder of Subastian, for new members of the Subastian founding roster.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://subastian.us/welcome/">
+<meta name="theme-color" content="#0B0A14">
+<meta property="og:type" content="video.other">
+<meta property="og:site_name" content="Subastian">
+<meta property="og:url" content="https://subastian.us/welcome/">
+<meta property="og:title" content="Welcome to the Subastian Founding Roster">
+<meta property="og:description" content="A short welcome from Daniel, founder of Subastian.">
+<meta property="og:image" content="https://subastian.us/welcome/email-thumb.jpg">
+<link rel="icon" href="/emblem.png" type="image/png">
+<link rel="apple-touch-icon" href="/emblem.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{ --stage:#0B0A14; --ink:#F2EFFA; --soft:#B4ADCF; --faint:#857DA6; --line:#2B2745; --gold:#E9B949; --violet:#B296F5; --fill:#7C4DEB; }
+  *{box-sizing:border-box;}
+  html{color-scheme:dark;}
+  body{margin:0; min-height:100vh; background:radial-gradient(120% 70% at 50% 0%, #1B1436 0%, var(--stage) 60%); background-color:var(--stage); color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  a{color:inherit;}
+  :focus-visible{outline:2px solid var(--violet); outline-offset:3px; border-radius:4px;}
+  .topbar{display:flex; align-items:center; justify-content:space-between; padding:22px 24px; max-width:1040px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:8px; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:18px; text-decoration:none; color:#fff;}
+  .brand img{width:24px; height:24px; object-fit:contain;}
+  .brand span span{color:var(--violet);}
+  .back{font-size:13px; font-weight:600; color:var(--soft); text-decoration:none;}
+  .back:hover{color:#fff;}
+
+  main{max-width:1040px; margin:0 auto; padding:8px 24px 72px; display:grid; grid-template-columns:minmax(0,380px) minmax(0,1fr); gap:56px; align-items:center;}
+  .player{position:relative; width:100%; aspect-ratio:9/16; border-radius:22px; overflow:hidden; background:#000;
+    box-shadow:0 0 0 1px rgba(233,185,73,.35), 0 40px 90px -30px rgba(124,77,235,.6), 0 20px 50px -20px rgba(0,0,0,.8);}
+  .player video{width:100%; height:100%; display:block; object-fit:cover;}
+  .play{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:12px; padding-bottom:22%;
+    background:linear-gradient(180deg, rgba(7,6,14,0) 40%, rgba(7,6,14,.6) 100%); border:0; cursor:pointer; color:#fff; font:inherit; width:100%;}
+  .play .disc{width:76px; height:76px; border-radius:50%; display:grid; place-items:center; background:var(--gold); color:#15102b;
+    box-shadow:0 0 0 10px rgba(233,185,73,.2); transition:transform .18s ease;}
+  .play:hover .disc{transform:scale(1.06);}
+  .play svg{width:28px; height:28px; margin-left:4px;}
+  .play .lbl{font-weight:600; font-size:14px; text-shadow:0 2px 10px rgba(0,0,0,.8);}
+
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin:0 0 14px;}
+  h1{font-family:'Plus Jakarta Sans',sans-serif; font-size:clamp(30px,4.4vw,46px); font-weight:800; letter-spacing:-.025em; line-height:1.08; margin:0; text-wrap:balance;}
+  h1 em{font-style:normal; color:var(--gold);}
+  .lede{color:var(--soft); font-size:16.5px; margin:18px 0 0; max-width:48ch;}
+  .next{list-style:none; padding:0; margin:28px 0 0; display:flex; flex-direction:column; gap:12px;}
+  .next li{display:grid; grid-template-columns:30px 1fr; gap:12px; align-items:start; padding:14px 16px; border:1px solid var(--line); border-radius:14px; background:rgba(24,20,44,.6);}
+  .next .n{font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:var(--gold); padding-top:2px;}
+  .next b{display:block; font-size:15px;}
+  .next span{color:var(--soft); font-size:14px;}
+  .ctas{display:flex; flex-wrap:wrap; gap:12px; margin-top:28px;}
+  .btn-gold{display:inline-block; background:var(--gold); color:#15102b; text-decoration:none; font-weight:700; font-size:15px; border-radius:10px; padding:13px 22px;}
+  .btn-gold:hover{filter:brightness(1.07);}
+  .btn-line{display:inline-block; color:#fff; text-decoration:none; font-weight:600; font-size:14px; border-radius:10px; padding:12px 18px; border:1px solid rgba(255,255,255,.3);}
+  .btn-line:hover{border-color:#fff;}
+  .note{margin-top:22px; font-size:12.5px; color:var(--faint); max-width:56ch;}
+
+  @media (max-width:820px){
+    main{grid-template-columns:1fr; gap:36px; padding-top:0;}
+    .player{max-width:340px; margin:0 auto;}
+    .copy{text-align:left;}
+  }
+  @media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms!important;} }
+</style>
+<script src="/ph.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Subastian home"><img src="/emblem.png" alt="" width="24" height="24"><span>SUBA<span>STIAN</span></span></a>
+  <a class="back" href="/">Home &rarr;</a>
+</header>
+<main id="main">
+  <div class="player">
+    <video id="welcome" preload="metadata" playsinline poster="poster.jpg" width="720" height="1280"
+      aria-label="Welcome video from Daniel, founder of Subastian">
+      <source src="welcome.mp4" type="video/mp4">
+    </video>
+    <button class="play" id="playBtn" type="button" aria-label="Play Daniel's welcome video with sound">
+      <span class="disc"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></span>
+      <span class="lbl">Sound on &middot; 0:37</span>
+    </button>
+  </div>
+  <div class="copy">
+    <p class="eyebrow">Founding roster &middot; You're in</p>
+    <h1>Welcome to <em>Subastian.</em></h1>
+    <p class="lede">Thank you for joining the founding roster. Here's what happens from here.</p>
+    <ol class="next">
+      <li><span class="n">01</span><div><b>Check your inbox</b><span>Your welcome email (and your Leak Report, if you took the test) is on its way from daniel@subastian.us.</span></div></li>
+      <li><span class="n">02</span><div><b>Your launch rate is locked</b><span>On launch day you'll get a private checkout link that keeps the launch rate on any plan for as long as you stay subscribed.</span></div></li>
+      <li><span class="n">03</span><div><b>Tell me what surprises you</b><span>Reply to any email with the subscription you regret paying for most. I read every one.</span></div></li>
+    </ol>
+    <div class="ctas">
+      <a class="btn-gold" href="/leak-test/?src=welcome">Take the 60-second Leak Test</a>
+      <a class="btn-line" href="/bonus/">Get your free bonus</a>
+    </div>
+    <p class="note">This welcome uses an AI-generated version of me. Subastian is in active development, not a live product yet.</p>
+  </div>
+</main>
+<script>
+  (function(){
+    var v=document.getElementById('welcome'), b=document.getElementById('playBtn');
+    b.addEventListener('click',function(){ v.controls=true; b.hidden=true; var p=v.play(); if(p&&p.catch)p.catch(function(){}); try{window.posthog&&posthog.capture('welcome_video_play');}catch(e){} });
+    v.addEventListener('ended',function(){ try{window.posthog&&posthog.capture('welcome_video_complete');}catch(e){} });
+  })();
+</script>
+</body>
+</html>

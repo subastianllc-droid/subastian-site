@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YouTube Automation Tool Stack: What It Costs in 2026 (and What to Cut)</title>
+<meta name="description" content="What a youtube automation tool stack costs in 2026: 6 tools, prices checked on each vendor&#x27;s own page, the overlaps to cut, and a lean stack for about $101 a month.">
+<link rel="canonical" href="https://subastian.us/stacks/youtube-automation/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Subastian, LLC">
+<meta name="theme-color" content="#6D28D9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0A14" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Subastian">
+<meta property="og:url" content="https://subastian.us/stacks/youtube-automation/">
+<meta property="og:title" content="YouTube Automation Tool Stack: What It Costs in 2026 (and What to Cut)">
+<meta property="og:description" content="What a youtube automation tool stack costs in 2026: 6 tools, prices checked on each vendor&#x27;s own page, the overlaps to cut, and a lean stack for about $101 a month.">
+<meta property="og:image" content="https://subastian.us/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/emblem.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{--bg:#F8F7FC;--bg-band:#F1EDFA;--surface:#FFFFFF;--ink:#15132A;--ink-soft:#5C5678;--ink-faint:#7A7399;--line:#E2DCF2;--accent:#6D28D9;--accent-strong:#54169E;--accent-tint:#ECE3FB;--accent-fill:#6D28D9;--money:#0E9D6E;--warn-bg:#FFF4DE;--warn-ink:#8A5300;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0B0A14;--bg-band:#131024;--surface:#18142C;--ink:#F2EFFA;--ink-soft:#B4ADCF;--ink-faint:#8F88AE;--line:#2B2745;--accent:#B296F5;--accent-strong:#D2C0FA;--accent-tint:#241D3E;--accent-fill:#7C4DEB;--money:#3FDDA0;--warn-bg:#33240A;--warn-ink:#F5C46B;}}
+  :root[data-theme="dark"]{--bg:#0B0A14;--bg-band:#131024;--surface:#18142C;--ink:#F2EFFA;--ink-soft:#B4ADCF;--ink-faint:#8F88AE;--line:#2B2745;--accent:#B296F5;--accent-strong:#D2C0FA;--accent-tint:#241D3E;--accent-fill:#7C4DEB;--money:#3FDDA0;--warn-bg:#33240A;--warn-ink:#F5C46B;}
+  *{box-sizing:border-box;} html{color-scheme:light dark;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  a{color:var(--accent);} :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+  h1,h2,h3{font-family:'Plus Jakarta Sans','Inter',sans-serif;color:var(--ink);line-height:1.15;text-wrap:balance;margin:0;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 28px;}
+  header.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1040px;margin:0 auto;padding:22px 28px;}
+  .brand{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:8px;}
+  .brand img{width:24px;height:24px;} .brand span span{color:var(--accent);}
+  .btn-ghost{color:var(--ink-soft);border:1px solid var(--line);border-radius:8px;padding:9px 16px;font-weight:600;font-size:13.5px;text-decoration:none;}
+  main{padding:20px 0 80px;}
+  .crumbs{font-size:13px;color:var(--ink-faint);margin:0 0 14px;} .crumbs a{color:var(--ink-faint);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 10px;}
+  h1{font-size:clamp(28px,4.4vw,42px);font-weight:800;letter-spacing:-.02em;max-width:22ch;}
+  h2{font-size:clamp(20px,2.6vw,24px);font-weight:700;margin:44px 0 12px;}
+  p{color:var(--ink-soft);font-size:15.5px;margin:0 0 14px;max-width:68ch;}
+  .lead{font-size:17px;margin-top:16px;}
+  .checked{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:5px 12px;margin-top:6px;}
+  .checked i{width:7px;height:7px;border-radius:50%;background:var(--money);display:inline-block;}
+  .summary{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:26px;}
+  .summary div{background:var(--surface);padding:20px 22px;}
+  .summary dt{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;}
+  .summary dd{margin:0;font-family:'IBM Plex Mono',monospace;font-size:clamp(24px,3.4vw,30px);font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .summary dd.leak{color:var(--warn-ink);}
+  .summary p{font-size:13px;margin:6px 0 0;}
+  .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface);}
+  table{border-collapse:collapse;width:100%;min-width:680px;font-size:14px;}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{font-size:11px;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);background:var(--bg-band);}
+  tr:last-child td{border-bottom:0;}
+  td.tool b{color:var(--ink);} td.tool small{display:block;color:var(--ink-faint);font-size:12.5px;}
+  td.num{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink);}
+  td.price{color:var(--ink-soft);}
+  .tag{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--warn-bg);color:var(--warn-ink);white-space:nowrap;}
+  .tag.keep{background:var(--accent-tint);color:var(--accent-strong);}
+  .cuts{list-style:none;padding:0;margin:0;display:grid;gap:12px;}
+  .cuts li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;}
+  .cuts b{display:block;color:var(--ink);margin-bottom:4px;font-family:'Plus Jakarta Sans',sans-serif;}
+  .cuts span{color:var(--ink-soft);font-size:14.5px;}
+  .cta{margin-top:44px;border:1px solid var(--accent);border-radius:16px;padding:26px;background:linear-gradient(120deg,var(--surface),var(--accent-tint));}
+  .cta h2{margin:0 0 8px;}
+  .cta form{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+  .cta input{flex:1;min-width:180px;font:16px Inter,sans-serif;padding:11px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);}
+  .cta button{background:var(--accent-fill);color:#fff;border:0;border-radius:8px;padding:12px 18px;font:600 15px Inter,sans-serif;cursor:pointer;}
+  .cta .hint{font-size:12.5px;color:var(--ink-faint);margin:10px 0 0;}
+  .cta .msg{font-size:14px;color:var(--ink);margin:10px 0 0;font-weight:500;}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+  .sources{font-size:13px;color:var(--ink-faint);} .sources li{margin-bottom:4px;word-break:break-word;}
+  .stack-list{list-style:none;padding:0;margin:24px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;}
+  .stack-list a{display:block;height:100%;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;color:var(--ink);}
+  .stack-list a:hover{border-color:var(--accent);}
+  .stack-list b{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;display:block;}
+  .stack-list span{font-size:13.5px;color:var(--ink-soft);display:block;margin-top:6px;}
+  .stack-list em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent);display:block;margin-top:10px;}
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:28px 0 40px;}
+  .foot-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--ink-faint);}
+  @media (max-width:600px){.wrap{padding:0 16px;} header.topbar{padding:18px 16px;} .summary{grid-template-columns:1fr;} .cta{padding:20px;}}
+</style>
+<script src="/ph.js" defer></script>
+<script src="/aff.js" defer></script>
+<script src="/roster.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "YouTube Automation Tool Stack: What It Costs in 2026 (and What to Cut)", "description": "What a youtube automation tool stack costs in 2026: 6 tools, prices checked on each vendor's own page, the overlaps to cut, and a lean stack for about $101 a month.", "dateModified": "2026-10-19", "datePublished": "2026-10-19", "author": {"@type": "Organization", "name": "Subastian, LLC", "url": "https://subastian.us/"}, "publisher": {"@type": "Organization", "name": "Subastian, LLC", "logo": {"@type": "ImageObject", "url": "https://subastian.us/emblem.png"}}, "mainEntityOfPage": "https://subastian.us/stacks/youtube-automation/"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Subastian", "item": "https://subastian.us/"}, {"@type": "ListItem", "position": 2, "name": "Tool stacks", "item": "https://subastian.us/stacks/"}, {"@type": "ListItem", "position": 3, "name": "YouTube Automation tool stack", "item": "https://subastian.us/stacks/youtube-automation/"}]}]}</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Subastian home"><img src="/emblem.png" alt="" width="24" height="24"><span>SUBA<span>STIAN</span></span></a>
+  <a href="/stacks/" class="btn-ghost">All tool stacks</a>
+</header>
+<main><div class="wrap">
+
+<p class="crumbs"><a href="/">Subastian</a> / <a href="/stacks/">Tool stacks</a> / YouTube Automation</p>
+<p class="eyebrow">Niche stack &middot; YouTube Automation</p>
+<h1>YouTube Automation Tool Stack: What It Costs in 2026 (and What to Cut)</h1>
+<p class="lead">A YouTube automation channel usually pays for channel research, AI voiceover, editing, thumbnails and script help. Two of those jobs are covered twice in most stacks.</p>
+<span class="checked"><i aria-hidden="true"></i>Prices checked October 19, 2026 on each vendor's own page</span>
+
+<dl class="summary">
+  <div><dt>Lean stack</dt><dd>&asymp; $101<span style="font-size:.5em">/mo</span></dd><p>TubeBuddy Pro (yearly), ElevenLabs Creator, Descript Creator (monthly), Canva Pro and ChatGPT Plus. Yearly prices divided by 12.</p></div>
+  <div><dt>Paying for the overlaps too</dt><dd class="leak">+ $19<span style="font-size:.5em">/mo</span></dd><p>What the tools marked &ldquo;Overlaps&rdquo; add on top, for jobs the lean stack already covers.</p></div>
+</dl>
+
+<h2>The stack, tool by tool</h2>
+<p>Prices are in USD before tax, exactly as each vendor listed them. Some only show yearly billing; the per-month column divides those by 12.</p>
+<div class="table-wrap" role="region" aria-label="YouTube Automation tools and prices" tabindex="0">
+<table>
+<thead><tr><th scope="col">Tool and job</th><th scope="col">Price as listed</th><th scope="col">&asymp; per month</th><th scope="col">Free plan or trial</th><th scope="col">Status</th></tr></thead>
+<tbody><tr><td class="tool"><b>TubeBuddy Pro</b><small>Keyword research and channel tools</small></td><td class="price">$144/yr ($12/mo billed annually)</td><td class="num">$12</td><td>Free plan</td><td><span class="tag keep">In lean stack</span></td></tr><tr><td class="tool"><b>vidIQ Boost</b><small>Keyword research and channel tools</small></td><td class="price">$19/mo, billed monthly</td><td class="num">&mdash;</td><td>Free plan</td><td><span class="tag">Overlaps TubeBuddy Pro</span></td></tr><tr><td class="tool"><b>ElevenLabs Creator</b><small>AI voiceover</small></td><td class="price">$22/mo ($11 the first month)</td><td class="num">$22</td><td>Free plan. Starter is $6/mo.</td><td><span class="tag keep">In lean stack</span></td></tr><tr><td class="tool"><b>Descript Creator</b><small>Editing, captions, text-to-speech</small></td><td class="price">$35/mo billed monthly, or $24/mo billed annually</td><td class="num">$35</td><td>Free plan</td><td><span class="tag keep">In lean stack</span></td></tr><tr><td class="tool"><b>Canva Pro</b><small>Thumbnails</small></td><td class="price">$144/yr</td><td class="num">$12</td><td>Free plan</td><td><span class="tag keep">In lean stack</span></td></tr><tr><td class="tool"><b>ChatGPT Plus</b><small>Scripts and outlines</small></td><td class="price">$20/mo, billed monthly</td><td class="num">$20</td><td>Free plan</td><td><span class="tag keep">In lean stack</span></td></tr></tbody>
+</table>
+</div>
+
+<h2>What to cut</h2>
+<ul class="cuts"><li><b>vidIQ and TubeBuddy do the same job.</b><span>Both are YouTube keyword and channel tools, and both have free plans. Paying for both adds $19 a month or more. Keep one.</span></li><li><b>Descript already has text-to-speech.</b><span>Descript Creator includes text-to-speech, so check whether its voices are good enough for your channel before paying $22 a month for ElevenLabs as well.</span></li><li><b>Pay yearly only for what you&#x27;ll keep.</b><span>Descript is $24/mo billed annually versus $35 monthly. That only saves money if the channel is still running in 12 months.</span></li></ul>
+
+<section class="cta" aria-labelledby="cta-h">
+  <h2 id="cta-h">Track this stack automatically</h2>
+  <p>Subastian is subscription management software in development. Its Niche Stacks feature is being built to put together a list like this for your work, then warn you before you pay for a job you already cover. Join the free Founding Roster for early access and the launch rate.</p>
+  <form id="stackForm" data-form="stack_youtube_automation" data-work="creator" novalidate>
+    <label for="sf-email" class="hp">Email</label>
+    <input id="sf-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" aria-label="Email" required>
+    <div class="hp" aria-hidden="true"><input name="hp_trap" type="text" tabindex="-1" autocomplete="off"></div>
+    <button type="submit">Join the Founding Roster</button>
+  </form>
+  <p class="hint">Free. No card. Unsubscribe anytime. <a href="/privacy/">Privacy</a>.</p>
+  <p class="msg" id="stackMsg" role="status" aria-live="polite"></p>
+</section>
+
+<h2>Sources</h2>
+<p>Every price above was read on the vendor's own website on October 19, 2026. Plans and prices change, so check before you buy. This page has no affiliate links, and Subastian isn't paid by any tool listed.</p>
+<ul class="sources"><li>Canva: <a href="https://www.canva.com/pricing/" rel="nofollow noopener">https://www.canva.com/pricing/</a></li><li>ChatGPT: <a href="https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus" rel="nofollow noopener">https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus</a></li><li>Descript: <a href="https://www.descript.com/pricing" rel="nofollow noopener">https://www.descript.com/pricing</a></li><li>ElevenLabs: <a href="https://elevenlabs.io/pricing" rel="nofollow noopener">https://elevenlabs.io/pricing</a></li><li>TubeBuddy: <a href="https://www.tubebuddy.com/blog/vidiq-vs-tubebuddy/" rel="nofollow noopener">https://www.tubebuddy.com/blog/vidiq-vs-tubebuddy/</a></li><li>vidIQ: <a href="https://vidiq.com/compare/vidiq-vs-tubebuddy/" rel="nofollow noopener">https://vidiq.com/compare/vidiq-vs-tubebuddy/</a></li></ul>
+</div></main>
+<footer><div class="wrap"><div class="foot-row">
+  <div>Subastian, LLC &middot; Denver, CO</div>
+  <div><a href="/stacks/">Tool stacks</a> &middot; <a href="/guides/">Guides</a> &middot; <a href="/leak-test/">Leak Test</a> &middot; <a href="/partners/">Partners</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/privacy/">Privacy</a></div>
+</div></div></footer>
+<script>
+(function(){
+  var form = document.getElementById('stackForm'), msg = document.getElementById('stackMsg');
+  if(!form) return;
+  var busy = false;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(busy) return;
+    var email = form.email.value.trim();
+    if(email.indexOf('@') < 1 || email.indexOf('.') < 0){ form.email.focus(); return; }
+    if(form.hp_trap.value){ msg.textContent = 'Something went wrong. Email daniel@subastian.us and we\u2019ll add you by hand.'; return; }
+    busy = true; form.querySelector('button').disabled = true;
+    var p = window.subRoster ? subRoster({ email: email, form: form.getAttribute('data-form'), work_type: form.getAttribute('data-work') }) : Promise.resolve(null);
+    p.then(function(code){
+      if(code){
+        msg.innerHTML = 'You\u2019re on the founding roster. Your share link: <code></code>';
+        msg.querySelector('code').textContent = window.subShareLink(code);
+        if(window.subTrack) subTrack('roster_signup', { form: form.getAttribute('data-form'), work_type: form.getAttribute('data-work'), has_share_code: true });
+        form.reset();
+      } else {
+        msg.textContent = 'That didn\u2019t go through. Email daniel@subastian.us and we\u2019ll add you by hand.';
+      }
+      busy = false; form.querySelector('button').disabled = false;
+    });
+  });
+})();
+</script>
+</body>
+</html>

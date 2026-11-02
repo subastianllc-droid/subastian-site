@@ -46,7 +46,7 @@ async function Dashboard() {
 
   const [{ data: profile }, { data: subsData, error: subsError }, { data: stacksData }, { data: skipsData }] =
     await Promise.all([
-      supabase.from("profiles").select("email, full_name, plan_tier").eq("id", auth.user.id).maybeSingle(),
+      supabase.from("profiles").select("email, full_name, plan_tier, time_zone, alerts_enabled").eq("id", auth.user.id).maybeSingle(),
       supabase.from("subscriptions").select("*").order("created_at"),
       supabase.from("stacks").select("*").order("name"),
       supabase.from("guard_skips").select("*").order("created_at"),
@@ -66,6 +66,8 @@ async function Dashboard() {
       stacks={stacksData ?? []}
       today={todayIn(tzCookie ?? "America/Denver")}
       tzCookie={tzCookie}
+      savedTimeZone={profile?.time_zone ?? null}
+      alertsEnabled={profile?.alerts_enabled ?? true}
       loadError={Boolean(subsError)}
     />
   );

@@ -24,6 +24,7 @@ import {
   markUsedToday,
   removeSampleStack,
 } from "../actions";
+import { AlertsCard } from "./alerts-card";
 import { ConfirmButton } from "./confirm-button";
 import { StackForm } from "./stack-form";
 import { SubscriptionEditor } from "./subscription-editor";
@@ -39,6 +40,8 @@ export function DashboardView({
   stacks,
   today,
   tzCookie,
+  savedTimeZone,
+  alertsEnabled,
   loadError,
 }: {
   email: string;
@@ -48,6 +51,8 @@ export function DashboardView({
   stacks: Stack[];
   today: string;
   tzCookie: string | null;
+  savedTimeZone: string | null;
+  alertsEnabled: boolean;
   loadError: boolean;
 }) {
   const summary = summarize(subs, today);
@@ -60,7 +65,7 @@ export function DashboardView({
 
   return (
     <div className="flex flex-1 flex-col">
-      <TzSync current={tzCookie} />
+      <TzSync current={tzCookie} saved={savedTimeZone} />
 
       <header className="border-b border-line bg-surface">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
@@ -247,6 +252,7 @@ export function DashboardView({
             </section>
           </div>
 
+          <div className="space-y-6">
           <aside aria-labelledby="stacks-h" className="h-fit rounded-2xl border border-line bg-surface p-5">
             <h2 id="stacks-h" className="font-display text-lg font-bold">Stacks</h2>
             <p className="mt-1 text-sm text-ink-soft">Group tools by client, project or workflow.</p>
@@ -283,6 +289,8 @@ export function DashboardView({
             )}
             <StackForm />
           </aside>
+          <AlertsCard enabled={alertsEnabled} email={email} timeZone={savedTimeZone ?? tzCookie ?? "America/Denver"} />
+          </div>
         </div>
       </main>
     </div>

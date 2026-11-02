@@ -47,3 +47,19 @@ To send one: `update mail.broadcasts set approved_at = now(), send_at = '2026-10
 
 The 3 launch drafts (`launch-1-open`, `launch-2-reminder`, `launch-3-last-day`) are waiting on
 `[CHECKOUT LINK]`, `[WHAT SHIPPED]` and `[CLAIM DEADLINE]`.
+
+## Renewal and free-trial alerts (app users)
+
+The `renewal-alerts` function runs every hour at :07. It emails app users 30, 7, 3 and 1 days before an
+active subscription renews or a free trial ends, and on the day: one email per person per day at most,
+after 8am in their time zone. Every reminder is logged in `public.alert_log`, so none repeats.
+Users switch alerts off with the dashboard's Email alerts switch or the link in any alert.
+The "Open Subastian" button goes to `mail.settings.app_url`.
+Send yourself a sample: `select mail.run_alerts('{"test_to":"you@example.com"}');`
+
+## Unsubscribe links
+
+Footer links in every email open https://subastian.us/email-off/ first and only act when the person clicks
+the button there. That stops mail-app link scanners (common with Outlook and work email) from unsubscribing
+people by "clicking" the link before they read the email. The mail app's own one-click Unsubscribe still
+works straight away.

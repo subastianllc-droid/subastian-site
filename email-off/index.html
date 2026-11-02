@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Email Settings | Subastian</title>
+<meta name="description" content="Unsubscribe from Subastian emails or turn off renewal alerts.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0B0A14">
+<link rel="icon" href="/emblem.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{ --stage:#0B0A14; --ink:#F2EFFA; --soft:#B4ADCF; --line:#2B2745; --gold:#E9B949; --violet:#B296F5; --danger:#F4A3A3; }
+  *{box-sizing:border-box;}
+  html{color-scheme:dark;}
+  body{margin:0; min-height:100vh; background:radial-gradient(120% 70% at 50% 0%, #1B1436 0%, var(--stage) 60%); background-color:var(--stage); color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  :focus-visible{outline:2px solid var(--violet); outline-offset:3px; border-radius:4px;}
+  .topbar{display:flex; align-items:center; padding:22px 24px; max-width:640px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:8px; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:18px; text-decoration:none; color:#fff;}
+  .brand img{width:24px; height:24px; object-fit:contain;}
+  .brand span span{color:var(--violet);}
+  main{max-width:640px; margin:0 auto; padding:24px 24px 72px;}
+  .card{border:1px solid var(--line); border-radius:18px; background:rgba(24,20,44,.6); padding:32px 28px;}
+  h1{font-family:'Plus Jakarta Sans',sans-serif; font-size:clamp(26px,4vw,34px); font-weight:800; letter-spacing:-.02em; line-height:1.15; margin:0; text-wrap:balance;}
+  p{color:var(--soft); font-size:16.5px; margin:14px 0 0;}
+  button{margin-top:24px; background:var(--gold); color:#15102b; border:0; font:inherit; font-weight:700; font-size:16.5px; border-radius:10px; padding:13px 22px; cursor:pointer;}
+  button:hover{filter:brightness(1.07);}
+  button[disabled]{opacity:.6; cursor:default;}
+  .msg{min-height:1.6em; color:var(--ink);}
+  .msg.err{color:var(--danger);}
+  .small{font-size:15px;}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/"><img src="/emblem.png" alt=""><span>SUBA<span>STIAN</span></span></a>
+</header>
+<main>
+  <div class="card">
+    <h1 id="title">Email settings</h1>
+    <p id="lede">Checking your link…</p>
+    <button id="go" type="button" hidden></button>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+    <p class="small">Questions? Email <a href="mailto:daniel@subastian.us">daniel@subastian.us</a>.</p>
+  </div>
+</main>
+<script>
+(function () {
+  // Email links land here instead of acting on their own, so link scanners in
+  // mail apps can't unsubscribe anyone by "clicking" first. Only the button acts.
+  var BASE = 'https://yhasuhzqykikacwezwyu.supabase.co/functions/v1/';
+  var q = new URLSearchParams(location.search);
+  var t = q.get('t') || '';
+  var title = document.getElementById('title'), lede = document.getElementById('lede');
+  var go = document.getElementById('go'), msg = document.getElementById('msg');
+  var mode = null, url = null;
+
+  if (q.get('a') && /^[0-9a-f]{32}$/.test(t)) {
+    mode = 'alerts';
+    url = BASE + 'renewal-alerts?a=' + encodeURIComponent(q.get('a')) + '&t=' + t;
+    title.textContent = 'Turn off renewal alerts?';
+    lede.textContent = "You'll stop getting reminder emails before your renewals and free trials end. You can turn them back on anytime from your Subastian dashboard.";
+    go.textContent = 'Turn off alerts';
+  } else if (q.get('u') && /^[0-9a-f]{32}$/.test(t)) {
+    mode = 'roster';
+    url = BASE + 'email-sender?u=' + encodeURIComponent(q.get('u')) + '&t=' + t;
+    title.textContent = 'Unsubscribe from Subastian emails?';
+    lede.textContent = "You'll stop getting launch updates and tips from Subastian at " + q.get('u') + '.';
+    go.textContent = 'Unsubscribe';
+  } else {
+    lede.textContent = "This link isn't complete. Reply to any Subastian email and we'll update your settings by hand.";
+  }
+  if (!mode) return;
+  go.hidden = false;
+
+  go.addEventListener('click', function () {
+    go.disabled = true;
+    msg.className = 'msg';
+    msg.textContent = 'Saving…';
+    fetch(url, { method: 'POST' })
+      .then(function (r) {
+        if (!r.ok) throw new Error(String(r.status));
+        go.hidden = true;
+        title.textContent = mode === 'alerts' ? 'Renewal alerts are off' : "You're unsubscribed";
+        lede.textContent = mode === 'alerts'
+          ? 'You can turn them back on anytime from your Subastian dashboard.'
+          : "You won't get any more emails from Subastian.";
+        msg.textContent = '';
+      })
+      .catch(function () {
+        go.disabled = false;
+        msg.className = 'msg err';
+        msg.textContent = "That didn't work. Try again, or reply to any Subastian email and we'll do it for you.";
+      });
+  });
+})();
+</script>
+</body>
+</html>

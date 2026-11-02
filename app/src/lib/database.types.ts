@@ -43,9 +43,11 @@ export type Database = {
           plan_tier: string;
           subscription_status: string | null;
           updated_at: string;
+          time_zone: string;
+          alerts_enabled: boolean;
         };
         Insert: never;
-        Update: { full_name?: string | null };
+        Update: { full_name?: string | null; time_zone?: string; alerts_enabled?: boolean };
         Relationships: [];
       };
       stacks: {

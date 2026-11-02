@@ -293,3 +293,23 @@ export async function markRenewed(formData: FormData) {
   await supabase.from("subscriptions").update({ renewal_date: addMonths(sub.renewal_date, 1) }).eq("id", id);
   revalidatePath("/app");
 }
+
+/** Turns renewal and free-trial alert emails on or off for the signed-in user. */
+export async function setAlertsEnabled(formData: FormData) {
+  const { supabase, user } = await requireUser();
+  const enabled = formData.get("enabled") === "on";
+  await supabase.from("profiles").update({ alerts_enabled: enabled }).eq("id", user.id);
+  revalidatePath("/app");
+}
+
+/** Alerts go out at 8am in this zone, and "3 days" is counted from the user's own today. */
+export async function saveTimeZone(timeZone: string) {
+  if (typeof timeZone !== "string" || timeZone.length > 64) return;
+  try {
+    new Intl.DateTimeFormat("en-US", { timeZone });
+  } catch {
+    return;
+  }
+  const { supabase, user } = await requireUser();
+  await supabase.from("profiles").update({ time_zone: timeZone }).eq("id", user.id);
+}

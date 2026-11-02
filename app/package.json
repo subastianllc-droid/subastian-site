@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --experimental-strip-types --no-warnings --test src/**/*.test.ts"
+    "test": "node --experimental-strip-types --no-warnings --test src/**/*.test.ts supabase/functions/**/*.test.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

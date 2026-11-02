@@ -102,7 +102,7 @@ export function buildAlertEmail(input: { fullName?: string | null; items: AlertI
   if (renewsToday) {
     lines.push('Once it has renewed, click "Mark renewed" in Subastian so your next reminder lands on the right date.', "");
   }
-  if (appUrl) lines.push(`Open Subastian: ${appUrl}/app`, "");
+  if (appUrl) lines.push(`Open Subastian: ${appUrl}`, "");
   lines.push(
     "These dates and prices are the ones you entered. Subastian doesn't see your card or cancel anything for you.",
     "",

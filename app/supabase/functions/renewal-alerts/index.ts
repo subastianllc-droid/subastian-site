@@ -50,7 +50,16 @@ const FOOTER_WHY = "renewal alerts are on in your Subastian account";
 function render(mail: AlertMail, offUrl: string, postal: string) {
   const text = [...mail.lines, "", "--", `You're getting this because ${FOOTER_WHY}.`, `Turn off alerts: ${offUrl}`, postal].join("\n");
   const linkify = (s: string) => escapeHtml(s).replace(/https:\/\/[^\s<)]+/g, (u) => `<a href="${u}" style="color:#6D28D9">${u}</a>`);
-  const body = mail.lines.map((l) => (l === "" ? "<br>" : `<div>${linkify(l)}</div>`)).join("");
+  const button = (u: string) =>
+    `<div style="margin:4px 0 8px"><a href="${escapeHtml(u)}" style="display:inline-block;background:#6D28D9;color:#ffffff;` +
+    `font-weight:600;text-decoration:none;padding:12px 20px;border-radius:8px">Open Subastian</a></div>`;
+  const body = mail.lines
+    .map((l) => {
+      if (l === "") return "<br>";
+      const open = /^Open Subastian: (https:\/\/\S+)$/.exec(l);
+      return open ? button(open[1]) : `<div>${linkify(l)}</div>`;
+    })
+    .join("");
   const html = `<div style="font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#1f1d2b;max-width:560px">${body}` +
     `<div style="margin-top:28px;padding-top:12px;border-top:1px solid #e5e3ee;font-size:13px;color:#6b6880">` +
     `You're getting this because ${FOOTER_WHY}. <a href="${offUrl}" style="color:#6b6880">Turn off alerts</a>.<br>${escapeHtml(postal)}</div></div>`;

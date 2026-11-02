@@ -48,7 +48,7 @@ test("free-after-trial and odd names are handled safely", () => {
 });
 
 test("app link only when it's an https URL", () => {
-  assert.ok(buildAlertEmail({ items: [renewal(1)], appUrl: "https://app.example.com/" }).lines.includes("Open Subastian: https://app.example.com/app"));
+  assert.ok(buildAlertEmail({ items: [renewal(1)], appUrl: "https://app.example.com/" }).lines.includes("Open Subastian: https://app.example.com"));
   assert.ok(!buildAlertEmail({ items: [renewal(1)], appUrl: "javascript:alert(1)" }).lines.some((l) => l.startsWith("Open")));
   assert.ok(!buildAlertEmail({ items: [renewal(1)], appUrl: null }).lines.some((l) => l.startsWith("Open")));
 });

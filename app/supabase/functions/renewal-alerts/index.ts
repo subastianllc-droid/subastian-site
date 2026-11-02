@@ -2,8 +2,9 @@
 //
 // POST (header x-cron-secret)            hourly: send every alert due now, one email per person
 // POST (header x-cron-secret) {test_to}  send one sample alert email to that address, marked [TEST]
-// GET  ?a=<user id>&t=<token>            "Turn off alerts" link in every alert email
-// POST ?a=<user id>&t=<token>            one-click unsubscribe from the mail app (RFC 8058)
+// GET  ?a=<user id>&t=<token>            old-style link: redirects to subastian.us/email-off/ to confirm
+// POST ?a=<user id>&t=<token>            turns alerts off (the confirm page's button, or the mail
+//                                        app's one-click unsubscribe, RFC 8058)
 //
 // Who gets what is decided in SQL (mail.claim_due_alerts): alerts on, 8am or later in the
 // person's time zone, an active renewal or trial ending exactly 30/7/3/1/0 days away.
@@ -14,6 +15,8 @@ import { buildAlertEmail, type AlertItem, type AlertMail } from "./alert-email.t
 
 const sql = postgres(Deno.env.get("SUPABASE_DB_URL")!, { prepare: false, max: 2 });
 const FN_URL = `${Deno.env.get("SUPABASE_URL")}/functions/v1/renewal-alerts`;
+const OFF_PAGE = "https://subastian.us/email-off/";
+const CORS = { "Access-Control-Allow-Origin": "https://subastian.us" };
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
 type Settings = {
@@ -48,6 +51,7 @@ function escapeHtml(s: string) {
 const FOOTER_WHY = "renewal alerts are on in your Subastian account";
 
 function render(mail: AlertMail, offUrl: string, postal: string) {
+  // offUrl is the confirm page; link scanners that "click" it change nothing.
   const text = [...mail.lines, "", "--", `You're getting this because ${FOOTER_WHY}.`, `Turn off alerts: ${offUrl}`, postal].join("\n");
   const linkify = (s: string) => escapeHtml(s).replace(/https:\/\/[^\s<)]+/g, (u) => `<a href="${u}" style="color:#6D28D9">${u}</a>`);
   const button = (u: string) =>
@@ -69,8 +73,9 @@ function render(mail: AlertMail, offUrl: string, postal: string) {
 async function send(s: Settings, to: string, userId: string, mail: AlertMail, idempotencyKey: string, test = false) {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   if (!apiKey) throw new Error("RESEND_API_KEY is not set");
-  const offUrl = `${FN_URL}?a=${userId}&t=${await token(userId, s.unsub_secret)}`;
-  const { text, html } = render(mail, offUrl, s.postal_address);
+  const query = `?a=${userId}&t=${await token(userId, s.unsub_secret)}`;
+  const offUrl = `${FN_URL}${query}`; // one-click POST target for the List-Unsubscribe header
+  const { text, html } = render(mail, `${OFF_PAGE}${query}`, s.postal_address);
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json", "Idempotency-Key": idempotencyKey },
@@ -91,11 +96,11 @@ async function turnOff(url: URL, s: Settings) {
   const a = (url.searchParams.get("a") || "").trim().toLowerCase();
   const t = url.searchParams.get("t") || "";
   if (!UUID.test(a) || !safeEqual(t, await token(a, s.unsub_secret))) {
-    return new Response("That link isn't valid. You can turn alerts off from your Subastian dashboard, or reply to any alert and we'll do it for you.", { status: 400 });
+    return new Response("That link isn't valid. You can turn alerts off from your Subastian dashboard, or reply to any alert and we'll do it for you.", { status: 400, headers: CORS });
   }
   await sql`update public.profiles set alerts_enabled = false where id = ${a}`;
   return new Response("Renewal alerts are off. You can turn them back on anytime from your Subastian dashboard.", {
-    headers: { "content-type": "text/plain; charset=utf-8" },
+    headers: { ...CORS, "content-type": "text/plain; charset=utf-8" },
   });
 }
 
@@ -157,7 +162,11 @@ Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
     const s = await settings();
-    if (url.searchParams.has("a")) return await turnOff(url, s);
+    if (url.searchParams.has("a")) {
+      // A GET can come from a mail app's link scanner, so it only shows the confirm page.
+      if (req.method === "GET") return Response.redirect(`${OFF_PAGE}${url.search}`, 302);
+      return await turnOff(url, s);
+    }
     if (req.method !== "POST") return new Response("Subastian", { status: 200 });
 
     if (!safeEqual(req.headers.get("x-cron-secret") || "", s.cron_secret)) return new Response("forbidden", { status: 403 });

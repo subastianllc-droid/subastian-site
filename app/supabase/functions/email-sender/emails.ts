@@ -144,7 +144,7 @@ const DAY2: Record<string, { subject: string; body: string[] }> = {
       "2. For each annual plan, put a reminder 7 days before its renewal date.",
       "3. When the reminder fires, ask one question: did I use this in the last 30 days?",
       "",
-      "Subastian's 5-stage renewal alerts are being built to send those reminders for you, at 30, 7, 3 and 1 days out and on the day.",
+      "Subastian's renewal alerts send those reminders for you, at 30, 7, 3 and 1 days out and on the day. They're working now in the private early build.",
     ],
   },
 };

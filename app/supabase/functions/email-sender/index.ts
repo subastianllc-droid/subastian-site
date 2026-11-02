@@ -2,8 +2,9 @@
 //
 // POST  (header x-cron-secret)            send every due email in mail.outbox, within the daily cap
 // POST  (header x-cron-secret) {test_to}  send one of each email to that address, marked [TEST]
-// GET   ?u=<email>&t=<token>              unsubscribe link in every email
-// POST  ?u=<email>&t=<token>              one-click unsubscribe from the mail app (RFC 8058)
+// GET   ?u=<email>&t=<token>              old-style link: redirects to subastian.us/email-off/ to confirm
+// POST  ?u=<email>&t=<token>              unsubscribes (the confirm page's button, or the mail
+//                                         app's one-click unsubscribe, RFC 8058)
 //
 // Nothing is sent from the queue while mail.settings.sending_enabled is false.
 // Secrets: RESEND_API_KEY (set by Daniel in the dashboard). Everything else lives in mail.settings.
@@ -13,6 +14,8 @@ import { buildEmail, cleanReport, hasPlaceholder, type Ctx, type Kind, type Mail
 
 const sql = postgres(Deno.env.get("SUPABASE_DB_URL")!, { prepare: false, max: 2 });
 const FN_URL = `${Deno.env.get("SUPABASE_URL")}/functions/v1/email-sender`;
+const OFF_PAGE = "https://subastian.us/email-off/";
+const CORS = { "Access-Control-Allow-Origin": "https://subastian.us" };
 
 type Settings = {
   sending_enabled: boolean; daily_cap: number; from_address: string; reply_to: string;
@@ -65,8 +68,10 @@ function render(mail: Mail, unsubUrl: string, postal: string) {
 async function send(s: Settings, to: string, mail: Mail, idempotencyKey: string, test = false) {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   if (!apiKey) throw new Error("RESEND_API_KEY is not set");
-  const unsubUrl = `${FN_URL}?u=${encodeURIComponent(to)}&t=${await token(to, s.unsub_secret)}`;
-  const { text, html } = render(mail, unsubUrl, s.postal_address);
+  const query = `?u=${encodeURIComponent(to)}&t=${await token(to, s.unsub_secret)}`;
+  const unsubUrl = `${FN_URL}${query}`; // one-click POST target for the List-Unsubscribe header
+  // The footer link opens a confirm page, so mail-app link scanners can't unsubscribe anyone.
+  const { text, html } = render(mail, `${OFF_PAGE}${query}`, s.postal_address);
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json", "Idempotency-Key": idempotencyKey },
@@ -120,11 +125,11 @@ async function unsubscribe(url: URL, s: Settings) {
   const u = (url.searchParams.get("u") || "").trim().toLowerCase();
   const t = url.searchParams.get("t") || "";
   if (!u || !safeEqual(t, await token(u, s.unsub_secret))) {
-    return new Response("That unsubscribe link isn't valid. Reply to any Subastian email and we'll remove you by hand.", { status: 400 });
+    return new Response("That unsubscribe link isn't valid. Reply to any Subastian email and we'll remove you by hand.", { status: 400, headers: CORS });
   }
   await sql`insert into mail.unsubscribes (email) values (${u}) on conflict do nothing`;
   await sql`update mail.outbox set status = 'skipped', last_error = 'unsubscribed' where lower(to_email) = ${u} and status = 'pending'`;
-  return new Response("You're unsubscribed. You won't get any more emails from Subastian.", { headers: { "content-type": "text/plain; charset=utf-8" } });
+  return new Response("You're unsubscribed. You won't get any more emails from Subastian.", { headers: { ...CORS, "content-type": "text/plain; charset=utf-8" } });
 }
 
 async function processQueue(s: Settings) {
@@ -204,7 +209,11 @@ Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
     const s = await settings();
-    if (url.searchParams.has("u")) return await unsubscribe(url, s);
+    if (url.searchParams.has("u")) {
+      // A GET can come from a mail app's link scanner, so it only shows the confirm page.
+      if (req.method === "GET") return Response.redirect(`${OFF_PAGE}${url.search}`, 302);
+      return await unsubscribe(url, s);
+    }
     if (req.method !== "POST") return new Response("Subastian", { status: 200 });
 
     if (!safeEqual(req.headers.get("x-cron-secret") || "", s.cron_secret)) return new Response("forbidden", { status: 403 });

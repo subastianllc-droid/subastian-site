@@ -44,6 +44,11 @@
 }
 
 @theme inline {
+  /* Bigger small print (Nov 2026): nothing in the app below 14px, same as subastian.us. */
+  --text-xs: 0.875rem;
+  --text-xs--line-height: 1.35;
+  --text-sm: 0.9375rem;
+  --text-sm--line-height: 1.45;
   --color-bg: var(--bg);
   --color-band: var(--bg-band);
   --color-surface: var(--surface);

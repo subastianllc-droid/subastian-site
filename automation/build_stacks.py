@@ -279,6 +279,8 @@ HEAD = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://us-assets.i.posthog.com https://lmsqueezy.com https://assets.lemonsqueezy.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://yhasuhzqykikacwezwyu.supabase.co https://us.i.posthog.com https://us-assets.i.posthog.com https://script.google.com https://script.googleusercontent.com https://lmsqueezy.com https://*.lemonsqueezy.com; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://script.google.com; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{desc}">

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://us-assets.i.posthog.com https://lmsqueezy.com https://assets.lemonsqueezy.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://yhasuhzqykikacwezwyu.supabase.co https://us.i.posthog.com https://us-assets.i.posthog.com https://script.google.com https://script.googleusercontent.com https://lmsqueezy.com https://*.lemonsqueezy.com; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://script.google.com; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Track Monthly Subscriptions for Your Business | Subastian</title>
+<meta name="description" content="Where business subscriptions hide, the seven things to record for each one, and a 10-minute monthly routine to track software subscriptions before they renew.">
+<link rel="canonical" href="https://subastian.us/guides/track-monthly-subscriptions/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Subastian, LLC">
+<meta name="theme-color" content="#6D28D9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0A14" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Subastian">
+<meta property="og:url" content="https://subastian.us/guides/track-monthly-subscriptions/">
+<meta property="og:title" content="How to Track Monthly Subscriptions for Your Business | Subastian">
+<meta property="og:description" content="Where business subscriptions hide, the seven things to record for each one, and a 10-minute monthly routine to track software subscriptions before they renew.">
+<meta property="og:image" content="https://subastian.us/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/emblem.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --bg:#F8F7FC; --bg-band:#F1EDFA; --surface:#FFFFFF; --ink:#15132A;
+    --ink-soft:#5C5678; --ink-faint:#7A7399; --line:#E2DCF2;
+    --accent:#6D28D9; --accent-strong:#54169E; --accent-tint:#ECE3FB; --accent-fill:#6D28D9;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+      --ink-soft:#B4ADCF; --ink-faint:#8F88AE; --line:#2B2745;
+      --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E; --accent-fill:#7C4DEB;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B0A14; --bg-band:#131024; --surface:#18142C; --ink:#F2EFFA;
+    --ink-soft:#B4ADCF; --ink-faint:#8F88AE; --line:#2B2745;
+    --accent:#B296F5; --accent-strong:#D2C0FA; --accent-tint:#241D3E; --accent-fill:#7C4DEB;
+  }
+  *{box-sizing:border-box;}
+  html{color-scheme:light dark;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif; line-height:1.7; -webkit-font-smoothing:antialiased;}
+  a{color:var(--accent);}
+  h1,h2,h3{font-family:'Plus Jakarta Sans','Inter',sans-serif; color:var(--ink); line-height:1.2; text-wrap:balance;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
+  .wrap{max-width:720px; margin:0 auto; padding:0 24px;}
+  header.topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; max-width:1040px; margin:0 auto; padding:22px 24px;}
+  .brand{font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:18px; text-decoration:none; color:var(--ink); display:flex; align-items:center; gap:8px;}
+  .brand img{width:24px; height:24px; object-fit:contain;}
+  .brand span span{color:var(--accent);}
+  .nav{display:flex; align-items:center; gap:18px;}
+  .nav a{font-size:15.5px; font-weight:600; text-decoration:none; color:var(--ink-soft); white-space:nowrap;}
+  .nav a:hover{color:var(--accent);}
+  .nav .nav-cta{background:var(--accent-fill); color:#fff; padding:9px 16px; border-radius:8px;}
+  .nav .nav-cta:hover{color:#fff;}
+  main{padding:8px 0 72px;}
+  .crumbs{font-size:15.5px; color:var(--ink-faint); margin:8px 0 18px;}
+  .crumbs a{color:var(--ink-soft); text-decoration:none;} .crumbs a:hover{color:var(--accent);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 10px;}
+  h1{font-size:clamp(28px,4.4vw,40px); font-weight:800; letter-spacing:-.02em; margin:0;}
+  .meta{color:var(--ink-faint); font-size:15.5px; margin:12px 0 0;}
+  .lede{font-size:18px; color:var(--ink-soft); margin:22px 0 0;}
+  .tldr{margin:26px 0 0; padding:18px 20px; border-left:3px solid var(--accent); background:var(--accent-tint); border-radius:0 10px 10px 0;}
+  .tldr b{display:block; font-size:14.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-strong); margin-bottom:6px;}
+  .tldr ul{margin:0; padding-left:20px; color:var(--ink-soft); font-size:16.5px;} .tldr li{margin:4px 0;}
+  article h2{font-size:24px; margin:40px 0 10px;}
+  article h3{font-size:18px; margin:26px 0 6px;}
+  article p{margin:0 0 16px; color:var(--ink-soft); font-size:16.5px;}
+  article ul, article ol{margin:0 0 18px; padding-left:22px; color:var(--ink-soft); font-size:16.5px;}
+  article li{margin:6px 0;}
+  article strong{color:var(--ink);}
+  .tablewrap{overflow-x:auto; margin:6px 0 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  table{width:100%; border-collapse:collapse; font-size:16.5px; min-width:480px;}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top;}
+  th{color:var(--ink); font-weight:600; font-size:15.5px; background:var(--bg-band);}
+  tr:last-child td{border-bottom:0;}
+  td.num, th.num{text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums;}
+  .caption{font-size:15.5px; color:var(--ink-faint); margin:-8px 0 18px;}
+  code{font-family:'IBM Plex Mono',monospace; font-size:.9em; background:var(--bg-band); padding:2px 6px; border-radius:5px; color:var(--ink);}
+  .callout{margin:22px 0; padding:16px 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  .callout p{margin:0; font-size:17px;}
+  .cta{margin:34px 0; padding:24px; border:1px solid var(--accent); border-radius:16px; background:var(--surface);}
+  .cta h2{font-size:21px; margin:0 0 8px;} .cta p{margin:0 0 14px; font-size:17px;}
+  .cta-kicker{font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 6px !important;}
+  .btn{display:inline-block; background:var(--accent-fill); color:#fff; text-decoration:none; font-weight:600; font-size:16.5px; border-radius:8px; padding:12px 18px;}
+  .btn:hover{filter:brightness(1.08);}
+  .btn.ghost{background:transparent; color:var(--accent); border:1px solid var(--accent);}
+  .btn.ghost:hover{background:var(--accent-tint); filter:none;}
+  .related{margin-top:44px; padding-top:22px; border-top:1px solid var(--line);}
+  .related h2{font-size:18px; margin:0 0 10px;}
+  .related ul{list-style:none; padding:0; margin:0;} .related li{margin:8px 0;} .related a{font-weight:600;}
+  .guide-list{list-style:none; padding:0; margin:26px 0 0; display:grid; gap:14px;}
+  .guide-list li{margin:0;}
+  .guide-card{display:block; text-decoration:none; padding:18px 20px; border:1px solid var(--line); border-radius:14px; background:var(--surface);}
+  .guide-card:hover{border-color:var(--accent);}
+  .guide-card h2{font-size:19px; margin:0 0 6px; color:var(--ink);} .guide-card p{margin:0; font-size:16.5px; color:var(--ink-soft);}
+  .guide-card .rt{display:block; margin-top:8px; font-size:15px; color:var(--ink-faint);}
+  footer{border-top:1px solid var(--line); margin-top:30px; padding:28px 0 40px;}
+  .foot-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px 24px; font-size:15.5px; color:var(--ink-faint);}
+  .foot-row a{color:var(--ink-soft); text-decoration:none; font-weight:600;} .foot-row a:hover{color:var(--accent);}
+  @media (max-width:560px){ .wrap{padding:0 16px;} header.topbar{padding:16px;} .nav{gap:12px;} .nav .hide-sm{display:none;} article h2{font-size:22px;} .lede{font-size:17px;} }
+</style>
+<script src="/ph.js" defer></script>
+<script src="/aff.js" defer></script>
+<script src="/roster.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "How to Track Monthly Subscriptions for Your Business",
+      "description": "Where business subscriptions hide, the seven things to record for each one, and a 10-minute monthly routine to track software subscriptions before they renew.",
+      "image": "https://subastian.us/hero.jpg",
+      "datePublished": "2026-11-03",
+      "dateModified": "2026-11-03",
+      "inLanguage": "en-US",
+      "mainEntityOfPage": "https://subastian.us/guides/track-monthly-subscriptions/",
+      "author": {
+        "@type": "Organization",
+        "name": "Subastian, LLC",
+        "url": "https://subastian.us/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Subastian, LLC",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://subastian.us/emblem.png"
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://subastian.us/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://subastian.us/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How to Track Monthly Subscriptions for Your Business",
+          "item": "https://subastian.us/guides/track-monthly-subscriptions/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script src="/kit-checkout.js" defer></script>
+</head>
+<body data-guide="track-monthly-subscriptions">
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Subastian home"><img src="/emblem.png" alt="" width="24" height="24"><span>SUBA<span>STIAN</span></span></a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/guides/" class="hide-sm">Guides</a>
+    <a href="/stack-audit/" class="hide-sm">Calculator</a>
+    <a href="/audit-kit/" class="hide-sm">Audit Kit</a>
+    <a href="/#waitlist" class="nav-cta">Join the Roster</a>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/guides/">Guides</a></nav>
+    <p class="eyebrow">Guide</p>
+    <h1>How to Track Monthly Subscriptions for Your Business</h1>
+    <p class="meta">By Subastian &middot; Updated November 3, 2026 &middot; 4 min read</p>
+    <p class="lede">You can only cancel what you know you pay for. Business subscriptions spread across cards, PayPal, app stores and yearly plans, so the list in your head is almost never complete. Here is how to track monthly subscriptions in one place and keep the list up to date in about ten minutes a month.</p>
+    <div class="tldr"><b>The short version</b><ul><li>Subscriptions hide on old cards, PayPal, app stores and yearly plans.</li><li>Record seven things for each: name, job, price, billing, next renewal, card, last used.</li><li>Spend 10 minutes a month adding new charges and checking the next 30 days of renewals.</li><li>Set reminders for yearly plans 30 days out, not on the day.</li></ul></div>
+    <article>
+<h2>Where business subscriptions hide</h2>
+<p>Most people can name the big tools they pay for. The ones that slip through are spread across places you don't check every month:</p>
+<ul>
+  <li><strong>Every card you've ever used for software,</strong> including old business cards and a personal card "just this once."</li>
+  <li><strong>PayPal's automatic payments,</strong> which never show the tool's name on your card statement.</li>
+  <li><strong>App Store and Google Play subscriptions</strong> on your phone.</li>
+  <li><strong>Annual plans,</strong> which charge once and then disappear from view for a year.</li>
+  <li><strong>Free trials</strong> that quietly turned into paid plans.</li>
+  <li><strong>Tools a teammate or contractor signed up for</strong> on your card.</li>
+</ul>
+
+<h2>What to record for each subscription</h2>
+<p>Seven fields are enough to answer every question that matters later:</p>
+<div class="tablewrap"><table>
+  <thead><tr><th>Field</th><th>Why it matters</th></tr></thead>
+  <tbody>
+    <tr><td>Tool name</td><td>So you can find it on a statement</td></tr>
+    <tr><td>What it's for</td><td>One line on the job it does, which is how you spot two tools doing the same job</td></tr>
+    <tr><td>Price and billing</td><td>Monthly or yearly. Divide yearly prices by 12 so totals compare fairly</td></tr>
+    <tr><td>Next renewal date</td><td>The day you'd be charged next. The most important field</td></tr>
+    <tr><td>Card or account it bills to</td><td>So you know where to cancel or update it</td></tr>
+    <tr><td>Last time you used it</td><td>Anything untouched for 30 days is a cancel candidate</td></tr>
+    <tr><td>Client or project</td><td>For agencies: so a finished client's tools don't keep billing</td></tr>
+  </tbody>
+</table></div>
+
+<h2>Three ways to track them</h2>
+<h3>1. A spreadsheet</h3>
+<p>Free and flexible. It works as long as you keep it updated, and that's the weak spot: a spreadsheet doesn't remind you of anything. If you go this way, put each renewal date in your calendar too.</p>
+<h3>2. A monthly statement review</h3>
+<p>Once a month, scan your card statements and PayPal for anything that repeats. It catches what the spreadsheet missed, but only after you've already paid for it once.</p>
+<h3>3. A subscription tracker</h3>
+<p>A tool built for the job keeps the list, warns you before renewals and free-trial end dates, and flags tools you've stopped using. Most of the big ones are built for companies with a finance team and an accounting system; see our comparison of <a href="/guides/subscription-management-tools/">subscription management tools for small businesses</a>.</p>
+
+<aside class="cta" aria-label="Subscription Audit Kit">
+  <p class="cta-kicker">Start today</p>
+  <h2>A ready-made tracking spreadsheet</h2>
+  <p>The Subscription Audit Kit is a spreadsheet and one-page guide. List what you pay for once and it totals your monthly and yearly cost and flags overlapping tools, subscriptions idle for 14+ days and renewals in the next 30 days. $9 one time, instant download, 30-day refund.</p>
+  <a class="btn" href="https://subastian.gumroad.com/l/subscription-audit-kit?wanted=true" data-cta="kit" data-kit-buy="guide-track-monthly-subscriptions">Get the Audit Kit &mdash; $9</a>
+</aside>
+
+<h2>A 10-minute monthly routine</h2>
+<ol>
+  <li><strong>Add anything new.</strong> Scan last month's card and PayPal charges for subscriptions that aren't on your list yet.</li>
+  <li><strong>Check the next 30 days of renewals.</strong> For each one, ask: did I use this in the last month?</li>
+  <li><strong>Check free trials.</strong> Cancel any you won't keep at least two days before they end.</li>
+  <li><strong>Update "last used."</strong> Anything idle for 30 days goes on a cancel-or-pause shortlist.</li>
+  <li><strong>Look for overlap.</strong> Two tools doing the same job? Keep the one you open most. Our <a href="/guides/duplicate-subscriptions/">duplicate subscriptions checklist</a> helps.</li>
+</ol>
+
+<h2>Don't forget the yearly plans</h2>
+<p>Annual subscriptions are where the biggest surprise charges come from, because you see them once a year. Set reminders well before they renew, not on the day. We use a <a href="/guides/renewal-reminders/">30-7-3-1 reminder schedule</a>: 30 days out to decide, 7 to cancel if needed, then 3 and 1 as a last check.</p>
+
+<aside class="cta" aria-label="Join the founding roster">
+  <p class="cta-kicker">Founding roster</p>
+  <h2>Want this done for you?</h2>
+  <p>Subastian is subscription management software in development for solo operators and small agencies. In the private early build you can upload a card or bank statement (CSV) and it finds your repeating charges for you, and it emails you 30, 7, 3 and 1 days before each renewal or free-trial end. Join the free founding roster for early access and the launch rate.</p>
+  <a class="btn ghost" href="/#waitlist" data-cta="roster">Join the founding roster &mdash; free</a>
+</aside>
+</article>
+    <section class="related" aria-label="Keep reading">
+      <h2>Keep reading</h2>
+      <ul><li><a href="/guides/subscription-audit/">How to Audit Your Subscriptions in 15 Minutes</a></li><li><a href="/guides/renewal-reminders/">Never Miss a Subscription Renewal: The 30-7-3-1 Reminder Schedule</a></li><li><a href="/guides/subscription-management-tools/">Subscription Management Tools for Small Businesses</a></li><li><a href="/stack-audit/">Free subscription waste calculator</a></li></ul>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div>Subastian, LLC &middot; Denver, CO</div>
+      <div><a href="/guides/">Guides</a> &middot; <a href="/audit-kit/">Audit Kit</a> &middot; <a href="/partners/">Partners</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/refund-policy/">Refunds</a></div>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  var guide = document.body.getAttribute('data-guide') || 'hub';
+  document.querySelectorAll('a[data-cta]').forEach(function(a){
+    a.addEventListener('click', function(){
+      if (window.subTrack) subTrack('guide_cta_click', { guide: guide, cta: a.getAttribute('data-cta') });
+    });
+  });
+})();
+</script>
+</body>
+</html>

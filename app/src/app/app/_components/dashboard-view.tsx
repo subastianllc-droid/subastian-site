@@ -19,7 +19,6 @@ import {
   decideTrial,
   deleteStack,
   deleteSubscription,
-  loadSampleStack,
   markRenewed,
   markUsedToday,
   removeSampleStack,
@@ -29,6 +28,8 @@ import { ConfirmButton } from "./confirm-button";
 import { StackForm } from "./stack-form";
 import { SubscriptionEditor } from "./subscription-editor";
 import { TzSync } from "./tz-sync";
+import { FEEDBACK_HREF, GettingStarted } from "./getting-started";
+import { setupState } from "@/lib/getting-started";
 
 const PLAN_LABEL: Record<string, string> = { starter: "Starter", pro: "Pro", maestro: "Agency Maestro" };
 
@@ -62,6 +63,7 @@ export function DashboardView({
   const others = sortForList(subs.filter((s) => s.status !== "trial"));
   const stackName = new Map(stacks.map((s) => [s.id, s.name]));
   const sampleStack = stacks.find((s) => s.name === SAMPLE_STACK_NAME);
+  const setup = setupState(subs, sampleStack?.id ?? null, alertsEnabled);
 
   return (
     <div className="flex flex-1 flex-col">
@@ -72,8 +74,12 @@ export function DashboardView({
           <div className="flex items-center gap-2.5">
             <Image src="/emblem.png" alt="" width={32} height={32} priority />
             <span className="font-display text-lg font-extrabold tracking-tight">Subastian</span>
+            <span className="rounded-full border border-accent/40 px-2 py-0.5 text-xs font-semibold text-accent">Beta</span>
           </div>
           <div className="flex items-center gap-3 text-sm">
+            <a href={FEEDBACK_HREF} className="rounded-lg px-2 py-1.5 font-medium text-accent hover:underline">
+              Feedback
+            </a>
             <span className="hidden text-ink-soft sm:inline" title={email}>{email}</span>
             {planTier && (
               <span className="rounded-full bg-accent-tint px-2.5 py-0.5 text-xs font-semibold text-accent-strong">
@@ -137,33 +143,8 @@ export function DashboardView({
           </div>
         )}
 
-        {subs.length === 0 && !loadError && (
-          <section aria-labelledby="start-h" className="mb-6 rounded-2xl border border-line bg-surface p-6 sm:p-8">
-            <h2 id="start-h" className="font-display text-xl font-bold">Start with your own tools, or explore a sample</h2>
-            <p className="mt-2 max-w-2xl text-sm text-ink-soft">
-              Upload a card or bank statement (CSV) and Subastian finds your subscriptions for you, or add them one by one. Want to see how Subastian works first? Load a sample
-              stack for a small agency, with trials, overlapping tools and a couple of tools nobody&apos;s opened in weeks.
-              It&apos;s labeled as a sample and removes in one click.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <a href="/app/import" className="rounded-lg bg-accent-fill px-4 py-2.5 font-semibold text-white hover:opacity-90">
-                Import from a statement
-              </a>
-              <SubscriptionEditor
-                stacks={stacks}
-                today={today}
-                existing={subs}
-                trigger="Add one by hand"
-                triggerClassName="rounded-lg border border-line px-4 py-2.5 font-medium hover:border-accent hover:text-accent"
-              />
-              <form action={loadSampleStack}>
-                <input type="hidden" name="today" value={today} />
-                <button className="rounded-lg border border-line px-4 py-2.5 font-medium hover:border-accent hover:text-accent">
-                  Load sample agency stack
-                </button>
-              </form>
-            </div>
-          </section>
+        {!setup.allDone && !loadError && (
+          <GettingStarted state={setup} subs={subs} stacks={stacks} today={today} email={email} />
         )}
 
         {loadError && (

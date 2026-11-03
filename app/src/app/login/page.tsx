@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import Image from "next/image";
 import { safeNext } from "@/lib/safe-next";
-import { LoginForm } from "./login-form";
+import { LoginForm, type Mode } from "./login-form";
+
+const MODES: Mode[] = ["signin", "signup", "link"];
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const metadata: Metadata = { title: "Sign in" };
 
@@ -34,6 +37,9 @@ async function LoginPanel({ searchParams }: { searchParams: PageProps<"/login">[
   const params = await searchParams;
   const next = safeNext(typeof params.next === "string" ? params.next : null);
   const linkError = params.error === "link";
+  // Invite links: /login?mode=link&email=you@example.com opens the email-link form, pre-filled.
+  const mode = MODES.find((m) => m === params.mode) ?? "signin";
+  const email = typeof params.email === "string" && EMAIL_RE.test(params.email.trim()) ? params.email.trim().slice(0, 254) : "";
 
   return (
     <>
@@ -43,7 +49,7 @@ async function LoginPanel({ searchParams }: { searchParams: PageProps<"/login">[
         </p>
       )}
       <div className="rounded-2xl border border-line bg-surface p-6 shadow-sm">
-        <LoginForm next={next} />
+        <LoginForm next={next} initialMode={mode} initialEmail={email} />
       </div>
     </>
   );

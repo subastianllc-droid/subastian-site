@@ -4,6 +4,9 @@ import { useActionState, useRef, useState, useTransition } from "react";
 import type { Stack, Subscription } from "@/lib/database.types";
 import { CATEGORIES, STATUSES, STATUS_LABEL } from "@/lib/subscriptions";
 import { checkEdit, checkPurchase, needsConfirmation, type GuardTool } from "@/lib/purchase-guard";
+import { CATALOG, findCatalogTool, priceHint } from "@/lib/tool-catalog";
+import { NICHE_DATA } from "@/lib/niche-stacks-data";
+import { addDays, isIsoDate } from "@/lib/subscriptions";
 import {
   createSubscription,
   recordGuardSkip,
@@ -44,12 +47,45 @@ export function SubscriptionEditor({
 }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const costRef = useRef<HTMLInputElement>(null);
+  const trialEndRef = useRef<HTMLInputElement>(null);
   const initialTrial = sub ? sub.status === "trial" : Boolean(startAsTrial || preset?.trial_ends_at);
   const [isTrial, setIsTrial] = useState(initialTrial);
   const [toolName, setToolName] = useState(sub?.tool_name ?? preset?.tool_name ?? "");
   const [category, setCategory] = useState(sub?.category ?? preset?.category ?? "");
   const [status, setStatus] = useState(sub && sub.status !== "trial" ? sub.status : "active");
+  const [billing, setBilling] = useState(sub?.billing_cycle === "yearly" ? "yearly" : "monthly");
   const effectiveStatus = isTrial ? "trial" : status;
+
+  // Switching monthly/yearly converts the price already typed, so $15/mo doesn't become $15/yr.
+  function changeBilling(next: string) {
+    const input = costRef.current;
+    const n = input ? Number(input.value.replace(/[$,\s]/g, "")) : NaN;
+    if (input && input.value.trim() !== "" && Number.isFinite(n) && next !== billing) {
+      const v = next === "yearly" ? n * 12 : n / 12;
+      input.value = String(Math.round(v * 100) / 100);
+    }
+    setBilling(next);
+  }
+
+  // Fill-in as you type (adding only): category from the tool list, and a checked price when we have one.
+  const hint = !sub ? priceHint(toolName, NICHE_DATA) : null;
+  function onToolName(value: string) {
+    setToolName(value);
+    if (sub) return;
+    const known = findCatalogTool(value);
+    if (known && !category) setCategory(known.category);
+    const h = priceHint(value, NICHE_DATA);
+    if (!h) return;
+    if (!known && !category) {
+      const cat = NICHE_DATA.stacks.flatMap((st) => st.tools).find((t) => t.name === h.plan)?.category;
+      if (cat) setCategory(cat);
+    }
+    if (costRef.current && costRef.current.value.trim() === "") costRef.current.value = String(h.monthly_cost);
+    if (h.trial_days && isTrial && trialEndRef.current && !isIsoDate(trialEndRef.current.value)) {
+      trialEndRef.current.value = addDays(today, h.trial_days);
+    }
+  }
 
   // Purchase Guard. Adding: every match. Editing: only a rename into another tool, or reopening a
   // cancelled tool you already have open (checkEdit skips the row itself).
@@ -64,6 +100,7 @@ export function SubscriptionEditor({
     setToolName(sub?.tool_name ?? preset?.tool_name ?? "");
     setCategory(sub?.category ?? preset?.category ?? "");
     setStatus(sub && sub.status !== "trial" ? sub.status : "active");
+    setBilling(sub?.billing_cycle === "yearly" ? "yearly" : "monthly");
   }
 
   const [state, action, pending] = useActionState<FormState, FormData>(async (prev, formData) => {
@@ -144,11 +181,25 @@ export function SubscriptionEditor({
               required
               maxLength={80}
               value={toolName}
-              onChange={(e) => setToolName(e.target.value)}
+              onChange={(e) => onToolName(e.target.value)}
+              list={sub ? undefined : "tool-catalog"}
               placeholder="e.g. ClickFunnels"
               autoComplete="off"
               className={field}
             />
+            {!sub && (
+              <datalist id="tool-catalog">
+                {CATALOG.map((t) => (
+                  <option key={t.name} value={t.name} />
+                ))}
+              </datalist>
+            )}
+            {hint && (
+              <span className="mt-1 block text-xs text-ink-faint">
+                {hint.plan}: <a href={hint.src} target="_blank" rel="noopener noreferrer nofollow" className="underline underline-offset-2 hover:text-accent">{hint.price_text}</a>
+                {hint.trial_days ? `, ${hint.trial_days}-day free trial` : ""} (checked {hint.checked_long}). Change it if your plan differs.
+              </span>
+            )}
           </label>
 
           <label className="flex items-center gap-3 rounded-lg bg-band px-3 py-2.5">
@@ -175,21 +226,30 @@ export function SubscriptionEditor({
 
             <label className="block">
               <span className="mb-1 block text-sm font-medium">
-                {isTrial ? "Price after trial (/mo)" : "Monthly cost"}
+                {isTrial ? "Price after trial (/mo)" : billing === "yearly" ? "Yearly price" : "Monthly cost"}
               </span>
               <div className="relative">
                 <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-faint">$</span>
                 <input
+                  ref={costRef}
                   name="monthly_cost"
                   inputMode="decimal"
                   required
-                  defaultValue={sub ? String(sub.monthly_cost) : preset ? String(preset.monthly_cost) : ""}
+                  defaultValue={
+                    sub
+                      ? String(sub.billing_cycle === "yearly" && sub.status !== "trial" ? Math.round(sub.monthly_cost * 12 * 100) / 100 : sub.monthly_cost)
+                      : preset
+                        ? String(preset.monthly_cost)
+                        : ""
+                  }
                   placeholder="0.00"
                   pattern="[0-9]*[.,]?[0-9]{0,2}"
                   className={`${field} pl-7 num`}
                 />
               </div>
-              <span className="mt-1 block text-xs text-ink-faint">Yearly plan? Divide by 12.</span>
+              <span className="mt-1 block text-xs text-ink-faint">
+                {isTrial ? "What it costs per month once the trial ends." : billing === "yearly" ? "We count 1/12 of it each month." : "Billed yearly? Pick Yearly below."}
+              </span>
             </label>
           </div>
 
@@ -197,6 +257,7 @@ export function SubscriptionEditor({
             <label className="block">
               <span className="mb-1 block text-sm font-medium">Trial ends</span>
               <input
+                ref={trialEndRef}
                 type="date"
                 name="trial_ends_at"
                 required
@@ -216,6 +277,13 @@ export function SubscriptionEditor({
                 </select>
               </label>
               <label className="block">
+                <span className="mb-1 block text-sm font-medium">Billed</span>
+                <select name="billing_cycle" value={billing} onChange={(e) => changeBilling(e.target.value)} className={field}>
+                  <option value="monthly">Monthly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
+              </label>
+              <label className="block sm:col-span-2">
                 <span className="mb-1 block text-sm font-medium">Next renewal</span>
                 <input type="date" name="renewal_date" defaultValue={sub?.renewal_date ?? ""} className={field} />
               </label>

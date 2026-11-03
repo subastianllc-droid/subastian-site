@@ -18,12 +18,12 @@ test("single trial: subject and line say when it ends and what it costs after", 
   assert.ok(!m.lines.some((l) => l.startsWith("Renewing:")));
 });
 
-test("single renewal today asks them to mark it renewed", () => {
+test("single renewal today says the date moves on its own", () => {
   const m = buildAlertEmail({ items: [renewal(0)] });
   assert.equal(m.subject, "Ahrefs renews today");
   assert.equal(m.lines[0], "Hi there,");
   assert.ok(m.lines.includes("- Ahrefs: renews today (Nov 4). $129/mo."));
-  assert.ok(m.lines.some((l) => l.includes('"Mark renewed"')));
+  assert.ok(m.lines.some((l) => l.includes("moves it to the next billing date on its own")));
 });
 
 test("several items: soonest first in subject and list", () => {

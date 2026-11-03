@@ -93,7 +93,13 @@ export function DashboardView({
             <h1 className="font-display text-2xl font-extrabold tracking-tight sm:text-3xl">Your subscriptions</h1>
             <p className="mt-1 text-sm text-ink-soft">Every tool you pay for or are trying, in one place.</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              href="/app/import"
+              className="rounded-lg border border-line bg-surface px-4 py-2.5 font-medium text-ink-soft hover:border-accent hover:text-accent"
+            >
+              Import statement
+            </a>
             {subs.length > 0 && (
               <a
                 href="/app/export"
@@ -135,17 +141,20 @@ export function DashboardView({
           <section aria-labelledby="start-h" className="mb-6 rounded-2xl border border-line bg-surface p-6 sm:p-8">
             <h2 id="start-h" className="font-display text-xl font-bold">Start with your own tools, or explore a sample</h2>
             <p className="mt-2 max-w-2xl text-sm text-ink-soft">
-              Add the subscriptions you pay for to see your real spend. Want to see how Subastian works first? Load a sample
+              Upload a card or bank statement (CSV) and Subastian finds your subscriptions for you, or add them one by one. Want to see how Subastian works first? Load a sample
               stack for a small agency, with trials, overlapping tools and a couple of tools nobody&apos;s opened in weeks.
               It&apos;s labeled as a sample and removes in one click.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
+              <a href="/app/import" className="rounded-lg bg-accent-fill px-4 py-2.5 font-semibold text-white hover:opacity-90">
+                Import from a statement
+              </a>
               <SubscriptionEditor
                 stacks={stacks}
                 today={today}
                 existing={subs}
-                trigger="Add my first subscription"
-                triggerClassName="rounded-lg bg-accent-fill px-4 py-2.5 font-semibold text-white hover:opacity-90"
+                trigger="Add one by hand"
+                triggerClassName="rounded-lg border border-line px-4 py-2.5 font-medium hover:border-accent hover:text-accent"
               />
               <form action={loadSampleStack}>
                 <input type="hidden" name="today" value={today} />
@@ -455,6 +464,7 @@ function SubscriptionRow({
               ? ` · renewal date ${formatDate(sub.renewal_date)} has passed`
               : ` · renews ${formatDate(sub.renewal_date)}${renewIn <= 14 ? ` (${relativeDays(renewIn)})` : ""}`
             : ""}
+          {sub.billing_cycle === "yearly" && status !== "trial" ? " · billed yearly" : ""}
         </p>
       </div>
 
@@ -468,7 +478,7 @@ function SubscriptionRow({
           <form action={markRenewed}>
             <input type="hidden" name="id" value={sub.id} />
             <ConfirmButton
-              message={`Move ${sub.tool_name}'s renewal date forward one month? This only updates your tracker. It doesn't check or change anything with the vendor.`}
+              message={`Move ${sub.tool_name}'s renewal date forward one ${sub.billing_cycle === "yearly" ? "year" : "month"} now? Subastian also does this on its own the day after it renews. This only updates your tracker; it doesn't check or change anything with the vendor.`}
               confirmLabel="Mark renewed"
               tone="accent"
               className="rounded-lg px-2.5 py-1.5 text-sm font-medium text-accent hover:underline"

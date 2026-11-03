@@ -65,6 +65,7 @@ export type Database = {
           last_used_at: string | null;
           monthly_cost: number;
           renewal_date: string | null;
+          billing_cycle: string;
           stack_id: string | null;
           status: string;
           stopped_at: string | null;
@@ -79,6 +80,7 @@ export type Database = {
           last_used_at?: string | null;
           monthly_cost: number;
           renewal_date?: string | null;
+          billing_cycle?: string;
           stack_id?: string | null;
           status?: string;
           tool_name: string;
@@ -91,6 +93,7 @@ export type Database = {
           last_used_at?: string | null;
           monthly_cost?: number;
           renewal_date?: string | null;
+          billing_cycle?: string;
           stack_id?: string | null;
           status?: string;
           tool_name?: string;

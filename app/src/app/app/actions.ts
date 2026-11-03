@@ -6,6 +6,7 @@ import type { Database } from "@/lib/database.types";
 import { CATEGORIES, STATUSES, addMonths, isIsoDate, type Status } from "@/lib/subscriptions";
 import { SAMPLE_STACK_NAME, sampleRows } from "@/lib/sample-stack";
 import { getNicheStack } from "@/lib/niche-stacks-data";
+import { alreadyTracked } from "@/lib/statement";
 import { checkEdit, checkPurchase, needsConfirmation, strongestMatch, type GuardResult } from "@/lib/purchase-guard";
 
 /** `guard` is set when Purchase Guard found a match the user hasn't confirmed yet. */
@@ -66,6 +67,10 @@ async function parseSubscription(
   }
   if (isTrial && !trialEnds) return { error: "Enter the day the free trial ends." };
 
+  // Yearly plans: the form asks for the yearly price; we store the monthly share.
+  const billing = formData.get("billing_cycle") === "yearly" && !isTrial ? "yearly" : "monthly";
+  const monthly = billing === "yearly" ? cost / 12 : cost;
+
   let stackId: string | null = String(formData.get("stack_id") ?? "") || null;
   if (stackId) {
     // RLS only returns the user's own stacks, so this also blocks foreign stack ids.
@@ -78,7 +83,8 @@ async function parseSubscription(
       tool_name: toolName,
       category,
       status,
-      monthly_cost: Math.round(cost * 100) / 100,
+      monthly_cost: Math.round(monthly * 100) / 100,
+      billing_cycle: billing,
       trial_ends_at: isTrial ? trialEnds : null,
       trial_outcome: null,
       renewal_date: isTrial ? null : renewal,
@@ -139,6 +145,7 @@ export async function updateSubscription(_prev: FormState, formData: FormData): 
     monthly_cost: row.monthly_cost,
     trial_ends_at: row.trial_ends_at,
     renewal_date: row.renewal_date,
+    billing_cycle: row.billing_cycle,
     last_used_at: row.last_used_at,
     stack_id: row.stack_id,
     ...(row.status === "trial" ? { trial_outcome: null } : {}),
@@ -284,14 +291,15 @@ export async function removeSampleStack() {
   revalidatePath("/app", "layout");
 }
 
-/** Moves the renewal date forward one month. Records the user's word only; it doesn't check any charge. */
+/** Moves the renewal date forward one billing cycle now (the hourly job also does this the day after). Records the user's word only. */
 export async function markRenewed(formData: FormData) {
   const { supabase } = await requireUser();
   const id = String(formData.get("id") ?? "");
   if (!id) return;
-  const { data: sub } = await supabase.from("subscriptions").select("renewal_date, status").eq("id", id).maybeSingle();
+  const { data: sub } = await supabase.from("subscriptions").select("renewal_date, status, billing_cycle").eq("id", id).maybeSingle();
   if (!sub?.renewal_date || sub.status !== "active") return;
-  await supabase.from("subscriptions").update({ renewal_date: addMonths(sub.renewal_date, 1) }).eq("id", id);
+  const months = sub.billing_cycle === "yearly" ? 12 : 1;
+  await supabase.from("subscriptions").update({ renewal_date: addMonths(sub.renewal_date, months) }).eq("id", id);
   revalidatePath("/app", "layout");
 }
 
@@ -323,4 +331,59 @@ export async function setNiche(formData: FormData) {
   if (slug !== "" && !niche) return;
   await supabase.from("profiles").update({ niche }).eq("id", user.id);
   revalidatePath("/app", "layout");
+}
+
+export type ImportState = { error?: string; added?: number; skipped?: number };
+
+/**
+ * Saves the subscriptions the user ticked on /app/import. Only these rows ever reach the server;
+ * the statement file itself stays in the browser. Each row is re-checked, and tools already in the
+ * list (same name, ignoring plan words) are skipped instead of added twice.
+ */
+export async function importSubscriptions(_prev: ImportState, formData: FormData): Promise<ImportState> {
+  const { supabase, user } = await requireUser();
+  let rows: unknown;
+  try {
+    rows = JSON.parse(String(formData.get("rows") ?? "[]"));
+  } catch {
+    return { error: "Something went wrong reading your selection. Try again." };
+  }
+  if (!Array.isArray(rows) || rows.length === 0) return { error: "Tick at least one subscription to add." };
+  if (rows.length > 100) return { error: "Add up to 100 at a time." };
+
+  const { data: existing } = await supabase.from("subscriptions").select("tool_name, status");
+  const tracked = [...(existing ?? [])];
+  const inserts: SubInsert[] = [];
+  let skipped = 0;
+  for (const r of rows as Record<string, unknown>[]) {
+    const name = String(r?.name ?? "").trim();
+    const category = String(r?.category ?? "");
+    const cycle = r?.billing_cycle === "yearly" ? "yearly" : "monthly";
+    const amount = Number(r?.amount);
+    const next = String(r?.next_renewal ?? "");
+    if (!name || name.length > 80) return { error: "Each subscription needs a name under 80 characters." };
+    if (!(CATEGORIES as readonly string[]).includes(category)) return { error: `Pick a category for ${name}.` };
+    if (!Number.isFinite(amount) || amount < 0 || amount > 100_000) return { error: `Check the price for ${name}.` };
+    if (!isIsoDate(next)) return { error: `Check the next renewal date for ${name}.` };
+    if (alreadyTracked(name, tracked)) {
+      skipped++;
+      continue;
+    }
+    tracked.push({ tool_name: name, status: "active" });
+    inserts.push({
+      user_id: user.id,
+      tool_name: name,
+      category,
+      status: "active",
+      billing_cycle: cycle,
+      monthly_cost: Math.round((cycle === "yearly" ? amount / 12 : amount) * 100) / 100,
+      renewal_date: next,
+    });
+  }
+  if (inserts.length) {
+    const { error } = await supabase.from("subscriptions").insert(inserts);
+    if (error) return { error: "Couldn't save them. Try again." };
+  }
+  revalidatePath("/app", "layout");
+  return { added: inserts.length, skipped };
 }

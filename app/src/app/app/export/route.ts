@@ -6,6 +6,7 @@ const COLUMNS = [
   ["category", "Category"],
   ["status", "Status"],
   ["monthly_cost", "Monthly cost (USD)"],
+  ["billing_cycle", "Billed"],
   ["renewal_date", "Next renewal"],
   ["trial_ends_at", "Trial ends"],
   ["trial_outcome", "Trial outcome"],

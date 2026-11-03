@@ -100,7 +100,7 @@ export function buildAlertEmail(input: { fullName?: string | null; items: AlertI
     );
   }
   if (renewsToday) {
-    lines.push('Once it has renewed, click "Mark renewed" in Subastian so your next reminder lands on the right date.', "");
+    lines.push("The day after it renews, Subastian moves it to the next billing date on its own, so your next reminders line up.", "");
   }
   if (appUrl) lines.push(`Open Subastian: ${appUrl}`, "");
   lines.push(

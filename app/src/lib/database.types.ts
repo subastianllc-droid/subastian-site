@@ -45,9 +45,10 @@ export type Database = {
           updated_at: string;
           time_zone: string;
           alerts_enabled: boolean;
+          niche: string | null;
         };
         Insert: never;
-        Update: { full_name?: string | null; time_zone?: string; alerts_enabled?: boolean };
+        Update: { full_name?: string | null; time_zone?: string; alerts_enabled?: boolean; niche?: string | null };
         Relationships: [];
       };
       stacks: {

@@ -144,6 +144,75 @@ STACKS = [
     },
 ]
 
+# ---- For the Subastian app (Niche Stacks, app/src/lib/niche-stacks.data.json) ----------------
+# cat   = app category (must be one of CATEGORIES in app/src/lib/subscriptions.ts)
+# price = monthly cost to prefill when someone adds the tool (same plan and numbers as above;
+#         yearly prices divided by 12, per-client/per-seat prices at the counts on the page)
+# trial = days of free trial on that plan, only where the vendor's page says so (else 0)
+# group = tools that do the same job; the app suggests trying them one at a time
+APP = {
+    "affiliate-marketing": {
+        "Ahrefs Lite": {"cat": "SEO", "price": 129, "trial": 0, "group": "research"},
+        "Semrush Pro": {"cat": "SEO", "price": 139.95, "trial": 7, "group": "research"},
+        "Kit (formerly ConvertKit)": {"cat": "Email marketing", "price": 0, "trial": 0},
+        "Pretty Links Beginner": {"cat": "Other", "price": 8.30, "trial": 0},
+        "Canva": {"cat": "Design", "price": 0, "trial": 0},
+        "ChatGPT Plus": {"cat": "AI tools", "price": 20, "trial": 0},
+    },
+    "seo-agency": {
+        "Semrush Guru": {"cat": "SEO", "price": 249.95, "trial": 7, "group": "research"},
+        "Ahrefs Standard": {"cat": "SEO", "price": 249, "trial": 0, "group": "research"},
+        "Screaming Frog SEO Spider": {"cat": "SEO", "price": 23.25, "trial": 0},
+        "AgencyAnalytics Core": {"cat": "Analytics", "price": 200, "trial": 14},
+        "Surfer Standard": {"cat": "SEO", "price": 99, "trial": 0},
+        "Canva Business": {"cat": "Design", "price": 41.67, "trial": 0},
+    },
+    "youtube-automation": {
+        "TubeBuddy Pro": {"cat": "SEO", "price": 12, "trial": 0, "group": "channel"},
+        "vidIQ Boost": {"cat": "SEO", "price": 19, "trial": 0, "group": "channel"},
+        "ElevenLabs Creator": {"cat": "AI tools", "price": 22, "trial": 0},
+        "Descript Creator": {"cat": "Video", "price": 35, "trial": 0},
+        "Canva Pro": {"cat": "Design", "price": 12, "trial": 0},
+        "ChatGPT Plus": {"cat": "AI tools", "price": 20, "trial": 0},
+    },
+    "podcast-production": {
+        "Riverside Pro": {"cat": "Video", "price": 29, "trial": 14, "group": "record-edit"},
+        "Descript Creator": {"cat": "Video", "price": 35, "trial": 0, "group": "record-edit"},
+        "Buzzsprout Audio": {"cat": "Hosting & domains", "price": 15, "trial": 0},
+        "Auphonic": {"cat": "Other", "price": 0, "trial": 0},
+        "Canva": {"cat": "Design", "price": 0, "trial": 0},
+    },
+    "social-media-agency": {
+        "Metricool Starter": {"cat": "Social scheduling", "price": 20, "trial": 0, "group": "scheduling"},
+        "Later Growth": {"cat": "Social scheduling", "price": 37.50, "trial": 14, "group": "scheduling"},
+        "Buffer Team": {"cat": "Social scheduling", "price": 180, "trial": 14, "group": "scheduling"},
+        "Canva Business": {"cat": "Design", "price": 41.67, "trial": 0},
+        "Descript Creator": {"cat": "Video", "price": 35, "trial": 0},
+        "ChatGPT Plus": {"cat": "AI tools", "price": 20, "trial": 0},
+    },
+}
+
+
+def app_data():
+    """The same five stacks, shaped for the app. Fails loudly if APP and STACKS drift apart."""
+    out = []
+    for st in STACKS:
+        extra = APP[st["slug"]]
+        assert set(extra) == {t["name"] for t in st["tools"]}, st["slug"]
+        out.append({
+            "slug": st["slug"], "niche": st["niche"], "who": st["who"], "intro": st["intro"],
+            "lean_note": st["lean_note"],
+            "cuts": [{"title": a, "body": b} for a, b in st["cuts"]],
+            "tools": [{
+                "name": t["name"], "job": t["job"], "price_text": t["price"], "free_text": t["free"],
+                "src": SRC[t["src"]], "in_lean": t["monthly"] is not None, "lean_monthly": t["monthly"] or 0,
+                "unit": t.get("unit"), "category": extra[t["name"]]["cat"], "monthly_cost": extra[t["name"]]["price"],
+                "trial_days": extra[t["name"]]["trial"], "group": extra[t["name"]].get("group"),
+            } for t in st["tools"]],
+        })
+    return {"checked": CHECKED, "checked_long": CHECKED_LONG, "stacks": out}
+
+
 CSS = """
   :root{--bg:#F8F7FC;--bg-band:#F1EDFA;--surface:#FFFFFF;--ink:#15132A;--ink-soft:#5C5678;--ink-faint:#7A7399;--line:#E2DCF2;--accent:#6D28D9;--accent-strong:#54169E;--accent-tint:#ECE3FB;--accent-fill:#6D28D9;--money:#0E9D6E;--warn-bg:#FFF4DE;--warn-ink:#8A5300;}
   @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0B0A14;--bg-band:#131024;--surface:#18142C;--ink:#F2EFFA;--ink-soft:#B4ADCF;--ink-faint:#8F88AE;--line:#2B2745;--accent:#B296F5;--accent-strong:#D2C0FA;--accent-tint:#241D3E;--accent-fill:#7C4DEB;--money:#3FDDA0;--warn-bg:#33240A;--warn-ink:#F5C46B;}}
@@ -414,3 +483,7 @@ if __name__ == "__main__":
     with open(os.path.join(ROOT, "stacks", "index.html"), "w") as f:
         f.write(index(leans))
     print("stacks/index.html")
+    with open(os.path.join(ROOT, "app", "src", "lib", "niche-stacks.data.json"), "w") as f:
+        json.dump(app_data(), f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    print("app/src/lib/niche-stacks.data.json")

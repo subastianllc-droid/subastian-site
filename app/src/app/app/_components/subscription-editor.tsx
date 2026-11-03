@@ -24,6 +24,8 @@ type Props = {
   existing?: GuardTool[];
   /** Pre-select "free trial" when opening from the trials section. */
   startAsTrial?: boolean;
+  /** Prefill a new subscription (Niche Stacks). A trial_ends_at makes it a free trial. */
+  preset?: { tool_name: string; category: string; monthly_cost: number; trial_ends_at?: string | null };
   trigger: React.ReactNode;
   triggerClassName?: string;
   triggerLabel?: string;
@@ -35,15 +37,17 @@ export function SubscriptionEditor({
   sub,
   existing = [],
   startAsTrial,
+  preset,
   trigger,
   triggerClassName,
   triggerLabel,
 }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const [isTrial, setIsTrial] = useState(sub ? sub.status === "trial" : Boolean(startAsTrial));
-  const [toolName, setToolName] = useState(sub?.tool_name ?? "");
-  const [category, setCategory] = useState(sub?.category ?? "");
+  const initialTrial = sub ? sub.status === "trial" : Boolean(startAsTrial || preset?.trial_ends_at);
+  const [isTrial, setIsTrial] = useState(initialTrial);
+  const [toolName, setToolName] = useState(sub?.tool_name ?? preset?.tool_name ?? "");
+  const [category, setCategory] = useState(sub?.category ?? preset?.category ?? "");
   const [status, setStatus] = useState(sub && sub.status !== "trial" ? sub.status : "active");
   const effectiveStatus = isTrial ? "trial" : status;
 
@@ -56,9 +60,9 @@ export function SubscriptionEditor({
 
   function resetForm() {
     formRef.current?.reset();
-    setIsTrial(sub ? sub.status === "trial" : Boolean(startAsTrial));
-    setToolName(sub?.tool_name ?? "");
-    setCategory(sub?.category ?? "");
+    setIsTrial(initialTrial);
+    setToolName(sub?.tool_name ?? preset?.tool_name ?? "");
+    setCategory(sub?.category ?? preset?.category ?? "");
     setStatus(sub && sub.status !== "trial" ? sub.status : "active");
   }
 
@@ -179,7 +183,7 @@ export function SubscriptionEditor({
                   name="monthly_cost"
                   inputMode="decimal"
                   required
-                  defaultValue={sub ? String(sub.monthly_cost) : ""}
+                  defaultValue={sub ? String(sub.monthly_cost) : preset ? String(preset.monthly_cost) : ""}
                   placeholder="0.00"
                   pattern="[0-9]*[.,]?[0-9]{0,2}"
                   className={`${field} pl-7 num`}
@@ -196,7 +200,7 @@ export function SubscriptionEditor({
                 type="date"
                 name="trial_ends_at"
                 required
-                defaultValue={sub?.trial_ends_at ?? ""}
+                defaultValue={sub?.trial_ends_at ?? preset?.trial_ends_at ?? ""}
                 className={field}
               />
               <span className="mt-1 block text-xs text-ink-faint">The day you&apos;d be charged if you don&apos;t cancel.</span>

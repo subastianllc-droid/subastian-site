@@ -289,6 +289,15 @@ export function DashboardView({
             )}
             <StackForm />
           </aside>
+          <a
+            href="/app/niche"
+            className="block rounded-2xl border border-accent/40 bg-accent-tint p-5 hover:border-accent"
+          >
+            <span className="font-display text-lg font-bold text-accent-strong">Niche Stacks &rarr;</span>
+            <span className="mt-1 block text-sm text-ink-soft">
+              See the tools your kind of work usually needs, what they cost, and which ones do the same job.
+            </span>
+          </a>
           <AlertsCard enabled={alertsEnabled} email={email} timeZone={savedTimeZone ?? tzCookie ?? "America/Denver"} />
           </div>
         </div>

@@ -3,7 +3,7 @@
 import { useActionState, useState } from "react";
 import { sendMagicLink, signIn, signUp, type AuthState } from "./actions";
 
-type Mode = "signin" | "signup" | "link";
+export type Mode = "signin" | "signup" | "link";
 
 const COPY: Record<Mode, { button: string; pending: string }> = {
   signin: { button: "Sign in", pending: "Signing in…" },
@@ -11,9 +11,17 @@ const COPY: Record<Mode, { button: string; pending: string }> = {
   link: { button: "Email me a sign-in link", pending: "Sending link…" },
 };
 
-export function LoginForm({ next }: { next: string }) {
-  const [mode, setMode] = useState<Mode>("signin");
-  const [email, setEmail] = useState("");
+export function LoginForm({
+  next,
+  initialMode = "signin",
+  initialEmail = "",
+}: {
+  next: string;
+  initialMode?: Mode;
+  initialEmail?: string;
+}) {
+  const [mode, setMode] = useState<Mode>(initialMode);
+  const [email, setEmail] = useState(initialEmail);
 
   const [signInState, signInAction, signingIn] = useActionState<AuthState, FormData>(signIn, {});
   const [signUpState, signUpAction, signingUp] = useActionState<AuthState, FormData>(signUp, {});

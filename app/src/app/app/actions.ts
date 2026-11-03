@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/lib/database.types";
 import { CATEGORIES, STATUSES, addMonths, isIsoDate, type Status } from "@/lib/subscriptions";
 import { SAMPLE_STACK_NAME, sampleRows } from "@/lib/sample-stack";
+import { getNicheStack } from "@/lib/niche-stacks-data";
 import { checkEdit, checkPurchase, needsConfirmation, strongestMatch, type GuardResult } from "@/lib/purchase-guard";
 
 /** `guard` is set when Purchase Guard found a match the user hasn't confirmed yet. */
@@ -104,7 +105,7 @@ export async function createSubscription(_prev: FormState, formData: FormData): 
 
   const { error } = await supabase.from("subscriptions").insert({ ...parsed.row, user_id: user.id });
   if (error) return { error: "Couldn't save that subscription. Try again." };
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
   return { ok: true };
 }
 
@@ -145,7 +146,7 @@ export async function updateSubscription(_prev: FormState, formData: FormData): 
 
   const { error } = await supabase.from("subscriptions").update(patch).eq("id", id);
   if (error) return { error: "Couldn't save your changes. Try again." };
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
   return { ok: true };
 }
 
@@ -155,7 +156,7 @@ export async function deleteSubscription(formData: FormData) {
   if (!id) return;
   // alert_log rows cascade-delete with the subscription (FK ON DELETE CASCADE).
   await supabase.from("subscriptions").delete().eq("id", id);
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
 }
 
 /**
@@ -185,7 +186,7 @@ export async function recordGuardSkip(formData: FormData) {
     was_trial: formData.get("is_trial") === "on",
     matched,
   });
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
 }
 
 /** Purchase Guard's "Resume instead": marks a paused subscription active again. Tracker only. */
@@ -194,7 +195,7 @@ export async function resumeSubscription(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   if (!id) return;
   await supabase.from("subscriptions").update({ status: "active" }).eq("id", id).eq("status", "paused");
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
 }
 
 /** Records the decision at the end of a free trial. */
@@ -219,7 +220,7 @@ export async function decideTrial(formData: FormData) {
         : { status: "cancelled", trial_outcome: "cancelled" },
     )
     .eq("id", id);
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
 }
 
 export async function markUsedToday(formData: FormData) {
@@ -228,7 +229,7 @@ export async function markUsedToday(formData: FormData) {
   const today = String(formData.get("today") ?? "");
   if (!id || !isIsoDate(today)) return;
   await supabase.from("subscriptions").update({ last_used_at: today }).eq("id", id);
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
 }
 
 export async function createStack(_prev: FormState, formData: FormData): Promise<FormState> {
@@ -239,7 +240,7 @@ export async function createStack(_prev: FormState, formData: FormData): Promise
   if (name.toLowerCase() === SAMPLE_STACK_NAME.toLowerCase()) return { error: "That name is reserved for the sample stack." };
   const { error } = await supabase.from("stacks").insert({ name, user_id: user.id });
   if (error) return { error: "Couldn't create that stack. Try again." };
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
   return { ok: true };
 }
 
@@ -249,7 +250,7 @@ export async function deleteStack(formData: FormData) {
   if (!id) return;
   // Tools in the stack stay tracked, just ungrouped (FK ON DELETE SET NULL).
   await supabase.from("stacks").delete().eq("id", id);
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
 }
 
 /** Loads the labeled sample stack. Only when the account has no sample yet. */
@@ -270,7 +271,7 @@ export async function loadSampleStack(formData: FormData) {
 
   const { error: insertError } = await supabase.from("subscriptions").insert(sampleRows(today, stack.id, user.id));
   if (insertError) await supabase.from("stacks").delete().eq("id", stack.id);
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
 }
 
 /** Deletes every tool in the sample stack, then the stack. The user's own tools are untouched. */
@@ -280,7 +281,7 @@ export async function removeSampleStack() {
   if (!stack) return;
   await supabase.from("subscriptions").delete().eq("stack_id", stack.id);
   await supabase.from("stacks").delete().eq("id", stack.id);
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
 }
 
 /** Moves the renewal date forward one month. Records the user's word only; it doesn't check any charge. */
@@ -291,7 +292,7 @@ export async function markRenewed(formData: FormData) {
   const { data: sub } = await supabase.from("subscriptions").select("renewal_date, status").eq("id", id).maybeSingle();
   if (!sub?.renewal_date || sub.status !== "active") return;
   await supabase.from("subscriptions").update({ renewal_date: addMonths(sub.renewal_date, 1) }).eq("id", id);
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
 }
 
 /** Turns renewal and free-trial alert emails on or off for the signed-in user. */
@@ -299,7 +300,7 @@ export async function setAlertsEnabled(formData: FormData) {
   const { supabase, user } = await requireUser();
   const enabled = formData.get("enabled") === "on";
   await supabase.from("profiles").update({ alerts_enabled: enabled }).eq("id", user.id);
-  revalidatePath("/app");
+  revalidatePath("/app", "layout");
 }
 
 /** Alerts go out at 8am in this zone, and "3 days" is counted from the user's own today. */
@@ -312,4 +313,14 @@ export async function saveTimeZone(timeZone: string) {
   }
   const { supabase, user } = await requireUser();
   await supabase.from("profiles").update({ time_zone: timeZone }).eq("id", user.id);
+}
+
+/** Saves the niche stack the user picked on /app/niche (or clears it). */
+export async function setNiche(formData: FormData) {
+  const { supabase, user } = await requireUser();
+  const slug = String(formData.get("niche") ?? "");
+  const niche = slug === "" ? null : getNicheStack(slug)?.slug ?? null;
+  if (slug !== "" && !niche) return;
+  await supabase.from("profiles").update({ niche }).eq("id", user.id);
+  revalidatePath("/app", "layout");
 }

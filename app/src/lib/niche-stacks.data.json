@@ -1,0 +1,527 @@
+{
+  "checked": "2026-10-19",
+  "checked_long": "October 19, 2026",
+  "stacks": [
+    {
+      "slug": "affiliate-marketing",
+      "niche": "Affiliate Marketing",
+      "who": "affiliate marketers running a content or review site",
+      "intro": "A typical affiliate site needs five jobs covered: keyword research, an email list, link tracking, graphics and a writing assistant. Here's what each tool costs, which ones do the same job, and the leanest version of the stack.",
+      "lean_note": "Ahrefs Lite, Kit free plan, Pretty Links (year one), Canva free plan and ChatGPT Plus.",
+      "cuts": [
+        {
+          "title": "Semrush and Ahrefs do the same core job.",
+          "body": "Both are keyword and backlink research suites. Paying for both adds $139.95 a month for one job. Keep the one you open most; use Semrush's 7-day trial to compare before you commit, since Ahrefs has no trial."
+        },
+        {
+          "title": "Start Kit on the free plan.",
+          "body": "Kit is free up to 1,000 subscribers, so an early list doesn't need the $390/yr Creator plan yet."
+        },
+        {
+          "title": "Watch the Pretty Links renewal.",
+          "body": "The $99.60 price is first-year only. It renews at $249/yr, which is about $20.75 a month from year two."
+        }
+      ],
+      "tools": [
+        {
+          "name": "Ahrefs Lite",
+          "job": "Keyword and backlink research",
+          "price_text": "$129/mo, billed monthly",
+          "free_text": "No trial. Ahrefs Free gives limited Site Explorer and Site Audit.",
+          "src": "https://ahrefs.com/pricing",
+          "in_lean": true,
+          "lean_monthly": 129,
+          "unit": null,
+          "category": "SEO",
+          "monthly_cost": 129,
+          "trial_days": 0,
+          "group": "research"
+        },
+        {
+          "name": "Semrush Pro",
+          "job": "Keyword and competitor research",
+          "price_text": "$139.95/mo",
+          "free_text": "7-day free trial",
+          "src": "https://www.semrush.com/kb/1547-seo-toolkit-pricing-limits",
+          "in_lean": false,
+          "lean_monthly": 0,
+          "unit": null,
+          "category": "SEO",
+          "monthly_cost": 139.95,
+          "trial_days": 7,
+          "group": "research"
+        },
+        {
+          "name": "Kit (formerly ConvertKit)",
+          "job": "Email list and automations",
+          "price_text": "Free up to 1,000 subscribers. Creator $390/yr",
+          "free_text": "Free plan. 14-day trial on paid plans.",
+          "src": "https://kit.com/pricing",
+          "in_lean": true,
+          "lean_monthly": 0,
+          "unit": null,
+          "category": "Email marketing",
+          "monthly_cost": 0,
+          "trial_days": 0,
+          "group": null
+        },
+        {
+          "name": "Pretty Links Beginner",
+          "job": "Cloak and track affiliate links (WordPress)",
+          "price_text": "$99.60/yr first year, renews at full price ($249/yr)",
+          "free_text": "14-day money-back guarantee",
+          "src": "https://prettylinks.com/pricing/plans/",
+          "in_lean": true,
+          "lean_monthly": 8.3,
+          "unit": null,
+          "category": "Other",
+          "monthly_cost": 8.3,
+          "trial_days": 0,
+          "group": null
+        },
+        {
+          "name": "Canva",
+          "job": "Graphics, pins and thumbnails",
+          "price_text": "Free. Pro $144/yr",
+          "free_text": "Free plan",
+          "src": "https://www.canva.com/pricing/",
+          "in_lean": true,
+          "lean_monthly": 0,
+          "unit": null,
+          "category": "Design",
+          "monthly_cost": 0,
+          "trial_days": 0,
+          "group": null
+        },
+        {
+          "name": "ChatGPT Plus",
+          "job": "Outlines and first drafts",
+          "price_text": "$20/mo, billed monthly",
+          "free_text": "Free plan",
+          "src": "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus",
+          "in_lean": true,
+          "lean_monthly": 20,
+          "unit": null,
+          "category": "AI tools",
+          "monthly_cost": 20,
+          "trial_days": 0,
+          "group": null
+        }
+      ]
+    },
+    {
+      "slug": "seo-agency",
+      "niche": "SEO Agency",
+      "who": "SEO agencies and freelancers with around 10 clients",
+      "intro": "An SEO agency stack covers research and rank tracking, technical crawls, client reporting, content optimization and design. Reporting is usually priced per client, so the numbers below assume 10 clients and 2 team members.",
+      "lean_note": "Semrush Guru, Screaming Frog, AgencyAnalytics for 10 clients, Surfer Standard and Canva Business for 2 people.",
+      "cuts": [
+        {
+          "title": "Semrush Guru and Ahrefs Standard overlap almost entirely.",
+          "body": "Both handle keyword research, backlinks, rank tracking and site audits. Running both adds about $249 a month. Pick one as the agency's source of truth."
+        },
+        {
+          "title": "Check whether you need a separate crawler.",
+          "body": "Semrush and Ahrefs both include site audits. Screaming Frog is cheap at $279 a year, but if nobody runs deep crawls, the free 500-URL version may be enough."
+        },
+        {
+          "title": "Reporting grows with every client.",
+          "body": "AgencyAnalytics is $20 per client per month. Remove a client from it the day the contract ends. Finished clients left on per-seat tools are the classic agency leak."
+        }
+      ],
+      "tools": [
+        {
+          "name": "Semrush Guru",
+          "job": "Research, rank tracking, site audits",
+          "price_text": "$249.95/mo",
+          "free_text": "7-day free trial",
+          "src": "https://www.semrush.com/kb/1547-seo-toolkit-pricing-limits",
+          "in_lean": true,
+          "lean_monthly": 249.95,
+          "unit": null,
+          "category": "SEO",
+          "monthly_cost": 249.95,
+          "trial_days": 7,
+          "group": "research"
+        },
+        {
+          "name": "Ahrefs Standard",
+          "job": "Research, backlinks, site audits",
+          "price_text": "$249/mo, billed monthly",
+          "free_text": "No trial. Ahrefs Free gives limited access.",
+          "src": "https://ahrefs.com/pricing",
+          "in_lean": false,
+          "lean_monthly": 0,
+          "unit": null,
+          "category": "SEO",
+          "monthly_cost": 249,
+          "trial_days": 0,
+          "group": "research"
+        },
+        {
+          "name": "Screaming Frog SEO Spider",
+          "job": "Technical site crawls",
+          "price_text": "$279/yr per user",
+          "free_text": "Free version up to 500 URLs",
+          "src": "https://www.screamingfrog.co.uk/seo-spider/pricing/",
+          "in_lean": true,
+          "lean_monthly": 23.25,
+          "unit": null,
+          "category": "SEO",
+          "monthly_cost": 23.25,
+          "trial_days": 0,
+          "group": null
+        },
+        {
+          "name": "AgencyAnalytics Core",
+          "job": "Client reporting dashboards",
+          "price_text": "$20 per client per month, billed annually",
+          "free_text": "14-day free trial, no card",
+          "src": "https://agencyanalytics.com/pricing",
+          "in_lean": true,
+          "lean_monthly": 200,
+          "unit": "10 clients",
+          "category": "Analytics",
+          "monthly_cost": 200,
+          "trial_days": 14,
+          "group": null
+        },
+        {
+          "name": "Surfer Standard",
+          "job": "Content optimization",
+          "price_text": "$99/mo, billed yearly",
+          "free_text": "Trial terms not listed",
+          "src": "https://surferseo.com/pricing/",
+          "in_lean": true,
+          "lean_monthly": 99,
+          "unit": null,
+          "category": "SEO",
+          "monthly_cost": 99,
+          "trial_days": 0,
+          "group": null
+        },
+        {
+          "name": "Canva Business",
+          "job": "Report covers, client graphics",
+          "price_text": "$250/yr per person",
+          "free_text": "Free plan",
+          "src": "https://www.canva.com/pricing/",
+          "in_lean": true,
+          "lean_monthly": 41.67,
+          "unit": "2 people",
+          "category": "Design",
+          "monthly_cost": 41.67,
+          "trial_days": 0,
+          "group": null
+        }
+      ]
+    },
+    {
+      "slug": "youtube-automation",
+      "niche": "YouTube Automation",
+      "who": "faceless and automation-style YouTube channels",
+      "intro": "A YouTube automation channel usually pays for channel research, AI voiceover, editing, thumbnails and script help. Two of those jobs are covered twice in most stacks.",
+      "lean_note": "TubeBuddy Pro (yearly), ElevenLabs Creator, Descript Creator (monthly), Canva Pro and ChatGPT Plus.",
+      "cuts": [
+        {
+          "title": "vidIQ and TubeBuddy do the same job.",
+          "body": "Both are YouTube keyword and channel tools, and both have free plans. Paying for both adds $19 a month or more. Keep one."
+        },
+        {
+          "title": "Descript already has text-to-speech.",
+          "body": "Descript Creator includes text-to-speech, so check whether its voices are good enough for your channel before paying $22 a month for ElevenLabs as well."
+        },
+        {
+          "title": "Pay yearly only for what you'll keep.",
+          "body": "Descript is $24/mo billed annually versus $35 monthly. That only saves money if the channel is still running in 12 months."
+        }
+      ],
+      "tools": [
+        {
+          "name": "TubeBuddy Pro",
+          "job": "Keyword research and channel tools",
+          "price_text": "$144/yr ($12/mo billed annually)",
+          "free_text": "Free plan",
+          "src": "https://www.tubebuddy.com/blog/vidiq-vs-tubebuddy/",
+          "in_lean": true,
+          "lean_monthly": 12,
+          "unit": null,
+          "category": "SEO",
+          "monthly_cost": 12,
+          "trial_days": 0,
+          "group": "channel"
+        },
+        {
+          "name": "vidIQ Boost",
+          "job": "Keyword research and channel tools",
+          "price_text": "$19/mo, billed monthly",
+          "free_text": "Free plan",
+          "src": "https://vidiq.com/compare/vidiq-vs-tubebuddy/",
+          "in_lean": false,
+          "lean_monthly": 0,
+          "unit": null,
+          "category": "SEO",
+          "monthly_cost": 19,
+          "trial_days": 0,
+          "group": "channel"
+        },
+        {
+          "name": "ElevenLabs Creator",
+          "job": "AI voiceover",
+          "price_text": "$22/mo ($11 the first month)",
+          "free_text": "Free plan. Starter is $6/mo.",
+          "src": "https://elevenlabs.io/pricing",
+          "in_lean": true,
+          "lean_monthly": 22,
+          "unit": null,
+          "category": "AI tools",
+          "monthly_cost": 22,
+          "trial_days": 0,
+          "group": null
+        },
+        {
+          "name": "Descript Creator",
+          "job": "Editing, captions, text-to-speech",
+          "price_text": "$35/mo billed monthly, or $24/mo billed annually",
+          "free_text": "Free plan",
+          "src": "https://www.descript.com/pricing",
+          "in_lean": true,
+          "lean_monthly": 35,
+          "unit": null,
+          "category": "Video",
+          "monthly_cost": 35,
+          "trial_days": 0,
+          "group": null
+        },
+        {
+          "name": "Canva Pro",
+          "job": "Thumbnails",
+          "price_text": "$144/yr",
+          "free_text": "Free plan",
+          "src": "https://www.canva.com/pricing/",
+          "in_lean": true,
+          "lean_monthly": 12,
+          "unit": null,
+          "category": "Design",
+          "monthly_cost": 12,
+          "trial_days": 0,
+          "group": null
+        },
+        {
+          "name": "ChatGPT Plus",
+          "job": "Scripts and outlines",
+          "price_text": "$20/mo, billed monthly",
+          "free_text": "Free plan",
+          "src": "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus",
+          "in_lean": true,
+          "lean_monthly": 20,
+          "unit": null,
+          "category": "AI tools",
+          "monthly_cost": 20,
+          "trial_days": 0,
+          "group": null
+        }
+      ]
+    },
+    {
+      "slug": "podcast-production",
+      "niche": "Podcast Production",
+      "who": "independent podcasters and small podcast teams",
+      "intro": "A podcast stack covers recording, editing and transcription, hosting, audio cleanup and cover art. Recording and editing tools now overlap heavily, which is where most podcast budgets double up.",
+      "lean_note": "Riverside Pro (monthly), Buzzsprout Audio, Auphonic free and Canva free.",
+      "cuts": [
+        {
+          "title": "Riverside and Descript overlap.",
+          "body": "Riverside Pro includes text-based editing and unlimited transcription. Descript Creator includes remote recording and transcription. Paying for both adds $35 a month for jobs one of them already does."
+        },
+        {
+          "title": "Auphonic's free tier covers a weekly show.",
+          "body": "Auphonic is free for 2 hours of processed audio a month, which covers about four 30-minute episodes."
+        },
+        {
+          "title": "Buzzsprout's free plan is for testing only.",
+          "body": "Free episodes come down after 90 days, so a show you're keeping needs a paid hosting plan."
+        }
+      ],
+      "tools": [
+        {
+          "name": "Riverside Pro",
+          "job": "Remote recording, text-based editing, transcription",
+          "price_text": "$29/mo billed monthly, or $24/mo billed yearly",
+          "free_text": "Free plan (2 hours). 14-day trial.",
+          "src": "https://riverside.com/pricing",
+          "in_lean": true,
+          "lean_monthly": 29,
+          "unit": null,
+          "category": "Video",
+          "monthly_cost": 29,
+          "trial_days": 14,
+          "group": "record-edit"
+        },
+        {
+          "name": "Descript Creator",
+          "job": "Editing, transcription, remote recording",
+          "price_text": "$35/mo billed monthly, or $24/mo billed annually",
+          "free_text": "Free plan",
+          "src": "https://www.descript.com/pricing",
+          "in_lean": false,
+          "lean_monthly": 0,
+          "unit": null,
+          "category": "Video",
+          "monthly_cost": 35,
+          "trial_days": 0,
+          "group": "record-edit"
+        },
+        {
+          "name": "Buzzsprout Audio",
+          "job": "Podcast hosting",
+          "price_text": "$15/mo, billed annually",
+          "free_text": "Free plan: 2 hours a month, episodes hosted 90 days",
+          "src": "https://www.buzzsprout.com/pricing",
+          "in_lean": true,
+          "lean_monthly": 15,
+          "unit": null,
+          "category": "Hosting & domains",
+          "monthly_cost": 15,
+          "trial_days": 0,
+          "group": null
+        },
+        {
+          "name": "Auphonic",
+          "job": "Audio leveling and cleanup",
+          "price_text": "Free for 2 hours of audio a month",
+          "free_text": "Free plan",
+          "src": "https://auphonic.com/pricing",
+          "in_lean": true,
+          "lean_monthly": 0,
+          "unit": null,
+          "category": "Other",
+          "monthly_cost": 0,
+          "trial_days": 0,
+          "group": null
+        },
+        {
+          "name": "Canva",
+          "job": "Cover art and episode graphics",
+          "price_text": "Free. Pro $144/yr",
+          "free_text": "Free plan",
+          "src": "https://www.canva.com/pricing/",
+          "in_lean": true,
+          "lean_monthly": 0,
+          "unit": null,
+          "category": "Design",
+          "monthly_cost": 0,
+          "trial_days": 0,
+          "group": null
+        }
+      ]
+    },
+    {
+      "slug": "social-media-agency",
+      "niche": "Social Media Agency",
+      "who": "social media managers and small agencies running about 5 client brands",
+      "intro": "A social media agency pays for scheduling and analytics, design, video editing and caption help. Scheduling is where agencies most often pay twice, because each client arrives with a favorite tool.",
+      "lean_note": "Metricool Starter, Canva Business for 2 people, Descript Creator (monthly) and ChatGPT Plus.",
+      "cuts": [
+        {
+          "title": "Pick one scheduler for every client.",
+          "body": "Metricool, Later and Buffer all schedule posts. Buffer Team for 5 brands on 3 channels each is 15 channels, or $180 a month billed monthly. Metricool Starter covers 5 brands for $20 a month billed annually."
+        },
+        {
+          "title": "Price per brand, not per tool.",
+          "body": "Metricool prices by brand count and Buffer by channel. Count both before you choose, because the cheaper tool flips as you add clients."
+        },
+        {
+          "title": "Remove offboarded clients the same week.",
+          "body": "Seats and brand slots for clients who have left keep billing until someone removes them."
+        }
+      ],
+      "tools": [
+        {
+          "name": "Metricool Starter",
+          "job": "Scheduling and analytics",
+          "price_text": "$20/mo for up to 5 brands, billed annually",
+          "free_text": "Free plan (1 brand)",
+          "src": "https://metricool.com/metricool-premium/",
+          "in_lean": true,
+          "lean_monthly": 20,
+          "unit": null,
+          "category": "Social scheduling",
+          "monthly_cost": 20,
+          "trial_days": 0,
+          "group": "scheduling"
+        },
+        {
+          "name": "Later Growth",
+          "job": "Scheduling and analytics",
+          "price_text": "$37.50/mo billed yearly (2 social sets, 2 users)",
+          "free_text": "14-day free trial",
+          "src": "https://later.com/pricing/",
+          "in_lean": false,
+          "lean_monthly": 0,
+          "unit": null,
+          "category": "Social scheduling",
+          "monthly_cost": 37.5,
+          "trial_days": 14,
+          "group": "scheduling"
+        },
+        {
+          "name": "Buffer Team",
+          "job": "Scheduling",
+          "price_text": "$12 per channel per month billed monthly ($10 billed yearly)",
+          "free_text": "Free for up to 3 channels. 14-day trial.",
+          "src": "https://buffer.com/resources/buffer-vs-later/",
+          "in_lean": false,
+          "lean_monthly": 0,
+          "unit": null,
+          "category": "Social scheduling",
+          "monthly_cost": 180,
+          "trial_days": 14,
+          "group": "scheduling"
+        },
+        {
+          "name": "Canva Business",
+          "job": "Post and story design",
+          "price_text": "$250/yr per person",
+          "free_text": "Free plan",
+          "src": "https://www.canva.com/pricing/",
+          "in_lean": true,
+          "lean_monthly": 41.67,
+          "unit": "2 people",
+          "category": "Design",
+          "monthly_cost": 41.67,
+          "trial_days": 0,
+          "group": null
+        },
+        {
+          "name": "Descript Creator",
+          "job": "Short-form video edits and captions",
+          "price_text": "$35/mo billed monthly, or $24/mo billed annually",
+          "free_text": "Free plan",
+          "src": "https://www.descript.com/pricing",
+          "in_lean": true,
+          "lean_monthly": 35,
+          "unit": null,
+          "category": "Video",
+          "monthly_cost": 35,
+          "trial_days": 0,
+          "group": null
+        },
+        {
+          "name": "ChatGPT Plus",
+          "job": "Caption drafts",
+          "price_text": "$20/mo, billed monthly",
+          "free_text": "Free plan",
+          "src": "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus",
+          "in_lean": true,
+          "lean_monthly": 20,
+          "unit": null,
+          "category": "AI tools",
+          "monthly_cost": 20,
+          "trial_days": 0,
+          "group": null
+        }
+      ]
+    }
+  ]
+}

@@ -124,6 +124,8 @@
   .checks label{display:flex; gap:10px; align-items:flex-start; font-size:16.5px; color:var(--ink-soft); cursor:pointer;}
   .checks input{margin-top:5px; flex:none; width:16px; height:16px; accent-color:var(--accent);}
   .actions-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;}
+  .plan-auto{margin:0 0 14px; padding:9px 12px; border-radius:8px; background:var(--accent-tint); color:var(--ink-soft); font-size:15px;}
+  .plan-auto strong{color:var(--accent-strong); font-weight:600;}
 
   footer{border-top:1px solid var(--line); margin-top:60px; padding:28px 0 40px;}
   .foot-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:15px; color:var(--ink-faint);}
@@ -425,7 +427,11 @@
 
   function buildActions(){
     var a = answers, list = [], p;
-    if ((p = POINTS.unused(a.unused)) > 0) list.push({ pts:p, title:'Cancel or pause what you haven’t used in 30 days', steps:[
+    if ((p = POINTS.unused(a.unused)) > 0) list.push({ pts:p, title:'Cancel or pause what you haven’t used in 30 days',
+      auto:'it flags any tool you haven’t opened in 30 days.',
+      planFirst:(a.unused < 0 ? 'You weren’t sure which ones go unused, so check each one. ' : '') +
+        'Go down the list you made on days 1 to 2 and mark every subscription you didn’t use in the last 30 days.',
+      steps:[
       (a.unused < 0 ? 'You weren’t sure which ones go unused, so check each one. ' : '') +
         'Open your phone’s subscription settings, PayPal’s automatic payments and your last two card statements. List every subscription you didn’t use in the last 30 days.',
       'Cancel the ones you don’t need. If you might want one later, switch to a cheaper plan or pause it instead.',
@@ -434,19 +440,25 @@
       'Find the charge on your statement and the service behind it.',
       'Check the provider’s refund window. Many only refund within a short period, so ask soon, using the refund message from the free scripts.',
       'If you don’t want it, cancel before the next billing date.' ] });
-    else if ((p = POINTS.surprise[a.surprise]) > 0) list.push({ pts:p, title:'Catch free trials and quiet renewals before they charge', steps:[
+    else if ((p = POINTS.surprise[a.surprise]) > 0) list.push({ pts:p, title:'Catch free trials and quiet renewals before they charge',
+      auto:'it emails you 30, 7, 3 and 1 days before each trial ends or plan renews, and on the day.', steps:[
       'Write down every free trial you have running and its last day to cancel. The free Trial Tracker does this for you.',
       'Add a calendar reminder 3 days before each trial ends.',
       'Next time you start a trial, set the reminder the same minute you sign up.' ] });
-    if ((p = POINTS.dupes[a.dupes]) > 0) list.push({ pts:p, title:'Keep one of each pair of overlapping tools', steps:[
+    if ((p = POINTS.dupes[a.dupes]) > 0) list.push({ pts:p, title:'Keep one of each pair of overlapping tools',
+      auto:'it groups your tools by the job they do and warns you before you buy one you already have.', steps:[
       'Write one line next to each subscription saying what job it does.',
       'Where two do the same job, keep the one you open most and cancel the other.',
       'Before you buy something new, check that you don’t already own a version of it.' ] });
-    if ((p = POINTS.renew[a.renew]) > 0) list.push({ pts:p, title:'Put every renewal date where you’ll see it', steps:[
+    if ((p = POINTS.renew[a.renew]) > 0) list.push({ pts:p, title:'Put every renewal date where you’ll see it',
+      auto:'it emails you 30, 7, 3 and 1 days before every renewal, and moves each date forward after it renews.', steps:[
       'Start with annual plans. They renew once a year, so they’re the easiest to forget.',
       'Add a calendar reminder 7 days before each renewal date.',
       'For anything you’re unsure about, decide now: keep it, cancel it, or review it at the next renewal.' ] });
-    if ((p = POINTS.track[a.track]) > 0) list.push({ pts:p, title:'Keep one list of everything you pay for', steps:[
+    if ((p = POINTS.track[a.track]) > 0) list.push({ pts:p, title:'Keep one list of everything you pay for',
+      auto:'it keeps the list for you, with totals, and renewal dates that update on their own.',
+      planFirst:'Move the list you made on days 1 to 2 into one place you’ll actually open, with four columns: name, price, how often it bills, and the date it renews.',
+      steps:[
       'Make one list with four columns: name, price, how often it bills, and the date it renews.',
       'Update it whenever you subscribe to or cancel something.',
       'A spreadsheet works. The Audit Kit is the same list with the totals and flags built in.' ] });
@@ -509,7 +521,7 @@
       (r.monthly > 0 ? ', roughly ' + usd(r.monthly) + ' a month at stake.' : '.') + ' Tick each step as you go.';
     var body = $('planBody');
     body.innerHTML = '';
-    function block(when, title, steps){
+    function block(when, title, steps, auto){
       var d = document.createElement('div'); d.className = 'plan-block';
       var w = document.createElement('p'); w.className = 'plan-when'; w.textContent = when;
       var h = document.createElement('h3'); h.textContent = title;
@@ -519,17 +531,29 @@
         cb.type = 'checkbox'; sp.textContent = s;
         lb.appendChild(cb); lb.appendChild(sp); li.appendChild(lb); ul.appendChild(li);
       });
-      d.appendChild(w); d.appendChild(h); d.appendChild(ul); body.appendChild(d);
+      d.appendChild(w); d.appendChild(h); d.appendChild(ul);
+      if (auto) {
+        // What this step will look like once Subastian launches: the manual step, done for you.
+        var n = document.createElement('p'); n.className = 'plan-auto';
+        var t = document.createElement('strong'); t.textContent = 'Subastian is being built to do this for you: ';
+        n.appendChild(t); n.appendChild(document.createTextNode(auto)); d.appendChild(n);
+      }
+      body.appendChild(d);
     }
     block('Days 1 to 2', 'Make the list', [
       'Open your phone’s subscription settings (App Store or Google Play) and PayPal’s automatic payments.',
       'Look through the last two months of card and bank statements for repeating charges.',
-      'Write each one down with its price, how often it bills and its renewal date.' ]);
+      'Write each one down with its price, how often it bills and its renewal date.' ],
+      'upload a card or bank statement and it finds the repeating charges, with their prices and renewal dates.');
     var whens = ['Days 3 to 5', 'Days 6 to 9', 'Days 10 to 12'];
-    acts.forEach(function(a, i){ block(whens[i], a.title, a.steps); });
+    acts.forEach(function(a, i){
+      var steps = a.planFirst ? [a.planFirst].concat(a.steps.slice(1)) : a.steps;
+      block(whens[i], a.title, steps, a.auto);
+    });
     block('Days 13 to 14', 'Lock it in', [
       'Add a calendar reminder to repeat this check in 3 months.',
-      'Add up what you stopped paying each month. That’s your win.' ]);
+      'Add up what you stopped paying each month. That’s your win.' ],
+      'it adds up what you’ve stopped paying for, so you can see the win.');
   }
 
   /* ---- email gate: also joins the founding roster ---- */

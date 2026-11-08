@@ -5,7 +5,9 @@
  * - Loaded on every page so the FIRST page of a visit can record the source
  *   (UTM tags, referring site, landing page). Kept in sessionStorage only: no cookies.
  * - Two kinds of share links:
- *     ?ref= / ?via= / ?aff=  a Founding Partner (paid commission at launch, separate program)
+ *     ?ref= / ?via= / ?aff=  a Founding Partner (paid commission at launch, separate program).
+ *                            Valid codes are remembered 30 days in local storage and credited
+ *                            on new signups (waitlist.partner_id). Results: partner_stats view.
  *     ?r=<8 letters/digits>  a roster member's personal link (3 signups = free Audit Kit)
  * - The key below is Supabase's public "publishable" key. It is safe to publish:
  *   it can only call join_roster / roster_count and add a waitlist row. It cannot read,
@@ -29,6 +31,41 @@
     var r = (q().get('r') || '').toLowerCase().replace(/[^a-z0-9]/g, '');
     if (r.length === 8) sessionStorage.setItem(RREF, r);
   } catch (e) {}
+
+  // Founding Partner link (?ref= / ?via= / ?aff=). The database checks the code; only a real,
+  // active partner code is remembered, in local storage for 30 days (latest partner link wins),
+  // so a roster signup in that window is credited to that partner. One counted visit per code
+  // per browser session.
+  var PREF = 'sub_partner_ref';
+  var PARTNER_DAYS = 30;
+  try {
+    var pq = q();
+    var pcode = (pq.get('ref') || pq.get('via') || pq.get('aff') || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 30);
+    var seenKey = 'sub_partner_seen_' + pcode.toLowerCase();
+    if (pcode && !sessionStorage.getItem(seenKey)) {
+      sessionStorage.setItem(seenKey, '1');
+      fetch(SUPABASE_URL + '/rest/v1/rpc/log_partner_visit', {
+        method: 'POST',
+        headers: { apikey: PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_code: pcode, p_path: clip(location.pathname, 300) }),
+        keepalive: true
+      }).then(function (res) { return res.ok ? res.json() : null; })
+        .then(function (code) {
+          if (typeof code === 'string' && code) {
+            localStorage.setItem(PREF, JSON.stringify({ code: code, at: Date.now() }));
+          }
+        }).catch(function () {});
+    }
+  } catch (e) {}
+
+  function partnerCode() {
+    try {
+      var v = JSON.parse(localStorage.getItem(PREF) || 'null');
+      if (v && v.code && Date.now() - v.at < PARTNER_DAYS * 864e5) return String(v.code).slice(0, 30);
+      if (v) localStorage.removeItem(PREF);
+    } catch (e) {}
+    return null;
+  }
 
   // First touch: record the source once per visit, on the first page that loads this file.
   var touch = null;
@@ -67,6 +104,7 @@
         work_type: fields.work_type || null,
         leak_report: fields.leak_report || null,
         referred_by: referredBy,
+        partner_code: partnerCode(),
         utm_source: touch.utm_source,
         utm_medium: touch.utm_medium,
         utm_campaign: touch.utm_campaign,

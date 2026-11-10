@@ -1,0 +1,8 @@
+{
+  "name": "subastian-beta-gates",
+  "private": true,
+  "type": "module",
+  "description": "Evidence tests for the P0 beta launch gates. Runs against a throwaway local Postgres, never the live project.",
+  "scripts": { "test": "node --experimental-strip-types --no-warnings --test --test-reporter=spec *.test.mjs *.test.ts" },
+  "dependencies": { "pg": "^8.13.1" }
+}

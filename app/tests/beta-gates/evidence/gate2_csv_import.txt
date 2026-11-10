@@ -1,0 +1,37 @@
+   rows in 14, charges out 14, error none
+   subscriptions: Ahrefs monthly $129 next 2026-11-20 x3 | Adobe Creative Cloud monthly $54.99 next 2026-11-15 x3 | Acme Hosting monthly $25 next 2026-11-10 x3 | Canva monthly $14.99 next 2026-12-02 x3
+   rows in 12, charges out 5, rejected 7, error none
+   kept: ADOBE *CREATIVE CLD | ADOBE *CREATIVE CLD | ADOBE *CREATIVE CLD | AHREFS.COM EXTRA COLUMNS | BUFFER, INC
+   error field: undefined; other fields: []
+   rows in 13, charges out 8, handled correctly 9/13
+   WRONG FMT CURRENCY CODE SUFFIX: expected {"date":"2026-10-06","amount":12}, got dropped
+   WRONG FMT DMY AMBIGUOUS UK: expected {"date":"2026-10-03","amount":8}, got {"date":"2026-03-10","amount":8}
+   WRONG FMT EU DECIMAL COMMA: expected {"date":"2026-10-08","amount":14.99}, got dropped
+   WRONG FMT EU THOUSANDS DOT: expected {"date":"2026-10-09","amount":1234.56}, got dropped
+   03/10/2026 -> 2026-03-10
+   rows in 3, charges out 0, message: "We couldn't read any charges from that file."
+   rows in 9, charges out 9, subscriptions 2: Adobe Creative Cloud $54.99 x3 | Canva $14.99 x3
+   rows in 11, charges out 11, subscriptions 4: Adobe Creative Cloud (repeating) x3 | Acme Design Studio (repeating) x3 | Acme Hosting (repeating) x3 | Canva (once) x1
+✔ clean: every valid row is read with the right date and amount; 4 subscriptions found (82.474585ms)
+✔ malformed: valid rows still read; bad rows dropped (1.197301ms)
+✔ GAP: rejected rows get no message (readStatement returns no per-row reasons) (0.52668ms)
+✔ mixed formats: row-by-row result vs. what the row means (0.967862ms)
+✔ GAP: ambiguous 03/10/2026 is read as March 10 (US), wrong for UK/EU statements, and is kept silently (0.365191ms)
+✔ GAP: European file (semicolons, 54,99 decimal comma) reads 0 charges (0.302556ms)
+✔ exact duplicates: repeated rows don't create extra subscriptions or inflate the price (1.130652ms)
+✔ near duplicates: merchant spellings merge; a different merchant stays separate (1.97255ms)
+   first import {"added":4,"skipped":0}, second {"added":0,"skipped":4}, rows in DB 4: Acme Hosting, Adobe Creative Cloud, Ahrefs, Canva
+   then near_duplicates.csv {"added":1,"skipped":3}, rows in DB 5: Acme Design Studio, Acme Hosting, Adobe Creative Cloud, Ahrefs, Canva
+✔ re-import: same file twice adds nothing the second time (27.557771ms)
+   import {"added":3,"skipped":1}, rows in DB 5: Acme Hosting, Adobe Creative Cloud, Ahrefs, Ahrefs, Canva Pro
+✔ re-import: a hand-added 'Canva Pro' blocks an imported 'Canva'; a cancelled row does not (14.844607ms)
+   import 1 {"added":4,"skipped":0}, import 2 {"added":4,"skipped":0}, rows in DB 8 (expected 4 without duplicates)
+✔ GAP: two imports at the same moment both insert (no unique constraint in the DB) (25.88738ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 335.273905

@@ -15,24 +15,24 @@
    rows in 3, charges out 3, read as dmy, error none; Adobe Creative Cloud $54.99 next 2026-11-15
    rows in 9, charges out 9, subscriptions 2: Adobe Creative Cloud $54.99 x3 | Canva $14.99 x3
    rows in 11, charges out 11, subscriptions 4: Adobe Creative Cloud (repeating) x3 | Acme Design Studio (repeating) x3 | Acme Hosting (repeating) x3 | Canva (once) x1
-✔ clean: every valid row is read with the right date and amount; 4 subscriptions found (347.18258ms)
-✔ malformed: valid rows still read; bad rows dropped (1.199721ms)
-✔ malformed: every rejected row gets a plain reason (0.607961ms)
-✔ mixed formats: every row read as it's meant (dates, $ £ €, currency codes, EU decimals, refunds) (0.842452ms)
-✔ UK dates: day/month is detected from the file (25/10 can't be month/day), so 03/10 is 3 October (0.819114ms)
-✔ UK dates with nothing to tell them apart: the file is flagged so the screen asks, and the answer is used (1.106714ms)
-✔ European file (semicolons, 15.08.2026 dates, 54,99 decimals) is read in full (1.809697ms)
-✔ exact duplicates: repeated rows don't create extra subscriptions or inflate the price (5.694882ms)
-✔ near duplicates: merchant spellings merge; a different merchant stays separate (1.512249ms)
+✔ clean: every valid row is read with the right date and amount; 4 subscriptions found (377.684581ms)
+✔ malformed: valid rows still read; bad rows dropped (0.903686ms)
+✔ malformed: every rejected row gets a plain reason (0.52138ms)
+✔ mixed formats: every row read as it's meant (dates, $ £ €, currency codes, EU decimals, refunds) (0.846092ms)
+✔ UK dates: day/month is detected from the file (25/10 can't be month/day), so 03/10 is 3 October (0.804664ms)
+✔ UK dates with nothing to tell them apart: the file is flagged so the screen asks, and the answer is used (1.390698ms)
+✔ European file (semicolons, 15.08.2026 dates, 54,99 decimals) is read in full (1.566974ms)
+✔ exact duplicates: repeated rows don't create extra subscriptions or inflate the price (1.137071ms)
+✔ near duplicates: merchant spellings merge; a different merchant stays separate (1.087165ms)
    first import {"added":4,"skipped":0}, second {"added":0,"skipped":4}, rows in DB 4: Acme Hosting, Adobe Creative Cloud, Ahrefs, Canva
    then near_duplicates.csv {"added":1,"skipped":3}, rows in DB 5: Acme Design Studio, Acme Hosting, Adobe Creative Cloud, Ahrefs, Canva
-✔ re-import: same file twice adds nothing the second time (55.909659ms)
+✔ re-import: same file twice adds nothing the second time (66.652253ms)
    import {"added":3,"skipped":1}, rows in DB 5: Acme Hosting, Adobe Creative Cloud, Ahrefs, Ahrefs, Canva Pro
-✔ re-import: a hand-added 'Canva Pro' blocks an imported 'Canva'; a cancelled row does not (16.751386ms)
-   import 1 {"added":0,"skipped":4}, import 2 {"added":4,"skipped":0}, rows in DB 4 (4 = no duplicates)
-✔ two imports at the same moment: the second waits and skips what the first added (32.590708ms)
+✔ re-import: a hand-added 'Canva Pro' blocks an imported 'Canva'; a cancelled row does not (10.29965ms)
+   import 1 {"added":4,"skipped":0}, import 2 {"added":0,"skipped":4}, rows in DB 4 (4 = no duplicates)
+✔ two imports at the same moment: the second waits and skips what the first added (22.91913ms)
    A sent a row naming B as owner -> A has ["Sneaky"], B has []
-✔ import_subscriptions can't be used to write into someone else's list (21.645517ms)
+✔ import_subscriptions can't be used to write into someone else's list (15.500384ms)
 ℹ tests 13
 ℹ suites 0
 ℹ pass 13
@@ -40,4 +40,4 @@
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 707.732412
+ℹ duration_ms 654.816385

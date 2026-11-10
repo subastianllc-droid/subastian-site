@@ -106,11 +106,14 @@ test("functions: users cannot run the alert or renewal jobs directly", async () 
 });
 
 // ---- Known gap (documents current behavior, does not fail the gate) -------------------------
-test("GAP (low): A can attach A's own subscription to B's stack id; B still can't see A's row", async () => {
-  const res = await asUser(db, A, (c) =>
-    c.query("insert into public.subscriptions (user_id, tool_name, category, monthly_cost, stack_id) values ($1, 'linked', 'SEO', 1, $2) returning id", [A, stackB])
-      .then((r) => `inserted ${r.rowCount}`).catch((e) => `rejected: ${e.message}`));
-  const bSees = await asUser(db, B, (c) => c.query("select 1 from public.subscriptions where user_id = $1", [A]).then((r) => r.rowCount));
-  console.log(`  GAP evidence: A attaching to B's stack -> ${res}; rows of A visible to B -> ${bSees}`);
-  assert.equal(bSees, 0);
+test("A can't attach A's own subscription to B's stack (insert or update); A's own stack still works", async () => {
+  const tryAs = (sql, params) => asUser(db, A, (c) => c.query(sql, params).then((r) => `ok ${r.rowCount}`).catch((e) => `rejected: ${e.message}`));
+  const ins = await tryAs("insert into public.subscriptions (user_id, tool_name, category, monthly_cost, stack_id) values ($1, 'linked', 'SEO', 1, $2)", [A, stackB]);
+  const mine = await asUser(db, A, (c) => c.query("insert into public.stacks (user_id, name) values ($1, 'A stack') returning id", [A])).then((r) => r.rows[0].id);
+  const own = await tryAs("insert into public.subscriptions (user_id, tool_name, category, monthly_cost, stack_id) values ($1, 'own stack', 'SEO', 1, $2)", [A, mine]);
+  const upd = await tryAs("update public.subscriptions set stack_id = $2 where user_id = $1 and tool_name = 'own stack'", [A, stackB]);
+  console.log(`   attach to B's stack on insert -> ${ins}; to A's own stack -> ${own}; move to B's stack -> ${upd}`);
+  assert.match(ins, /rejected: That stack belongs to another account/);
+  assert.equal(own, "ok 1");
+  assert.match(upd, /rejected: That stack belongs to another account/);
 });

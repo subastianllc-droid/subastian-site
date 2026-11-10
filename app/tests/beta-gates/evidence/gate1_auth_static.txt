@@ -5,11 +5,11 @@
    safeNext("/\\evil.example") -> /app
    safeNext("") -> /app
    safeNext("null") -> /app
-   auth.resend used: false
-✔ confirm link 'next' only redirects inside the app (1.212222ms)
-✔ bad, expired or reused link -> /login?error=link, which shows a clear message (0.800828ms)
-✔ login before confirming shows 'Confirm your email first' (0.400711ms)
-✔ GAP: no 'resend confirmation email' action exists in the app (0.199024ms)
+   resend: present; shown after unconfirmed login, after sign-up, and after an expired link; same reply for any address
+✔ confirm link 'next' only redirects inside the app (1.0695ms)
+✔ bad, expired or reused link -> /login?error=link, which shows a clear message (0.382839ms)
+✔ login before confirming shows 'Confirm your email first' (0.119038ms)
+✔ 'Resend confirmation email' exists, is offered when needed, and doesn't reveal who has an account (0.22487ms)
 ℹ tests 4
 ℹ suites 0
 ℹ pass 4
@@ -17,4 +17,4 @@
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 111.603411
+ℹ duration_ms 91.768911

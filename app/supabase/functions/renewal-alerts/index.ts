@@ -7,7 +7,8 @@
 //                                        app's one-click unsubscribe, RFC 8058)
 //
 // Who gets what is decided in SQL (mail.claim_due_alerts): alerts on, 8am or later in the
-// person's time zone, an active renewal or trial ending exactly 30/7/3/1/0 days away.
+// person's time zone, an active renewal or trial ending 30/7/3/1/0 days away (or one day late,
+// if no run reached them on the stage day). Failed sends are retried twice, then dropped.
 // Nothing is sent while mail.settings.sending_enabled is false.
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import postgres from "npm:postgres@3.4.5";
@@ -127,9 +128,11 @@ async function processAlerts(s: Settings) {
       const mail = buildAlertEmail({ fullName: p.full_name, items: p.items, appUrl: s.app_url });
       id = await send(s, p.email, p.user_id, mail, `alerts-${[...ids].sort().join("-").slice(0, 200)}`);
     } catch (e) {
-      // Not sent: release the claim so the next hourly run tries again.
-      await sql`delete from public.alert_log where id = any(${ids}::uuid[]) and resend_id is null`;
-      errors.push(String(e instanceof Error ? e.message : e).slice(0, 300));
+      // Not sent: record the attempt. mail.claim_due_alerts retries after 1 hour, then 3 hours, then
+      // gives up (3 attempts). The log rows (and so the Idempotency-Key) stay the same on retries.
+      const msg = String(e instanceof Error ? e.message : e).slice(0, 300);
+      await sql`select mail.alert_send_failed(${ids}::uuid[], ${msg})`.catch(console.error);
+      errors.push(msg);
       continue;
     }
     // Sent: keep the log rows (even if this update failed) so it is never sent twice.

@@ -5,7 +5,7 @@ export type AlertItem = {
   tool: string;
   category?: string;
   kind: "renewal" | "trial";
-  stage: number; // days until the date: 30, 7, 3, 1 or 0
+  stage: number; // days until the date: 30, 7, 3, 1 or 0 (or one less, sent a day late after a missed run)
   date: string; // YYYY-MM-DD
   monthly_cost: number | string | null;
 };

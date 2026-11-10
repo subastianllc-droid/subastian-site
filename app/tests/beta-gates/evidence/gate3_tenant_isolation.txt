@@ -1,0 +1,35 @@
+✔ read: A sees none of B's profiles rows (94.889687ms)
+✔ read: logged-out visitor sees no profiles rows (2.549561ms)
+✔ read: A sees none of B's subscriptions rows (1.7076ms)
+✔ read: logged-out visitor sees no subscriptions rows (1.109851ms)
+✔ read: A sees none of B's stacks rows (1.098938ms)
+✔ read: logged-out visitor sees no stacks rows (2.264829ms)
+✔ read: A sees none of B's alert_log rows (1.017482ms)
+✔ read: logged-out visitor sees no alert_log rows (2.357827ms)
+✔ read: A sees none of B's guard_skips rows (1.42543ms)
+✔ read: logged-out visitor sees no guard_skips rows (1.332929ms)
+✔ read: A looking up B's subscription by its exact id gets nothing (1.1223ms)
+✔ edit: A updating B's subscription by id changes 0 rows, and B's row is unchanged (2.023962ms)
+✔ edit: A cannot move A's own subscription into B's account (user_id = B) (4.12948ms)
+✔ edit: A updating B's profile changes 0 rows (1.331098ms)
+✔ edit: A updating B's stack changes 0 rows (1.741458ms)
+✔ edit: A cannot change billing fields on A's own profile (plan_tier, subscription_status, ls_*) (3.283939ms)
+✔ edit: A cannot write the alert log (even for A's own rows) (3.248677ms)
+✔ create: A cannot insert a subscription owned by B (1.33514ms)
+✔ create: A cannot insert a stack or guard skip owned by B (4.874698ms)
+✔ create: A cannot create a second profile (for B or anyone) (11.455402ms)
+✔ create: logged-out visitor cannot insert into A's account (1.605671ms)
+✔ delete: A deleting B's subscription, stack, guard skip deletes 0 rows (2.32169ms)
+✔ delete: A cannot delete B's profile (no delete policy) (1.53768ms)
+✔ delete: logged-out visitor deletes 0 subscriptions (1.080874ms)
+✔ functions: users cannot run the alert or renewal jobs directly (1.253317ms)
+  GAP evidence: A attaching to B's stack -> inserted 1; rows of A visible to B -> 0
+✔ GAP (low): A can attach A's own subscription to B's stack id; B still can't see A's row (2.69801ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 266.436073

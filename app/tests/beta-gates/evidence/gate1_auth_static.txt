@@ -6,10 +6,10 @@
    safeNext("") -> /app
    safeNext("null") -> /app
    auth.resend used: false
-✔ confirm link 'next' only redirects inside the app (1.243548ms)
-✔ bad, expired or reused link -> /login?error=link, which shows a clear message (0.491868ms)
-✔ login before confirming shows 'Confirm your email first' (0.148974ms)
-✔ GAP: no 'resend confirmation email' action exists in the app (0.162845ms)
+✔ confirm link 'next' only redirects inside the app (1.212222ms)
+✔ bad, expired or reused link -> /login?error=link, which shows a clear message (0.800828ms)
+✔ login before confirming shows 'Confirm your email first' (0.400711ms)
+✔ GAP: no 'resend confirmation email' action exists in the app (0.199024ms)
 ℹ tests 4
 ℹ suites 0
 ℹ pass 4
@@ -17,4 +17,4 @@
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 101.719472
+ℹ duration_ms 111.603411

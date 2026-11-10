@@ -49,14 +49,22 @@ test("malformed: valid rows still read; bad rows dropped", () => {
   assert.equal(charges.find((c) => c.description === "BUFFER, INC").amount, 15);
 });
 
-test("GAP: rejected rows get no message (readStatement returns no per-row reasons)", () => {
-  const { charges, error, ...rest } = readStatement(fixture("malformed.csv"));
-  log(`error field: ${error ?? "undefined"}; other fields: ${JSON.stringify(Object.keys(rest))}`);
+test("malformed: every rejected row gets a plain reason", () => {
+  const { skipped, error } = readStatement(fixture("malformed.csv"));
+  for (const k of skipped) log(`row ${k.row}: ${k.reason}`);
   assert.equal(error, undefined);
-  assert.deepEqual(Object.keys(rest), []);
+  assert.deepEqual(skipped.map((k) => [k.row, k.reason]), [
+    [5, 'Date not recognized: "2026-13-45"'],
+    [6, "No date"],
+    [7, "No description"],
+    [8, "No amount"],
+    [9, 'Amount not recognized: "abc"'],
+    [10, "No description"],
+    [12, "Amount is 0"],
+  ]);
 });
 
-// What each mixed-format row really means (a US card export unless noted).
+// What each mixed-format row really means (a US card export).
 const MIXED_TRUTH = {
   "FMT ISO DATE": { date: "2026-10-01", amount: 10 },
   "FMT US SLASH THOUSANDS": { date: "2026-10-02", amount: 1234.56 },
@@ -64,8 +72,7 @@ const MIXED_TRUTH = {
   "FMT DAY MONTH EURO": { date: "2026-10-04", amount: 19 },
   "FMT SHORT YEAR": { date: "2026-10-05", amount: 5.5 },
   "FMT CURRENCY CODE SUFFIX": { date: "2026-10-06", amount: 12 },
-  "FMT DMY UNAMBIGUOUS": { date: "2026-10-25", amount: 7 },
-  "FMT DMY AMBIGUOUS UK": { date: "2026-10-03", amount: 8 }, // UK bank: 3 October
+  "FMT CURRENCY CODE PREFIX": { date: "2026-10-07", amount: 7 },
   "FMT EU DECIMAL COMMA": { date: "2026-10-08", amount: 14.99 },
   "FMT EU THOUSANDS DOT": { date: "2026-10-09", amount: 1234.56 },
   "FMT REFUND PARENS": "credit",
@@ -73,9 +80,9 @@ const MIXED_TRUTH = {
   "FMT PLUS SIGN": { date: "2026-10-12", amount: 3 },
 };
 
-test("mixed formats: row-by-row result vs. what the row means", () => {
+test("mixed formats: every row read as it's meant (dates, $ £ €, currency codes, EU decimals, refunds)", () => {
   const text = fixture("mixed_formats.csv");
-  const { charges } = readStatement(text);
+  const { charges, credits, skipped } = readStatement(text);
   const got = Object.fromEntries(charges.map((c) => [c.description, { date: c.date, amount: c.amount }]));
   let right = 0;
   const wrong = [];
@@ -85,27 +92,41 @@ test("mixed formats: row-by-row result vs. what the row means", () => {
     if (ok) right++;
     else wrong.push(`${desc}: expected ${JSON.stringify(truth)}, got ${g ? JSON.stringify(g) : "dropped"}`);
   }
-  log(`rows in ${dataRows(text)}, charges out ${charges.length}, handled correctly ${right}/${Object.keys(MIXED_TRUTH).length}`);
+  log(`rows in ${dataRows(text)}, charges out ${charges.length}, refunds/credits left out ${credits}, skipped ${skipped.length}, handled correctly ${right}/${Object.keys(MIXED_TRUTH).length}`);
   for (const w of wrong) log("WRONG", w);
-  assert.equal(right, 9);
-  assert.deepEqual(wrong.map((w) => w.split(":")[0]).sort(), [
-    "FMT CURRENCY CODE SUFFIX", "FMT DMY AMBIGUOUS UK", "FMT EU DECIMAL COMMA", "FMT EU THOUSANDS DOT",
-  ]);
+  assert.deepEqual(wrong, []);
+  assert.equal(credits, 2);
 });
 
-test("GAP: ambiguous 03/10/2026 is read as March 10 (US), wrong for UK/EU statements, and is kept silently", () => {
-  const { charges } = readStatement(fixture("mixed_formats.csv"));
-  const c = charges.find((x) => x.description === "FMT DMY AMBIGUOUS UK");
-  log(`03/10/2026 -> ${c?.date}`);
-  assert.equal(c.date, "2026-03-10");
+test("UK dates: day/month is detected from the file (25/10 can't be month/day), so 03/10 is 3 October", () => {
+  const text = fixture("uk_dates.csv");
+  const { charges, dateOrder, dateOrderUnclear } = readStatement(text);
+  const subs = findSubscriptions(charges, TODAY);
+  log(`rows in ${dataRows(text)}, charges out ${charges.length}, read as ${dateOrder}, unclear ${dateOrderUnclear}; dates ${charges.map((c) => c.date).join(", ")}; subscriptions: ${subs.map((x) => `${x.name} next ${x.next_renewal}`).join(" | ")}`);
+  assert.equal(dateOrder, "dmy");
+  assert.equal(dateOrderUnclear, false);
+  assert.deepEqual(charges.map((c) => c.date), ["2026-08-03", "2026-09-03", "2026-10-03", "2026-10-25"]);
+  assert.deepEqual(subs.map((x) => [x.name, x.next_renewal]), [["Netflix", "2026-12-03"]]);
 });
 
-test("GAP: European file (semicolons, 54,99 decimal comma) reads 0 charges", () => {
+test("UK dates with nothing to tell them apart: the file is flagged so the screen asks, and the answer is used", () => {
+  const text = fixture("uk_dates_unclear.csv");
+  const guess = readStatement(text);
+  const told = readStatement(text, { dateOrder: "dmy" });
+  log(`no hint -> read as ${guess.dateOrder}, unclear ${guess.dateOrderUnclear}, ${findSubscriptions(guess.charges, TODAY).length} subscriptions; person picks day/month -> ${told.charges.map((c) => c.date).join(", ")}, ${findSubscriptions(told.charges, TODAY).length} subscription`);
+  assert.equal(guess.dateOrderUnclear, true);
+  assert.deepEqual(told.charges.map((c) => c.date), ["2026-08-03", "2026-09-03", "2026-10-03"]);
+  assert.equal(findSubscriptions(told.charges, TODAY).length, 1);
+});
+
+test("European file (semicolons, 15.08.2026 dates, 54,99 decimals) is read in full", () => {
   const text = fixture("eu_semicolon.csv");
-  const { charges, error } = readStatement(text);
-  log(`rows in ${dataRows(text)}, charges out ${charges.length}, message: "${error}"`);
-  assert.equal(charges.length, 0);
-  assert.equal(error, "We couldn't read any charges from that file.");
+  const { charges, error, dateOrder } = readStatement(text);
+  const subs = findSubscriptions(charges, TODAY);
+  log(`rows in ${dataRows(text)}, charges out ${charges.length}, read as ${dateOrder}, error ${error ?? "none"}; ${subs.map((x) => `${x.name} $${x.amount} next ${x.next_renewal}`).join(" | ")}`);
+  assert.equal(error, undefined);
+  assert.deepEqual(charges.map((c) => [c.date, c.amount]), [["2026-08-15", 54.99], ["2026-09-15", 54.99], ["2026-10-15", 54.99]]);
+  assert.deepEqual(subs.map((x) => [x.name, x.amount]), [["Adobe Creative Cloud", 54.99]]);
 });
 
 test("exact duplicates: repeated rows don't create extra subscriptions or inflate the price", () => {
@@ -132,7 +153,10 @@ test("near duplicates: merchant spellings merge; a different merchant stays sepa
 
 /* ------------------------------ re-import (DB) ------------------------------ */
 
-/** Mirrors importSubscriptions: read the user's rows, skip names alreadyTracked, insert the rest (one insert). */
+/**
+ * Mirrors importSubscriptions: read the user's rows, skip names alreadyTracked, then save the rest
+ * through public.import_subscriptions (pending migration 20261110_import_subscriptions_rpc.sql).
+ */
 async function importLikeServer(client, uid, candidates, afterRead = async () => {}) {
   return asUser(client, uid, async (c) => {
     const { rows: existing } = await c.query("select tool_name, status from subscriptions");
@@ -143,16 +167,19 @@ async function importLikeServer(client, uid, candidates, afterRead = async () =>
     for (const r of candidates) {
       if (alreadyTracked(r.name, tracked)) { skipped++; continue; }
       tracked.push({ tool_name: r.name, status: "active" });
-      inserts.push(r);
+      inserts.push({
+        user_id: uid, tool_name: r.name, category: r.category, status: "active", billing_cycle: r.billing_cycle,
+        monthly_cost: Math.round((r.billing_cycle === "yearly" ? r.amount / 12 : r.amount) * 100) / 100,
+        renewal_date: r.next_renewal,
+      });
     }
-    for (const r of inserts) {
-      const monthly = Math.round((r.billing_cycle === "yearly" ? r.amount / 12 : r.amount) * 100) / 100;
-      await c.query(
-        "insert into subscriptions (user_id, tool_name, category, status, billing_cycle, monthly_cost, renewal_date) values ($1,$2,$3,'active',$4,$5,$6)",
-        [uid, r.name, r.category, r.billing_cycle, monthly, r.next_renewal],
-      );
+    let added = 0;
+    if (inserts.length) {
+      const { rows: [out] } = await c.query("select * from public.import_subscriptions($1::jsonb)", [JSON.stringify(inserts)]);
+      added = out.added;
+      skipped += out.skipped;
     }
-    return { added: inserts.length, skipped };
+    return { added, skipped };
   });
 }
 const candidatesFrom = (n) => findSubscriptions(readStatement(fixture(n)).charges, TODAY);
@@ -190,7 +217,7 @@ test("re-import: a hand-added 'Canva Pro' blocks an imported 'Canva'; a cancelle
   assert.equal(rows.filter((n) => n === "Ahrefs").length, 2);
 });
 
-test("GAP: two imports at the same moment both insert (no unique constraint in the DB)", async () => {
+test("two imports at the same moment: the second waits and skips what the first added", async () => {
   const c1 = await env.connect();
   const c2 = await env.connect();
   const u = await makeUser(env.db, { email: "race@test.local" });
@@ -203,7 +230,18 @@ test("GAP: two imports at the same moment both insert (no unique constraint in t
     importLikeServer(c2, u, candidatesFrom("clean.csv"), barrier),
   ]);
   const rows = await countFor(u);
-  log(`import 1 ${JSON.stringify(r1)}, import 2 ${JSON.stringify(r2)}, rows in DB ${rows.length} (expected 4 without duplicates)`);
+  log(`import 1 ${JSON.stringify(r1)}, import 2 ${JSON.stringify(r2)}, rows in DB ${rows.length} (4 = no duplicates)`);
   await c1.end(); await c2.end();
-  assert.equal(rows.length, 8);
+  assert.equal(rows.length, 4);
+  assert.equal(r1.added + r2.added, 4);
+});
+
+test("import_subscriptions can't be used to write into someone else's list", async () => {
+  const a = await makeUser(env.db, { email: "owner@test.local" });
+  const b = await makeUser(env.db, { email: "other@test.local" });
+  const payload = JSON.stringify([{ user_id: b, tool_name: "Sneaky", category: "Other", billing_cycle: "monthly", monthly_cost: 1, renewal_date: "2026-12-01" }]);
+  await asUser(env.db, a, (c) => c.query("select * from public.import_subscriptions($1::jsonb)", [payload]));
+  const own = await countFor(a), theirs = await countFor(b);
+  log(`A sent a row naming B as owner -> A has ${JSON.stringify(own)}, B has ${JSON.stringify(theirs)}`);
+  assert.deepEqual([own, theirs], [["Sneaky"], []]);
 });

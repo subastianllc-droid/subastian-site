@@ -43,7 +43,7 @@ async function LoginPanel({ searchParams }: { searchParams: PageProps<"/login">[
         </p>
       )}
       <div className="rounded-2xl border border-line bg-surface p-6 shadow-sm">
-        <LoginForm next={next} />
+        <LoginForm next={next} offerResend={linkError} />
       </div>
     </>
   );

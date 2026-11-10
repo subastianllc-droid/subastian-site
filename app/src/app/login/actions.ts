@@ -5,7 +5,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { safeNext } from "@/lib/safe-next";
 
-export type AuthState = { error?: string; message?: string };
+/** unconfirmed: the account exists but its email isn't confirmed yet, so offer "Resend confirmation email". */
+export type AuthState = { error?: string; message?: string; unconfirmed?: boolean };
 
 async function siteOrigin() {
   const h = await headers();
@@ -30,7 +31,7 @@ export async function signIn(_prev: AuthState, formData: FormData): Promise<Auth
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) {
     if (error.code === "email_not_confirmed") {
-      return { error: "Confirm your email first. Check your inbox for the link we sent." };
+      return { error: "Confirm your email first. Check your inbox for the link we sent.", unconfirmed: true };
     }
     return { error: "That email and password don't match an account." };
   }
@@ -58,7 +59,29 @@ export async function signUp(_prev: AuthState, formData: FormData): Promise<Auth
   }
   // Email confirmation on: no session yet. Off: signed straight in.
   if (data.session) redirect(next);
-  return { message: `Check ${email} for a link to confirm your account.` };
+  return { message: `Check ${email} for a link to confirm your account.`, unconfirmed: true };
+}
+
+/**
+ * Sends the sign-up confirmation email again (for an expired link, or one that never arrived).
+ * The reply is the same whether or not the address has an account, so it can't be used to check
+ * who is signed up.
+ */
+export async function resendConfirmation(_prev: AuthState, formData: FormData): Promise<AuthState> {
+  const { email, next } = readCredentials(formData);
+  if (!EMAIL_RE.test(email)) return { error: "Enter your email address above first.", unconfirmed: true };
+
+  const supabase = await createClient();
+  const origin = await siteOrigin();
+  const { error } = await supabase.auth.resend({
+    type: "signup",
+    email,
+    options: { emailRedirectTo: `${origin}/auth/callback?next=${encodeURIComponent(next)}` },
+  });
+  if (error?.code === "over_email_send_rate_limit" || error?.status === 429) {
+    return { error: "Too many emails sent just now. Wait a minute and try again.", unconfirmed: true };
+  }
+  return { message: `If ${email} has an account waiting to be confirmed, a new link is on its way. Links expire, so use the newest one.` };
 }
 
 export async function sendMagicLink(_prev: AuthState, formData: FormData): Promise<AuthState> {

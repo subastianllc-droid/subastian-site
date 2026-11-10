@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { sendMagicLink, signIn, signUp, type AuthState } from "./actions";
+import { resendConfirmation, sendMagicLink, signIn, signUp, type AuthState } from "./actions";
 
 type Mode = "signin" | "signup" | "link";
 
@@ -11,13 +11,15 @@ const COPY: Record<Mode, { button: string; pending: string }> = {
   link: { button: "Email me a sign-in link", pending: "Sending link…" },
 };
 
-export function LoginForm({ next }: { next: string }) {
+/** offerResend: show "Resend confirmation email" from the start (e.g. after an expired link). */
+export function LoginForm({ next, offerResend = false }: { next: string; offerResend?: boolean }) {
   const [mode, setMode] = useState<Mode>("signin");
   const [email, setEmail] = useState("");
 
   const [signInState, signInAction, signingIn] = useActionState<AuthState, FormData>(signIn, {});
   const [signUpState, signUpAction, signingUp] = useActionState<AuthState, FormData>(signUp, {});
   const [linkState, linkAction, sendingLink] = useActionState<AuthState, FormData>(sendMagicLink, {});
+  const [resendState, resendAction, resending] = useActionState<AuthState, FormData>(resendConfirmation, {});
 
   const { action, state, pending } = {
     signin: { action: signInAction, state: signInState, pending: signingIn },
@@ -97,6 +99,23 @@ export function LoginForm({ next }: { next: string }) {
           {pending ? COPY[mode].pending : COPY[mode].button}
         </button>
       </form>
+
+      {(offerResend || state.unconfirmed || resendState.error || resendState.message) && (
+        <form action={resendAction} className="mt-4 rounded-lg border border-line px-3 py-3 text-sm">
+          <input type="hidden" name="next" value={next} />
+          <input type="hidden" name="email" value={email} />
+          <p className="text-ink-soft">Confirmation link expired, or never arrived?</p>
+          {resendState.error && <p role="alert" className="mt-2 text-danger">{resendState.error}</p>}
+          {resendState.message && <p role="status" className="mt-2 text-accent-strong">{resendState.message}</p>}
+          <button
+            type="submit"
+            disabled={resending}
+            className="mt-2 rounded-lg border border-line px-3 py-2 font-medium text-ink hover:border-accent hover:text-accent disabled:opacity-60"
+          >
+            {resending ? "Sending…" : "Resend confirmation email"}
+          </button>
+        </form>
+      )}
 
       <button
         type="button"

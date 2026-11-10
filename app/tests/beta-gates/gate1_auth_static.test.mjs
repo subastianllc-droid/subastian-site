@@ -29,9 +29,15 @@ test("login before confirming shows 'Confirm your email first'", () => {
   assert.match(actions, /error\.code === "email_not_confirmed"[\s\S]{0,80}Confirm your email first/);
 });
 
-test("GAP: no 'resend confirmation email' action exists in the app", () => {
+test("'Resend confirmation email' exists, is offered when needed, and doesn't reveal who has an account", () => {
   const actions = src("src/app/login/actions.ts");
-  const hasResend = /auth\.resend\(/.test(actions);
-  console.log(`   auth.resend used: ${hasResend}`);
-  assert.equal(hasResend, false);
+  const form = src("src/app/login/login-form.tsx");
+  const page = src("src/app/login/page.tsx");
+  assert.match(actions, /auth\.resend\(\{\s*type: "signup"/);
+  assert.match(actions, /email_not_confirmed"[\s\S]{0,120}unconfirmed: true/); // offered after "Confirm your email first"
+  assert.match(form, /Resend confirmation email/);
+  assert.match(page, /offerResend=\{linkError\}/); // offered after an expired or used link
+  // One reply for every address, so the button can't be used to check who's signed up.
+  assert.match(actions, /If \$\{email\} has an account waiting to be confirmed/);
+  console.log("   resend: present; shown after unconfirmed login, after sign-up, and after an expired link; same reply for any address");
 });

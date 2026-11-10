@@ -15,7 +15,7 @@ The thresholds in the brief are **proposed targets**. Every number below comes f
 |---|---|---|---|
 | 1. Sign-up and confirmation | **BLOCKED** (needs staging) | 4/4 code-level checks | `evidence/gate1_auth_static.txt` |
 | 2. CSV import accuracy and duplicates | **PASS locally**, once the import migration is applied | 13/13 | `evidence/gate2_csv_import.txt`, `fixtures/csv/` |
-| 3. Tenant isolation | **PASS** (1 low gap) | 26/26 | `evidence/gate3_tenant_isolation.txt` |
+| 3. Tenant isolation | **PASS** (stack gap closed by `20261110c`) | 26/26 | `evidence/gate3_tenant_isolation.txt` |
 | 4. Trial and renewal alerts | **Logic PASS, delivery NOT TESTED** | 21/21 | `evidence/gate4_alerts.txt` |
 
 The app's own unit tests also pass: `npm test` in `app/`, 41/41.
@@ -32,7 +32,7 @@ The real flow needs Supabase Auth to send the email and a test inbox to receive 
 - The confirm link's `next` stays inside the app.
 
 **Gaps:**
-- There is no "resend confirmation email" button.
+- **Added:** a "Resend confirmation email" button. It shows after an unconfirmed login, after sign-up, and after an expired link. It gives the same reply for any address, so it can't be used to check who has an account.
 - Not verified: opening the confirmation link on a different device than the one used to sign up.
 
 ## Gate 2: CSV import: PASS locally
@@ -62,7 +62,7 @@ The real flow needs Supabase Auth to send the email and a test inbox to receive 
 
 No change since the first run. User A read, edited, created and deleted 0 of user B's rows, across 26 tests. The live policies are copied verbatim into `db/01_schema_from_live.sql`.
 
-**Low gap:** through the API directly, A can point their own subscription at B's `stack_id`. A still sees nothing of B's, and the app's own form blocks it.
+**Stack gap: closed** by `20261110c_subscription_stack_owner.sql`. The database now rejects a subscription linked to another account's stack, on insert or update. A's own stacks still work.
 
 ## Gate 4: Alerts: logic PASS, delivery NOT TESTED
 

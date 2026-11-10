@@ -112,7 +112,13 @@ export type Database = {
       };
     };
     Views: { [_ in never]: never };
-    Functions: { [_ in never]: never };
+    Functions: {
+      /** supabase/migrations/20261110_import_subscriptions_rpc.sql */
+      import_subscriptions: {
+        Args: { p_rows: unknown };
+        Returns: { added: number; skipped: number }[];
+      };
+    };
     Enums: { [_ in never]: never };
     CompositeTypes: { [_ in never]: never };
   };

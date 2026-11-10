@@ -95,3 +95,35 @@ test("already tracked ignores plan words and cancelled rows", () => {
   assert.equal(alreadyTracked("Canva", [{ tool_name: "Canva Pro", status: "active" }]), true);
   assert.equal(alreadyTracked("Canva", [{ tool_name: "Canva Pro", status: "cancelled" }]), false);
 });
+
+test("amounts: currency codes and European decimals", () => {
+  assert.equal(parseAmount("12.00 USD"), 12);
+  assert.equal(parseAmount("EUR 7"), 7);
+  assert.equal(parseAmount("14,99"), 14.99);
+  assert.equal(parseAmount("1.234,56"), 1234.56);
+  assert.equal(parseAmount("-54,99"), -54.99);
+  assert.equal(parseAmount("1,234"), 1234); // US thousands, not 1.234
+});
+
+test("dates: day/month order when asked, and detected from the file", () => {
+  assert.equal(parseDate("03/10/2026"), "2026-03-10");
+  assert.equal(parseDate("03/10/2026", "dmy"), "2026-10-03");
+  assert.equal(parseDate("15.08.2026", "dmy"), "2026-08-15");
+  const uk = "Date,Description,Amount\n03/10/2026,NETFLIX,10.99\n25/10/2026,TESCO,5.00\n";
+  const r = readStatement(uk);
+  assert.equal(r.dateOrder, "dmy");
+  assert.equal(r.charges[0].date, "2026-10-03");
+  assert.equal(readStatement("Date,Description,Amount\n03/10/2026,NETFLIX,10.99\n").dateOrderUnclear, true);
+});
+
+test("skipped rows come back with a reason; refunds are counted, not skipped", () => {
+  const csv = "Date,Description,Amount\n2026-10-01,ZOOM,15.99\nnope,ZOOM,15.99\n2026-10-02,,1\n2026-10-03,ZOOM,abc\n2026-10-04,REFUND,-15.99\n";
+  const r = readStatement(csv);
+  assert.equal(r.charges.length, 1);
+  assert.equal(r.credits, 1);
+  assert.deepEqual(r.skipped.map((k) => [k.row, k.reason]), [
+    [3, 'Date not recognized: "nope"'],
+    [4, "No description"],
+    [5, 'Amount not recognized: "abc"'],
+  ]);
+});

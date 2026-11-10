@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useState } from "react";
 import { CATEGORIES, formatDate, money } from "@/lib/subscriptions";
-import { alreadyTracked, findSubscriptions, readStatement, type Candidate } from "@/lib/statement";
+import { alreadyTracked, findSubscriptions, readStatement, type Candidate, type DateOrder, type SkippedRow } from "@/lib/statement";
 import { importSubscriptions, type ImportState } from "../actions";
 
 type Row = Candidate & { checked: boolean; tracked: boolean };
@@ -31,11 +31,15 @@ export function ImportView({ tracked, today }: { tracked: { tool_name: string; s
   const [rows, setRows] = useState<Row[] | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [fileText, setFileText] = useState<string | null>(null);
+  const [read, setRead] = useState<{ count: number; skipped: SkippedRow[]; credits: number; dateOrder: DateOrder; unclear: boolean } | null>(null);
   const [state, action, pending] = useActionState<ImportState, FormData>(importSubscriptions, {});
 
-  function load(text: string, name: string) {
+  function load(text: string, name: string, dateOrder?: DateOrder) {
     setFileName(name);
-    const { charges, error } = readStatement(text);
+    setFileText(text);
+    const { charges, error, skipped, credits, dateOrder: order, dateOrderUnclear } = readStatement(text, { dateOrder });
+    setRead({ count: charges.length, skipped, credits, dateOrder: order, unclear: dateOrderUnclear || dateOrder !== undefined });
     if (error) {
       setFileError(error);
       setRows(null);
@@ -124,6 +128,51 @@ export function ImportView({ tracked, today }: { tracked: { tool_name: string; s
             </div>
 
             {fileError && <p role="alert" className="mt-4 rounded-lg bg-danger-tint px-3 py-2 text-sm text-danger">{fileError}</p>}
+
+            {read && fileText && read.unclear && (
+              <fieldset className="mt-4 rounded-lg border border-line bg-surface px-4 py-3 text-sm">
+                <legend className="px-1 font-semibold text-ink">How are the dates written in this file?</legend>
+                <p className="text-ink-soft">A date like 03/10/2026 could be March 10 or 3 October. Pick the one your bank uses.</p>
+                <div className="mt-2 flex flex-wrap gap-4">
+                  {(["mdy", "dmy"] as const).map((o) => (
+                    <label key={o} className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="date-order"
+                        checked={read.dateOrder === o}
+                        onChange={() => load(fileText, fileName ?? "", o)}
+                        className="accent-[var(--accent-fill)]"
+                      />
+                      {o === "mdy" ? "Month first (US): 03/10 = March 10" : "Day first (UK, EU and most others): 03/10 = 3 October"}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            )}
+
+            {read && (read.count > 0 || read.skipped.length > 0) && (
+              <div className="mt-4 text-sm text-ink-soft" role="status">
+                <p>
+                  Read {read.count} {read.count === 1 ? "charge" : "charges"}
+                  {read.credits ? `; left out ${read.credits} refunds, payments or deposits` : ""}
+                  {read.skipped.length ? `; skipped ${read.skipped.length} ${read.skipped.length === 1 ? "row" : "rows"} we couldn't read.` : "."}
+                </p>
+                {read.skipped.length > 0 && (
+                  <details className="mt-1">
+                    <summary className="cursor-pointer text-accent">See the skipped rows</summary>
+                    <ul className="mt-2 space-y-1 rounded-lg bg-band px-3 py-2">
+                      {read.skipped.slice(0, 50).map((k) => (
+                        <li key={k.row}>
+                          <span className="font-semibold text-ink">Row {k.row}:</span> {k.reason}
+                          <span className="block truncate text-xs text-ink-faint" title={k.text}>{k.text}</span>
+                        </li>
+                      ))}
+                      {read.skipped.length > 50 && <li>…and {read.skipped.length - 50} more.</li>}
+                    </ul>
+                  </details>
+                )}
+              </div>
+            )}
 
             {rows && rows.length === 0 && (
               <p className="mt-6 rounded-2xl border border-dashed border-line bg-surface p-6 text-ink-soft">

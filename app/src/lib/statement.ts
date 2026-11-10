@@ -73,13 +73,22 @@ function iso(y: number, m: number, d: number): string | null {
   return dt.toISOString().slice(0, 10);
 }
 
-/** US-style statement dates: 11/03/2026, 11/3/26, 2026-11-03, Nov 3, 2026, 03 Nov 2026. */
-export function parseDate(s: string): string | null {
+export type DateOrder = "mdy" | "dmy";
+
+/**
+ * Statement dates: 11/03/2026, 11/3/26, 2026-11-03, Nov 3, 2026, 03 Nov 2026, 03.11.2026.
+ * `order` decides numeric dates like 03/11/2026: "mdy" (US, the default) or "dmy" (UK, EU and most others).
+ * A date that's impossible one way (25/10/2026) is read the other way.
+ */
+export function parseDate(s: string, order: DateOrder = "mdy"): string | null {
   const t = s.trim();
   let m = /^(\d{4})-(\d{1,2})-(\d{1,2})/.exec(t);
   if (m) return iso(+m[1], +m[2], +m[3]);
   m = /^(\d{1,2})[/.-](\d{1,2})[/.-](\d{2,4})$/.exec(t);
-  if (m) return iso(+m[3], +m[1], +m[2]) ?? iso(+m[3], +m[2], +m[1]);
+  if (m) {
+    const [a, b, y] = [+m[1], +m[2], +m[3]];
+    return order === "dmy" ? iso(y, b, a) ?? iso(y, a, b) : iso(y, a, b) ?? iso(y, b, a);
+  }
   m = /^([A-Za-z]{3})[a-z]*\.? (\d{1,2}),? (\d{4})$/.exec(t);
   if (m && MONTHS.includes(m[1].toLowerCase())) return iso(+m[3], MONTHS.indexOf(m[1].toLowerCase()) + 1, +m[2]);
   m = /^(\d{1,2}) ([A-Za-z]{3})[a-z]* (\d{4})$/.exec(t);
@@ -87,16 +96,23 @@ export function parseDate(s: string): string | null {
   return null;
 }
 
-/** "$1,234.56" → 1234.56, "(12.00)" and "-12.00" → -12, "12.00 CR" → -12. Blank → null. */
+/**
+ * "$1,234.56" → 1234.56, "(12.00)" and "-12.00" → -12, "12.00 CR" → -12, "12.00 USD" → 12.
+ * European decimals too: "14,99" → 14.99, "1.234,56" → 1234.56. ("1,234" stays one thousand two hundred thirty-four.)
+ * Blank → null.
+ */
 export function parseAmount(s: string): number | null {
   let t = s.trim();
   if (!t) return null;
   let neg = false;
   if (/^\(.*\)$/.test(t)) { neg = true; t = t.slice(1, -1); }
   if (/\bcr$/i.test(t)) { neg = true; t = t.replace(/\s*cr$/i, ""); }
-  t = t.replace(/[$€£\s]/g, "").replace(/,(?=\d{3}\b)/g, "");
+  t = t.replace(/\b(usd|eur|gbp|cad|aud|nzd|chf)\b/gi, "").replace(/[$€£\s]/g, "");
   if (t.startsWith("-")) { neg = !neg; t = t.slice(1); }
   if (t.startsWith("+")) t = t.slice(1);
+  if (/^\d{1,3}(\.\d{3})+,\d{1,2}$/.test(t)) t = t.replace(/\./g, "").replace(",", ".");
+  else if (/^\d+,\d{1,2}$/.test(t)) t = t.replace(",", ".");
+  else t = t.replace(/,(?=\d{3}\b)/g, "");
   if (!/^\d+(\.\d+)?$/.test(t)) return null;
   const n = Number(t);
   return neg ? -n : n;
@@ -130,43 +146,101 @@ function findColumns(rows: string[][]): Columns | null {
   return d >= 0 && a >= 0 && t >= 0 ? { date: d, desc: t, amount: a, header: false } : null;
 }
 
+/** A row we couldn't use, and why (row 1 is the header when there is one). */
+export type SkippedRow = { row: number; reason: string; text: string };
+
+export type StatementResult = {
+  charges: Charge[];
+  error?: string;
+  /** Rows that weren't read, each with a plain reason. Refunds and payments aren't listed here. */
+  skipped: SkippedRow[];
+  /** Money coming in (refunds, payments, deposits), left out on purpose. */
+  credits: number;
+  /** How numeric dates like 03/10/2026 were read. */
+  dateOrder: DateOrder;
+  /** True when the file's dates fit both ways and nothing in it says which: ask the person. */
+  dateOrderUnclear: boolean;
+};
+
+/** Month/day or day/month? Any date with a first number over 12 means day/month, and vice versa. */
+function detectDateOrder(values: string[]): { order: DateOrder; unclear: boolean } {
+  let dmy = false, mdy = false, ambiguous = false, dots = false;
+  for (const v of values) {
+    const m = /^(\d{1,2})([/.-])(\d{1,2})[/.-](\d{2,4})$/.exec(v.trim());
+    if (!m) continue;
+    const a = +m[1], b = +m[3];
+    if (m[2] === ".") dots = true;
+    if (a > 12 && b <= 12) dmy = true;
+    else if (b > 12 && a <= 12) mdy = true;
+    else if (a !== b) ambiguous = true;
+  }
+  if (dmy && !mdy) return { order: "dmy", unclear: false };
+  if (mdy && !dmy) return { order: "mdy", unclear: false };
+  // 15.08.2026-style dates are a European habit; slashes default to US.
+  return { order: dots ? "dmy" : "mdy", unclear: ambiguous };
+}
+
 /**
  * The charges (money going out) in a statement, as positive amounts. Banks differ on signs: with one
  * amount column, whichever sign most rows have is treated as "charges" (cards list purchases as
  * positive, checking accounts as negative).
  */
-export function readStatement(text: string): { charges: Charge[]; error?: string } {
+export function readStatement(text: string, opts: { dateOrder?: DateOrder } = {}): StatementResult {
+  const empty = { charges: [], skipped: [], credits: 0, dateOrder: "mdy" as DateOrder, dateOrderUnclear: false };
   const rows = parseCsv(text);
-  if (rows.length < 2) return { charges: [], error: "That file doesn't have any rows we can read." };
+  if (rows.length < 2) return { ...empty, error: "That file doesn't have any rows we can read." };
   const cols = findColumns(rows);
-  if (!cols) return { charges: [], error: "We couldn't find the date, description and amount columns. Try your bank's CSV download (not PDF)." };
+  if (!cols) return { ...empty, error: "We couldn't find the date, description and amount columns. Try your bank's CSV download (not PDF)." };
 
   const body = cols.header ? rows.slice(1) : rows;
-  const raw: Charge[] = [];
-  for (const r of body) {
-    const date = parseDate(r[cols.date] ?? "");
-    const description = (r[cols.desc] ?? "").trim();
-    if (!date || !description) continue;
-    let amount: number | null = null;
-    if (cols.debit !== undefined && cols.debit !== cols.amount) {
-      const d = parseAmount(r[cols.debit] ?? "");
-      if (d !== null && d !== 0) amount = Math.abs(d);
-      else continue; // credit row
-    } else if (cols.amount !== undefined) {
-      amount = parseAmount(r[cols.amount] ?? "");
-    }
-    if (amount === null || amount === 0) continue;
-    raw.push({ date, description, amount });
-  }
-  if (!raw.length) return { charges: [], error: "We couldn't read any charges from that file." };
-
+  const first = cols.header ? 2 : 1;
+  const detected = detectDateOrder(body.map((r) => r[cols.date] ?? ""));
+  const dateOrder = opts.dateOrder ?? detected.order;
+  const dateOrderUnclear = !opts.dateOrder && detected.unclear;
   const usesDebitColumn = cols.debit !== undefined && cols.debit !== cols.amount;
+
+  const raw: (Charge & { row: number })[] = [];
+  const skipped: SkippedRow[] = [];
+  let credits = 0;
+  body.forEach((r, i) => {
+    const row = first + i;
+    const skip = (reason: string) => skipped.push({ row, reason, text: r.join(", ").slice(0, 120) });
+    const rawDate = (r[cols.date] ?? "").trim();
+    const date = parseDate(rawDate, dateOrder);
+    const description = (r[cols.desc] ?? "").trim();
+    if (!rawDate) return skip("No date");
+    if (!date) return skip(`Date not recognized: "${rawDate.slice(0, 30)}"`);
+    if (!description) return skip("No description");
+    let amount: number | null = null;
+    if (usesDebitColumn) {
+      const cell = (r[cols.debit!] ?? "").trim();
+      const d = parseAmount(cell);
+      if (d !== null && d !== 0) amount = Math.abs(d);
+      else if (!cell && cols.credit !== undefined && parseAmount(r[cols.credit] ?? "")) { credits++; return; }
+      else if (!cell) return skip("No amount");
+      else if (d === null) return skip(`Amount not recognized: "${cell.slice(0, 30)}"`);
+      else return skip("Amount is 0");
+    } else {
+      const cell = (r[cols.amount!] ?? "").trim();
+      amount = parseAmount(cell);
+      if (!cell) return skip("No amount");
+      if (amount === null) return skip(`Amount not recognized: "${cell.slice(0, 30)}"`);
+      if (amount === 0) return skip("Amount is 0");
+    }
+    raw.push({ date, description, amount, row });
+  });
+  if (!raw.length) {
+    return { ...empty, skipped, credits, dateOrder, dateOrderUnclear, error: "We couldn't read any charges from that file." };
+  }
+
   const negatives = raw.filter((c) => c.amount < 0).length;
   const chargesAreNegative = !usesDebitColumn && negatives > raw.length / 2;
+  const isCharge = (c: Charge) => (usesDebitColumn ? true : chargesAreNegative ? c.amount < 0 : c.amount > 0);
+  credits += raw.filter((c) => !isCharge(c)).length;
   const charges = raw
-    .filter((c) => (usesDebitColumn ? true : chargesAreNegative ? c.amount < 0 : c.amount > 0))
-    .map((c) => ({ ...c, amount: Math.round(Math.abs(c.amount) * 100) / 100 }));
-  return { charges };
+    .filter(isCharge)
+    .map(({ date, description, amount }) => ({ date, description, amount: Math.round(Math.abs(amount) * 100) / 100 }));
+  return { charges, skipped, credits, dateOrder, dateOrderUnclear };
 }
 
 /* ------------------------------ merchants ------------------------------ */

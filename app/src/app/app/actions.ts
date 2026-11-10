@@ -380,10 +380,23 @@ export async function importSubscriptions(_prev: ImportState, formData: FormData
       renewal_date: next,
     });
   }
+  let added = inserts.length;
   if (inserts.length) {
-    const { error } = await supabase.from("subscriptions").insert(inserts);
-    if (error) return { error: "Couldn't save them. Try again." };
+    // import_subscriptions locks per user and re-checks names in the database, so two imports at
+    // once (two tabs, a retry) can't both add the same tools. Before that migration is applied,
+    // fall back to a plain insert.
+    const { data, error } = await supabase.rpc("import_subscriptions", { p_rows: inserts });
+    if (error?.code === "PGRST202") {
+      const plain = await supabase.from("subscriptions").insert(inserts);
+      if (plain.error) return { error: "Couldn't save them. Try again." };
+    } else if (error) {
+      return { error: "Couldn't save them. Try again." };
+    } else {
+      const out = (Array.isArray(data) ? data[0] : data) as { added: number; skipped: number } | null;
+      added = out?.added ?? 0;
+      skipped += out?.skipped ?? 0;
+    }
   }
   revalidatePath("/app", "layout");
-  return { added: inserts.length, skipped };
+  return { added, skipped };
 }

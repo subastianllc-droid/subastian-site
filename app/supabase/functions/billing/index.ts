@@ -25,7 +25,9 @@ import {
 
 const env = (k: string) => Deno.env.get(k);
 const sql = postgres(env("SUPABASE_DB_URL")!, { prepare: false, max: 2 });
-const stripe = new Stripe(env("STRIPE_SECRET_KEY")!, { httpClient: Stripe.createFetchHttpClient() });
+// Placeholder key until the secret is set, so the function still boots; requests then get a 503.
+const configured = () => !!env("STRIPE_SECRET_KEY") && !!env("STRIPE_WEBHOOK_SECRET") && !!env("APP_URL");
+const stripe = new Stripe(env("STRIPE_SECRET_KEY") ?? "sk_test_unset", { httpClient: Stripe.createFetchHttpClient() });
 const crypto = Stripe.createSubtleCryptoProvider();
 const auth = createClient(env("SUPABASE_URL")!, env("SUPABASE_ANON_KEY")!, {
   auth: { persistSession: false, autoRefreshToken: false },
@@ -149,6 +151,7 @@ async function webhook(req: Request) {
 
 Deno.serve(async (req) => {
   if (req.method !== "POST") return json({ error: "POST only" }, 405);
+  if (!configured()) return json({ error: "Billing isn't set up yet." }, 503);
   try {
     if (req.headers.has("stripe-signature")) return await webhook(req);
 

@@ -1,9 +1,6 @@
 # Subastian beta gates: evidence report (updated 2026-11-10)
 
-All tests here ran **locally**, against a throwaway Postgres 16 copy of the live schema, RLS policies, grants and alert functions. On top of that copy go this branch's two migrations, which are **not yet applied to the live database**:
-
-- `supabase/migrations/20261110_import_subscriptions_rpc.sql`
-- `supabase/migrations/20261110b_alert_retries_catchup_anchor.sql`
+All tests here ran **locally**, against a throwaway Postgres 16 copy of the live schema, RLS policies, grants and alert functions. On top of that copy go the migrations listed in `PENDING_MIGRATIONS` (`db.mjs`). The two `20261110` migrations were applied to the live database on Nov 10, 2026. `20261111_stripe_billing.sql` (Gate 5) is **not yet applied**.
 
 Nothing was deployed and no emails were sent. No account, payment or processor settings were touched.
 
@@ -17,6 +14,7 @@ The thresholds in the brief are **proposed targets**. Every number below comes f
 | 2. CSV import accuracy and duplicates | **PASS locally**, once the import migration is applied | 13/13 | `evidence/gate2_csv_import.txt`, `fixtures/csv/` |
 | 3. Tenant isolation | **PASS** (1 low gap) | 26/26 | `evidence/gate3_tenant_isolation.txt` |
 | 4. Trial and renewal alerts | **Logic PASS, delivery NOT TESTED** | 21/21 | `evidence/gate4_alerts.txt` |
+| 5. Stripe billing state | **PASS locally** (Stripe calls not tested here) | 10/10 | `gate5_billing.test.mjs` |
 
 The app's own unit tests also pass: `npm test` in `app/`, 41/41.
 

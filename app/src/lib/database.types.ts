@@ -46,6 +46,11 @@ export type Database = {
           time_zone: string;
           alerts_enabled: boolean;
           niche: string | null;
+          /** Written only by the billing Edge Function (20261111_stripe_billing.sql). */
+          stripe_customer_id: string | null;
+          stripe_subscription_id: string | null;
+          stripe_price_id: string | null;
+          cancel_at_period_end: boolean;
         };
         Insert: never;
         Update: { full_name?: string | null; time_zone?: string; alerts_enabled?: boolean; niche?: string | null };

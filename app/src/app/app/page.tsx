@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { todayIn } from "@/lib/subscriptions";
+import { hasAccess } from "@/lib/billing";
 import { DashboardView } from "./_components/dashboard-view";
 
 export const metadata: Metadata = { title: "Dashboard" };
@@ -46,7 +47,7 @@ async function Dashboard() {
 
   const [{ data: profile }, { data: subsData, error: subsError }, { data: stacksData }, { data: skipsData }] =
     await Promise.all([
-      supabase.from("profiles").select("email, full_name, plan_tier, time_zone, alerts_enabled").eq("id", auth.user.id).maybeSingle(),
+      supabase.from("profiles").select("email, full_name, plan_tier, subscription_status, time_zone, alerts_enabled").eq("id", auth.user.id).maybeSingle(),
       supabase.from("subscriptions").select("*").order("created_at"),
       supabase.from("stacks").select("*").order("name"),
       supabase.from("guard_skips").select("*").order("created_at"),
@@ -57,7 +58,7 @@ async function Dashboard() {
   return (
     <DashboardView
       email={profile?.email ?? auth.user.email ?? ""}
-      planTier={profile?.plan_tier ?? null}
+      planTier={hasAccess(profile?.subscription_status) ? (profile?.plan_tier ?? null) : null}
       subs={(subsData ?? []).map((s) => ({ ...s, monthly_cost: Number(s.monthly_cost) }))}
       guardSkips={(skipsData ?? []).map((g) => ({
         ...g,

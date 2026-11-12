@@ -54,7 +54,7 @@ Tables live in the Supabase project "Subastian's Big Project":
 - **Used by this app:** `profiles`, `subscriptions`, `stacks`, `alert_log`, `guard_skips`
 - **Used by the website and affiliate flow:** `affiliate_*`, `partners`, `suggestions`
 
-Every table has Row Level Security on, so users only ever see their own rows. Users can't change their own `plan_tier`; that should only be set by the Lemon Squeezy webhook (Phase 2).
+Every table has Row Level Security on, so users only ever see their own rows. Users can't change their own `plan_tier`; only the Stripe webhook sets it (`supabase/functions/billing/`).
 
 Run the tests with `npm test`. SQL for schema changes made from here is kept in `supabase/migrations/`.
 

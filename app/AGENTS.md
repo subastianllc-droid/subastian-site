@@ -13,7 +13,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 This repo is the source of truth for the Subastian app. Read this before changing anything.
 
 - **Stack:** Next.js 16 App Router + Supabase (`@supabase/ssr`) + Tailwind 4. No other backend; do not add Python services, AWS, or PartnerStack integrations.
-- **Payments:** Lemon Squeezy (merchant of record). Monthly plans (Starter $49 / Pro $99 / Agency Maestro $299) stay unpublished until beta.
+- **Payments:** Stripe (replaced Lemon Squeezy, Nov 2026). Affiliates: PromoteKit (reads `promotekit_referral` from Stripe metadata, and promo codes). Monthly plans (Starter $49 / Conductor Pro $99 / Agency Maestro $299) stay closed until launch: checkout only works when `BILLING_ENABLED=true` in both the app and the `billing` Edge Function. The Stripe secret key lives only in Edge Function secrets, never in this app.
 - **Auth:**
   - Request-time session refresh lives in `src/proxy.ts` (Next 16 renamed middleware to proxy).
   - Server code uses `createClient()` from `src/lib/supabase/server.ts`.
@@ -22,7 +22,8 @@ This repo is the source of truth for the Subastian app. Read this before changin
 - **Security:**
   - RLS enforces per-user access on every table.
   - Never use the service-role key in this app.
-  - Never let a user write `plan_tier`, `ls_*` or `subscription_status` on `profiles`.
+  - Never let a user write `plan_tier`, `subscription_status`, `stripe_*`, `cancel_at_period_end`, `current_period_end` or `ls_*` on `profiles`. Only `billing.apply_subscription()` (called by the webhook) writes them.
+  - Access comes from `subscription_status` (`trialing`, `active`, `past_due`; see `hasAccess` in `src/lib/billing.ts`), not from `plan_tier`, which defaults to `starter` for everyone.
 - **Dates:** `trial_ends_at`, `renewal_date` and `last_used_at` are calendar dates. "Today" comes from the viewer's time zone (the `tz` cookie, see `TzSync`).
 - **Schema rules:** category and status values must match the CHECK constraints listed in `src/lib/subscriptions.ts`.
 - **New tables need explicit grants (Supabase change, Oct 30 2026):** tables created in `public` no longer get Data API access automatically, so the API returns "permission denied" until granted. In the same migration that creates a table: enable RLS, add policies, then `grant` only what the app needs: `authenticated` for per-user data, `service_role` (select/insert/update/delete) for Edge Functions, and `anon` only for deliberately public actions (most public writes go through a `security definer` RPC like `join_roster` instead). Add `revoke all on <table> from anon;` when logged-out visitors should have no access. See `supabase/migrations/20261016_purchase_guard_skips.sql` for the pattern.
@@ -31,7 +32,11 @@ This repo is the source of truth for the Subastian app. Read this before changin
 ## Build phases
 
 1. **Done.** Auth, core schema, free-trial tracker, subscriptions CRUD, stacks, spend summary, overlap and neglect flags.
-2. **Next.** Lemon Squeezy checkout and webhook (Supabase Edge Function) that sets `plan_tier` / `subscription_status`; plan limits.
+2. **Built, not yet live.** Stripe billing (`supabase/functions/billing/`, setup steps in its README):
+   - `/app/billing` shows the three plans. "Start free trial" calls `startCheckout`, which asks the `billing` Edge Function for a Stripe Checkout URL. It uses a 14-day trial (first subscription only), requires a card, allows promo codes, and passes the PromoteKit referral cookie as metadata. "Manage billing" opens the Stripe Customer Portal.
+   - The webhook re-fetches each subscription from Stripe, then calls `billing.apply_subscription()`. That function records the event id (repeats change nothing) and updates the profile. A late event about an old subscription can't overwrite a newer active one.
+   - Rules: `logic.ts` (tested by `npm test`). Database: `tests/beta-gates/gate5_billing.test.mjs`.
+   - Still to do: plan limits (what each plan includes isn't decided yet).
 3. **Done.** Alerts: the `renewal-alerts` Edge Function runs hourly (cron `subastian-renewal-alerts`, at :07). `mail.claim_due_alerts()` picks active renewals and trials ending exactly 30/7/3/1/0 days from the user's today (`profiles.time_zone`, saved by `TzSync`), only after 8am local and only when `profiles.alerts_enabled`; it writes `alert_log` first so nothing is sent twice, and the sender deletes the rows again if Resend fails. One email per person lists everything due (`renewal-alerts/alert-email.ts`, tested by `npm test`). The email's "Turn off alerts" link and the dashboard switch (`AlertsCard`) set `alerts_enabled`. Alerts share `mail.settings.daily_cap` with roster emails; `mail.settings.app_url` adds an "Open Subastian" link.
 4. **Done.** Niche Stacks at `/app/niche`: five hand-priced stacks from `automation/build_stacks.py` (same data as subastian.us/stacks/; the script writes `src/lib/niche-stacks.data.json`, never edit the JSON). `profiles.niche` remembers the pick. `src/lib/niche-stacks.ts` matches each tool to the user's rows by name (Purchase Guard's normalizing), and tools sharing a `group` do the same job: `trialPlan` suggests trying them one at a time (free-trial tools first) and stops once one is kept. Adding goes through `SubscriptionEditor` with a `preset`, so Purchase Guard still checks it. Tests: `npm test`.
 6. **Done.** Doing the work for the user:

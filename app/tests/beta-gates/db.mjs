@@ -9,7 +9,11 @@ const PORT = Number(process.env.PGPORT ?? 54329);
 const SQL_FILES = ["00_supabase_stub.sql", "01_schema_from_live.sql", "02_alert_functions_from_live.sql"];
 // Migrations in this branch that aren't on the live database yet, applied on top of the live copy
 // (now() -> mail.test_now() so tests can set the clock). GATE_LIVE_ONLY=1 tests the live logic alone.
-export const PENDING_MIGRATIONS = ["20261110_import_subscriptions_rpc.sql", "20261110b_alert_retries_catchup_anchor.sql"];
+export const PENDING_MIGRATIONS = [
+  "20261110_import_subscriptions_rpc.sql",
+  "20261110b_alert_retries_catchup_anchor.sql",
+  "20261111_stripe_billing.sql",
+];
 
 export async function freshDb(name) {
   const dbName = `gate_${name}_${Date.now()}`;

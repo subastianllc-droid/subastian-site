@@ -29,8 +29,8 @@ import { ConfirmButton } from "./confirm-button";
 import { StackForm } from "./stack-form";
 import { SubscriptionEditor } from "./subscription-editor";
 import { TzSync } from "./tz-sync";
+import { PLAN_LABEL } from "@/lib/billing";
 
-const PLAN_LABEL: Record<string, string> = { starter: "Starter", pro: "Pro", maestro: "Agency Maestro" };
 
 export function DashboardView({
   email,
@@ -80,6 +80,7 @@ export function DashboardView({
                 {PLAN_LABEL[planTier] ?? planTier}
               </span>
             )}
+            <a href="/app/billing" className="rounded-lg px-2 py-1.5 font-medium text-ink-soft hover:text-ink">Billing</a>
             <form action={signOut}>
               <button className="rounded-lg px-2 py-1.5 font-medium text-ink-soft hover:text-ink">Sign out</button>
             </form>

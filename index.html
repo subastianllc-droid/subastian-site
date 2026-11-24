@@ -177,6 +177,14 @@
   .band-inner{padding-top:88px; padding-bottom:88px;}
   .band{background:var(--bg-band);}
 
+  /* ---- seasonal guide banner (Black Friday 2026; remove after Cyber Monday) ---- */
+  .promo-bar{background:var(--accent-tint); border-bottom:1px solid var(--line);}
+  .promo-bar .wrap{display:flex; align-items:center; justify-content:center; gap:6px 14px; flex-wrap:wrap; padding-top:12px; padding-bottom:12px; text-align:center; font-size:15px; color:var(--ink);}
+  .promo-bar .promo-tag{font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);}
+  .promo-bar a{color:var(--accent); font-weight:600; white-space:nowrap;}
+  .promo-bar[hidden]{display:none;}
+  @media (max-width:760px){ .promo-bar .promo-tag{display:none;} .promo-bar .wrap{font-size:14.5px;} }
+
   /* ---- hero ---- */
   .hero{padding:56px 0 88px;}
   .eyebrow{
@@ -552,6 +560,16 @@
 
 <main id="main">
 
+<div class="promo-bar" role="note" aria-label="Black Friday guide" data-section="bf-guide-banner">
+  <div class="wrap">
+    <span class="promo-tag">Black Friday 2026</span>
+    <span>Buying an annual SaaS deal? Run these 4 checks first.</span>
+    <a href="/guides/black-friday-saas-deals/?src=home-banner">Read the free guide &rarr;</a>
+  </div>
+</div>
+<script>/* hide the seasonal banner after Cyber Monday (Dec 1, 2026, midnight Denver) */
+if (Date.now() >= Date.UTC(2026, 11, 1, 7)) { document.currentScript.previousElementSibling.hidden = true; }</script>
+
 <div class="wrap">
   <section class="hero hero-grid" data-section="hero">
     <div>
@@ -851,6 +869,7 @@
       <a href="#waitlist">Join the founding roster</a>
       <a href="/stack-audit/">Subscription waste calculator</a>
       <a href="https://subastian.gumroad.com/l/subscription-audit-kit?wanted=true" data-kit-buy="home-footer">Subscription Audit Kit — $9</a>
+      <a href="/guides/black-friday-saas-deals/?src=home-footer">Black Friday SaaS deals guide</a>
       <a href="/guides/">Guides</a>
       <a href="/stacks/">Tool stack costs by niche</a>
       <a href="/compare/">Subastian vs SpendHound, Cledara, Zylo and Torii</a>

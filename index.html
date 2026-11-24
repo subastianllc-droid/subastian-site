@@ -177,6 +177,12 @@
   .band-inner{padding-top:88px; padding-bottom:88px;}
   .band{background:var(--bg-band);}
 
+  /* ---- seasonal guide banner (Black Friday 2026; remove after Cyber Monday) ---- */
+  .promo-bar{background:var(--accent-tint); border-bottom:1px solid var(--line);}
+  .promo-bar .wrap{display:flex; align-items:center; justify-content:center; gap:6px 14px; flex-wrap:wrap; padding-top:12px; padding-bottom:12px; text-align:center; font-size:15px; color:var(--ink);}
+  .promo-bar .promo-tag{font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);}
+  .promo-bar a{color:var(--accent); font-weight:600; white-space:nowrap;}
+
   /* ---- hero ---- */
   .hero{padding:56px 0 88px;}
   .eyebrow{
@@ -552,6 +558,14 @@
 
 <main id="main">
 
+<aside class="promo-bar" aria-label="Black Friday guide" data-section="bf-guide-banner">
+  <div class="wrap">
+    <span class="promo-tag">Black Friday 2026</span>
+    <span>Buying an annual SaaS deal? Run these 4 checks first.</span>
+    <a href="/guides/black-friday-saas-deals/?src=home-banner">Read the free guide &rarr;</a>
+  </div>
+</aside>
+
 <div class="wrap">
   <section class="hero hero-grid" data-section="hero">
     <div>
@@ -851,6 +865,7 @@
       <a href="#waitlist">Join the founding roster</a>
       <a href="/stack-audit/">Subscription waste calculator</a>
       <a href="https://subastian.gumroad.com/l/subscription-audit-kit?wanted=true" data-kit-buy="home-footer">Subscription Audit Kit — $9</a>
+      <a href="/guides/black-friday-saas-deals/">Black Friday SaaS deals guide</a>
       <a href="/guides/">Guides</a>
       <a href="/stacks/">Tool stack costs by niche</a>
       <a href="/compare/">Subastian vs SpendHound, Cledara, Zylo and Torii</a>
